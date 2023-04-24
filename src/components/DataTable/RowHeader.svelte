@@ -1,0 +1,34 @@
+<script lang="ts">
+  import { DataTableRow, ROW_HEADER_WIDTH } from "../../components/DataTable";
+  import { onMount } from "svelte";
+
+  export let row: DataTableRow;
+  export let onRightClick: Function = null;
+
+  onMount(async () => {
+    document
+      .getElementById(`row-header-${row.y1}`)
+      .addEventListener("contextmenu", (event: PointerEvent) => {
+        event.preventDefault();
+        onRightClick(event);
+      });
+  });
+</script>
+
+<g transform="translate(0 {row.y1})" id="row-header-{row.y1}">
+  <svg
+    width={ROW_HEADER_WIDTH}
+    height={row.y2-row.y1}
+    class="cursor-grab hover:fill-cyan-600 fill-cyan-500"
+  >
+    <rect width={ROW_HEADER_WIDTH} height={row.height} stroke="black" />
+    <text
+      x={ROW_HEADER_WIDTH - 6}
+      y={row.y2-row.y1}
+      text-anchor="end"
+      dominant-baseline="central"
+      class="fill-black"
+      font-size="10pt">{row.name === null ? row.id : row.name}</text
+    >
+  </svg>
+</g>
