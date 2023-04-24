@@ -1,15 +1,18 @@
 <script lang="ts">
   import {
     COLUMN_HEADER_HEIGHT,
+    DataTableCell,
     DataTableColumn,
     DataTableData,
     DataTableDataColumnType,
     DataTableRow,
     ROW_HEADER_WIDTH
   } from "../../components/DataTable";
+  import "../../app.css";
   import RowHeader from "../../components/DataTable/RowHeader.svelte";
   import ColumnHeader from "../../components/DataTable/ColumnHeader.svelte";
   import DataTableCorner from "../../components/DataTable/DataTableCorner.svelte";
+  import Cell from "../../components/DataTable/Cell.svelte";
   import ColumnHeaderDivider from "../../components/DataTable/ColumnHeaderDivider.svelte";
   import RowHeaderDivider from "../../components/DataTable/RowHeaderDivider.svelte";
   import { onMount } from "svelte";
@@ -26,20 +29,134 @@
   let Y = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
 
   // TODO consider passing data to all objects, and storing everything in one object
-  export let data = {
+  export let data = new DataTableData({
     columns: [
       {
-        x1: 50,
-        x2: 250
+        id: 0,
+        name: null,
+        width: 200
+      },
+      {
+        id: 1,
+        name: "Test",
+        width: 50
+      },
+      {
+        id: 2,
+        name: null,
+        width: 50
+      },
+      {
+        id: 3,
+        name: "D",
+        width: 200
+      },
+      {
+        id: 4,
+        name: null,
+        width: 200
+      },
+      {
+        id: 5,
+        name: "F",
+        width: 200
       }
     ],
     rows: [
       {
-        y1: 35,
-        y2: 50
+        id: 0,
+        name: null,
+        height: 30
+      },
+      {
+        id: 1,
+        name: null,
+        height: 30
+      },
+      {
+        id: 2,
+        name: null,
+        height: 30
+      },
+      {
+        id: 3,
+        name: null,
+        height: 40
+      },
+      {
+        id: 4,
+        name: null,
+        height: 30
+      },
+      {
+        id: 5,
+        name: null,
+        height: 30
+      },
+      {
+        id: 6,
+        name: null,
+        height: 30
+      },
+      {
+        id: 7,
+        name: null,
+        height: 30
+      },
+      {
+        id: 8,
+        name: null,
+        height: 30
+      },
+      {
+        id: 9,
+        name: null,
+        height: 30
+      },
+      {
+        id: 10,
+        name: null,
+        height: 30
+      },
+      {
+        id: 11,
+        name: null,
+        height: 30
+      },
+      {
+        id: 12,
+        name: null,
+        height: 30
+      },
+      {
+        id: 13,
+        name: null,
+        height: 30
+      },
+      {
+        id: 14,
+        name: null,
+        height: 30
+      }
+    ],
+    cells: [
+      {
+        row_ids: [1],
+        column_ids: [1, 2, 3],
+        type: DataTableDataColumnType.String
+      },
+      {
+        row_ids: [3],
+        column_ids: [2, 3],
+        type: DataTableDataColumnType.String
+      },
+      {
+        row_ids: [3],
+        column_ids: [0],
+        type: DataTableDataColumnType.String
       }
     ]
-  };
+  });
 
   // TODO set definition from cell
   let contextMenuDefinition = new ContextMenuDefinition();
@@ -51,6 +168,29 @@
   );
   contextMenuDefinition.groups.push(testGroup);
 
+  function getCellFor(column: DataTableColumn, row: DataTableRow): DataTableCell | null {
+    let found_cell = null;
+    for (let cell of data.cells) {
+      const cell_is_in_column = cell.columns.some(function(_column) {
+        return _column == column;
+      });
+      const cell_is_in_row = cell.rows.some(function(_row) {
+        return _row == row;
+      });
+      if (cell_is_in_column && cell_is_in_row) {
+        found_cell = cell;
+        break;
+      }
+    }
+    return found_cell;
+  }
+
+  function createCellFor(column: DataTableColumn, row: DataTableRow): DataTableCell {
+    const cell = new DataTableCell();
+    cell.rows.push(row);
+    cell.columns.push(column);
+    return cell;
+  }
 
   let cmX = 0;
   let cmY = 0;
@@ -108,6 +248,21 @@
 
 <svg height="100%" id="table" width="100%">
   <!-- BEGIN data -->
+  <!-- TODO Add absolute positioned cell overlay -->
+  <!-- TODO Test cell with image -->
+  <g id="cells" transform="translate({X} {Y})">
+    {#each data.rows as row}
+      {#each data.columns as column}
+        {#if getCellFor(column, row) === null}
+          <Cell data={createCellFor(column, row)} />
+        {/if}
+      {/each}
+    {/each}
+    {#each data.cells as cell}
+      <Cell bind:data={cell} />
+    {/each}
+  </g>
+  <!-- END data -->
 
   <!-- BEGIN intractable elements -->
   <!-- BEGIN columns and rows -->

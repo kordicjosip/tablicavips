@@ -1,4 +1,5 @@
 <script lang="ts">
+  import "../../app.css";
   import { DataTableRow, ROW_HEADER_WIDTH } from "../../components/DataTable";
   import { onMount } from "svelte";
 
@@ -7,7 +8,7 @@
 
   onMount(async () => {
     document
-      .getElementById(`row-header-${row.y1}`)
+      .getElementById(`row-header-${row.id}`)
       .addEventListener("contextmenu", (event: PointerEvent) => {
         event.preventDefault();
         onRightClick(event);
@@ -15,16 +16,16 @@
   });
 </script>
 
-<g transform="translate(0 {row.y1})" id="row-header-{row.y1}">
+<g transform="translate(0 {row.y})" id="row-header-{row.id}">
   <svg
     width={ROW_HEADER_WIDTH}
-    height={row.y2-row.y1}
+    height={row.height}
     class="cursor-grab hover:fill-cyan-600 fill-cyan-500"
   >
     <rect width={ROW_HEADER_WIDTH} height={row.height} stroke="black" />
     <text
       x={ROW_HEADER_WIDTH - 6}
-      y={row.y2-row.y1}
+      y={row.height / 2}
       text-anchor="end"
       dominant-baseline="central"
       class="fill-black"

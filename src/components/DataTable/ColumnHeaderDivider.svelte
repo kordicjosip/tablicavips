@@ -1,4 +1,5 @@
 <script lang="ts">
+  import "../../app.css";
   import { DataTableColumn, DataTableData, COLUMN_HEADER_HEIGHT } from "../../components/DataTable";
   import { onMount } from "svelte";
   import { drag, select } from "d3";
@@ -14,7 +15,7 @@
   // Recalculate offset when column.width changes
   // Used to position draggable element when !high_performance
   let offset;
-  $: offset = column.x2-column.x1;
+  $: offset = column.width;
 
   onMount(async () => {
     select(`#drag-col-${column.id}`).call(
@@ -26,19 +27,25 @@
             .attr("height", "100vh")
             .attr("class", "cursor-col-resize fill-gray-400");
           // TODO change line position when not high performance
+          if (high_performance) {
+            column.width = event.x - column.x;
 
-            column.x2 = event.x - column.x1;
+            if (column.width < 1) {
+              column.width = 1;
+            }
 
             dataTable.recalculateColumns();
+          } else {
+            offset = event.x - column.x;
 
             if (offset < 1) {
               offset = 1;
             }
-
+          }
         })
         .on("end", function (event: any) {
           select(`#table`).classed("cursor-col-resize", false);
-          select(`#drag-col-${column.x1}`)
+          select(`#drag-col-${column.id}`)
             .attr("height", COLUMN_HEADER_HEIGHT)
             .attr("class", "cursor-col-resize fill-transparent hover:fill-amber-400");
           // Recalculate column positions on end
@@ -56,9 +63,10 @@
 </script>
 
 <rect
-  transform="translate({column.x1} 0)"
-  id="drag-col-{column.x1}"
+  transform="translate({column.x} 0)"
+  id="drag-col-{column.id}"
   x={offset - 1.5}
-  width="5"
+  width="3"
   height={COLUMN_HEADER_HEIGHT}
-  class="cursor-col-resize fill-transparent hover:fill-amber-400"></rect>
+  class="cursor-col-resize fill-transparent hover:fill-amber-400"
+/>
