@@ -34,17 +34,17 @@
       {
         id: 0,
         name: null,
-        width: 200
+        width: 180
       },
       {
         id: 1,
-        name: "Test",
-        width: 50
+        name: null,
+        width: 150
       },
       {
         id: 2,
         name: null,
-        width: 50
+        width: 150
       },
       {
         id: 3,
@@ -66,7 +66,7 @@
       {
         id: 0,
         name: null,
-        height: 30
+        height: 50
       },
       {
         id: 1,
@@ -76,7 +76,7 @@
       {
         id: 2,
         name: null,
-        height: 30
+        height: 50
       },
       {
         id: 3,
@@ -86,37 +86,37 @@
       {
         id: 4,
         name: null,
-        height: 30
+        height: 40
       },
       {
         id: 5,
         name: null,
-        height: 30
+        height: 40
       },
       {
         id: 6,
         name: null,
-        height: 30
+        height: 40
       },
       {
         id: 7,
         name: null,
-        height: 30
+        height: 40
       },
       {
         id: 8,
         name: null,
-        height: 30
+        height: 50
       },
       {
         id: 9,
         name: null,
-        height: 30
+        height: 50
       },
       {
         id: 10,
         name: null,
-        height: 30
+        height: 50
       },
       {
         id: 11,
@@ -126,36 +126,20 @@
       {
         id: 12,
         name: null,
-        height: 30
+        height: 50
       },
       {
         id: 13,
         name: null,
-        height: 30
+        height: 50
       },
       {
         id: 14,
         name: null,
-        height: 30
+        height: 50
       }
     ],
-    cells: [
-      {
-        row_ids: [1],
-        column_ids: [1, 2, 3],
-        type: DataTableDataColumnType.String
-      },
-      {
-        row_ids: [3],
-        column_ids: [2, 3],
-        type: DataTableDataColumnType.String
-      },
-      {
-        row_ids: [3],
-        column_ids: [0],
-        type: DataTableDataColumnType.String
-      }
-    ]
+    cells: []
   });
 
   // TODO set definition from cell

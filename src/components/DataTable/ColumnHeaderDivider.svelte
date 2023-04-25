@@ -66,7 +66,6 @@
   transform="translate({column.x} 0)"
   id="drag-col-{column.id}"
   x={offset - 1.5}
-  width="3"
+  width="5"
   height={COLUMN_HEADER_HEIGHT}
-  class="cursor-col-resize fill-transparent hover:fill-amber-400"
-/>
+  class="cursor-col-resize fill-transparent hover:fill-amber-400"></rect>

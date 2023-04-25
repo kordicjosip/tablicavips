@@ -66,6 +66,5 @@
   y={offset - 1.5}
   fill="rgba(0,0,0,0)"
   width={ROW_HEADER_WIDTH}
-  height="3"
-  class="cursor-row-resize fill-transparent hover:fill-amber-400"
-/>
+  height="5"
+  class="cursor-row-resize fill-transparent hover:fill-amber-400"></rect>

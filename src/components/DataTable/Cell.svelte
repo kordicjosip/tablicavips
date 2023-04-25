@@ -11,15 +11,14 @@
     height={data.height}
     fill="none"
     stroke="black"
-    class="cursor-grab hover:outline-indigo-600 outline-dotted outline-2 outline-transparent"
-  />
+    class="cursor-grab hover:outline-indigo-600 outline-dotted outline-2 outline-transparent"></rect>
   <svg width={data.width} height={data.height}>
     <text
       x={data.width / 2}
       y={data.height / 2}
       text-anchor="middle"
       dominant-baseline="central"
-      font-size="10pt">Test</text
+      font-size="10pt"></text
     >
   </svg>
 </g>
