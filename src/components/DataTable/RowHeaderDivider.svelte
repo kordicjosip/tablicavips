@@ -6,10 +6,6 @@
 
   export let row: DataTableRow;
   export let dataTable: DataTableData;
-
-  /**
-   * Ako je true odmah nakon pomicanja računa se raspored kolona tablice
-   */
   export let high_performance = false;
 
   let offset: number;
@@ -19,12 +15,10 @@
     select(`#drag-row-${row.id}`).call(
       drag()
         .on("drag", function (event: any) {
-          // TODO create global class cursor-row-resize-important
           select(`#table`).classed("cursor-row-resize", true);
           select(`#drag-row-${row.id}`)
             .attr("width", "100vw")
             .attr("class", "cursor-row-resize fill-gray-400");
-          // TODO change line position when not high performance
           if (high_performance) {
             row.height = event.y - row.y;
 

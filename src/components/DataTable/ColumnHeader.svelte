@@ -41,7 +41,6 @@
       .addEventListener("contextmenu", (event: PointerEvent) => {
         event.preventDefault();
         onRightClick(event);
-        // TODO set context menu
       });
   });
 </script>

@@ -7,13 +7,8 @@
   export let column: DataTableColumn;
   export let dataTable: DataTableData;
 
-  /**
-   * Ako je true odmah nakon pomicanja računa se raspored kolona tablice
-   */
   export let high_performance = false;
 
-  // Recalculate offset when column.width changes
-  // Used to position draggable element when !high_performance
   let offset;
   $: offset = column.width;
 
@@ -21,12 +16,10 @@
     select(`#drag-col-${column.id}`).call(
       drag()
         .on("drag", function (event: any) {
-          // TODO create global class cursor-col-resize-important
           select(`#table`).classed("cursor-col-resize", true);
           select(`#drag-col-${column.id}`)
             .attr("height", "100vh")
             .attr("class", "cursor-col-resize fill-gray-400");
-          // TODO change line position when not high performance
           if (high_performance) {
             column.width = event.x - column.x;
 

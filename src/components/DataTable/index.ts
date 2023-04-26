@@ -37,8 +37,6 @@ export interface DataTableDataInterface {
 }
 
 export class DataTableCell {
-  // TODO Data type - priority above all
-  // TODO action - sort, filter, collapse
   columns: DataTableColumn[] = [];
   rows: DataTableRow[] = [];
 
@@ -58,7 +56,6 @@ export class DataTableCell {
     return height;
   }
 
-  // TODO optimize
   get x(): number {
     let lowest = -1;
     this.columns.forEach((column) => {
@@ -81,7 +78,6 @@ export class DataTableCell {
 }
 
 export class DataTableColumn {
-  // TODO Data type - priority below all
   id: number = -1;
   name: string | null = null;
   x1: number = -1;
@@ -91,8 +87,6 @@ export class DataTableColumn {
 }
 
 export class DataTableRow {
-  // TODO Data type - priority above column, below cell
-  // TODO class - Table member, page header, page footer, document header, document footer
   id: number = -1;
   name: string | null = null;
   y1: number = -1;
@@ -112,9 +106,6 @@ export class DataTableData {
     });
     data.rows.forEach((row) => {
       this.addRow(row);
-    });
-    data.cells.forEach((cell) => {
-      this.addCell(cell);
     });
   }
 
@@ -167,27 +158,5 @@ export class DataTableData {
     new_row.y = y;
 
     this.rows.push(new_row);
-  }
-
-  addCell(cell: DataTableCellInterface) {
-    const new_cell = new DataTableCell();
-
-    cell.row_ids.forEach((row_id) => {
-      this.rows.forEach((row) => {
-        if (row.id == row_id) {
-          new_cell.rows.push(row);
-        }
-      });
-    });
-
-    cell.column_ids.forEach((column_id) => {
-      this.columns.forEach((column) => {
-        if (column.id == column_id) {
-          new_cell.columns.push(column);
-        }
-      });
-    });
-
-    this.cells.push(new_cell);
   }
 }
