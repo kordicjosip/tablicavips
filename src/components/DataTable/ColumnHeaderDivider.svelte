@@ -62,3 +62,10 @@
   width="5"
   height={COLUMN_HEADER_HEIGHT}
   class="cursor-col-resize fill-transparent hover:fill-amber-400"></rect>
+<rect
+        transform="translate({column.x} 0)"
+        id="{column.id}"
+        x={offset - 1.5}
+        width="2"
+        height="100vh"
+        class="fill-gray-200 pointer-events-none"></rect>

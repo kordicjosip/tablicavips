@@ -1,6 +1,6 @@
 <script lang="ts">
   import "../../app.css";
-  import { DataTableRow, ROW_HEADER_WIDTH } from "../../components/DataTable";
+  import {COLUMN_HEADER_HEIGHT, DataTableRow, ROW_HEADER_WIDTH} from "../../components/DataTable";
   import { onMount } from "svelte";
 
   export let row: DataTableRow;
@@ -14,7 +14,7 @@
         onRightClick(event);
       });
   });
-</script>
+  </script>
 
 <g transform="translate(0 {row.y})" id="row-header-{row.id}">
   <svg

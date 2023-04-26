@@ -62,3 +62,10 @@
   width={ROW_HEADER_WIDTH}
   height="5"
   class="cursor-row-resize fill-transparent hover:fill-amber-400"></rect>
+<rect
+        transform="translate(0 {row.y})"
+        id="{row.id}"
+        y={offset - 1.5}
+        width="100vw"
+        height="2"
+        class="fill-gray-200"></rect>

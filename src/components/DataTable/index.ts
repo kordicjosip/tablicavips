@@ -1,6 +1,6 @@
 export { default as DataTable } from "../../components/DataTable/DataTable.svelte";
 
-export const ROW_HEADER_WIDTH = 32;
+export const ROW_HEADER_WIDTH = 25;
 export const COLUMN_HEADER_HEIGHT = 20;
 
 export enum DataTableDataColumnType {
