@@ -34,109 +34,116 @@
       {
         id: 0,
         name: null,
-        width: 180
+        x1:0,
+        x2:180,
+        get width() {return this.x2 - this.x1;}
       },
       {
         id: 1,
         name: null,
-        width: 150
+        x1:180,
+        x2:300,
+        get width() {return this.x2 - this.x1;}
       },
       {
         id: 2,
         name: null,
-        width: 150
+        x1:300,
+        x2:450,
+        get width() {return this.x2 - this.x1;}
       },
       {
         id: 3,
         name: "D",
-        width: 200
+        x1:450,
+        x2:650,
+        get width() {return this.x2 - this.x1;}
       },
       {
         id: 4,
         name: null,
-        width: 200
+        x1:650,
+        x2:850,
+        get width() {return this.x2 - this.x1;}
       },
       {
         id: 5,
         name: "F",
-        width: 200
+        x1:850,
+        x2:1050,
+        get width() {return this.x2 - this.x1;}
       }
     ],
     rows: [
       {
         id: 0,
         name: null,
-        height: 50
+        y1:0,
+        y2:50,
+        get height() {return this.y2 - this.y1;}
       },
       {
         id: 1,
         name: null,
-        height: 30
+        y1:50,
+        y2:80,
+        get height() {return this.y2 - this.y1;}
       },
       {
         id: 2,
         name: null,
-        height: 50
+        y1:80,
+        y2:130,
+        get height() {return this.y2 - this.y1;}
       },
       {
         id: 3,
         name: null,
-        height: 40
+        y1:130,
+        y2:170,
+        get height() {return this.y2 - this.y1;}
       },
       {
         id: 4,
         name: null,
-        height: 40
+        y1:170,
+        y2:210,
+        get height() {return this.y2 - this.y1;}
       },
       {
         id: 5,
         name: null,
-        height: 40
+        y1:210,
+        y2:250,
+        get height() {return this.y2 - this.y1;}
       },
       {
         id: 6,
         name: null,
-        height: 40
+        y1:250,
+        y2:290,
+        get height() {return this.y2 - this.y1;}
       },
       {
         id: 7,
         name: null,
-        height: 40
+        y1:290,
+        y2:330,
+        get height() {return this.y2 - this.y1;}
       },
       {
         id: 8,
         name: null,
-        height: 50
+        y1:330,
+        y2:380,
+        get height() {return this.y2 - this.y1;}
       },
       {
         id: 9,
         name: null,
-        height: 50
-      },
-      {
-        id: 10,
-        name: null,
-        height: 50
-      },
-      {
-        id: 11,
-        name: null,
-        height: 30
-      },
-      {
-        id: 12,
-        name: null,
-        height: 50
-      },
-      {
-        id: 13,
-        name: null,
-        height: 50
-      },
-      {
-        id: 14,
-        name: null,
-        height: 50
+        y1:380,
+        y2:430,
+        get height() {return this.y2 - this.y1;}
       }
     ],
     cells: []

@@ -11,12 +11,16 @@ export enum DataTableDataColumnType {
 export interface DataTableColumnInterface {
   id: number;
   name: string | null;
+  x1: number;
+  x2: number;
   width: number;
 }
 
 export interface DataTableRowInterface {
   id: number;
   name: string | null;
+  y1: number;
+  y2: number;
   height: number;
 }
 
@@ -80,6 +84,8 @@ export class DataTableColumn {
   // TODO Data type - priority below all
   id: number = -1;
   name: string | null = null;
+  x1: number = -1;
+  x2: number = -1;
   width: number = -1;
   x: number = -1;
 }
@@ -89,6 +95,8 @@ export class DataTableRow {
   // TODO class - Table member, page header, page footer, document header, document footer
   id: number = -1;
   name: string | null = null;
+  y1: number = -1;
+  y2: number = -1;
   height: number = -1;
   y: number = -1;
 }
@@ -129,6 +137,8 @@ export class DataTableData {
     const new_column = new DataTableColumn();
 
     new_column.id = column.id;
+    new_column.x1 = column.x1;
+    new_column.x2 = column.x2;
     new_column.width = column.width;
     new_column.name = column.name;
 
@@ -145,6 +155,8 @@ export class DataTableData {
     const new_row = new DataTableRow();
 
     new_row.id = row.id;
+    new_row.y1 = row.y1;
+    new_row.y2 = row.y2;
     new_row.height = row.height;
     new_row.name = row.name;
 
