@@ -23,6 +23,8 @@ export interface DataTableRowInterface {
 export interface DataTableDataInterface {
   columns: DataTableColumnInterface[];
   rows: DataTableRowInterface[];
+  resolution: number[];
+  image: string;
 }
 
 export class DataTableColumn {
@@ -46,6 +48,8 @@ export class DataTableRow {
 export class DataTableData {
   columns: DataTableColumn[] = [];
   rows: DataTableRow[] = [];
+  resolution: number[] = [];
+  image: string = "";
 
   constructor(data: DataTableDataInterface) {
     data.columns.forEach((column) => {
@@ -54,6 +58,8 @@ export class DataTableData {
     data.rows.forEach((row) => {
       this.addRow(row);
     });
+    this.image = data.image;
+    this.resolution = data.resolution;
   }
 
   recalculateColumns() {

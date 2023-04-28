@@ -20,97 +20,38 @@
   const Y0 = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
   let X = show_row_header ? ROW_HEADER_WIDTH : 0;
   let Y = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
-  export let data = new DataTableData({
-    columns: [
-      {
-        id: 0,
-        name: null,
-        x1:0,
-        x2:180,
-        get width() {return this.x2 - this.x1;}
-      },
-      {
-        id: 1,
-        name: null,
-        x1:180,
-        x2:300,
-        get width() {return this.x2 - this.x1;}
-      },
-      {
-        id: 2,
-        name: null,
-        x1:300,
-        x2:450,
-        get width() {return this.x2 - this.x1;}
-      },
-      {
-        id: 3,
-        name: "D",
-        x1:450,
-        x2:650,
-        get width() {return this.x2 - this.x1;}
-      }
-    ],
-    rows: [
-      {
-        id: 0,
-        name: null,
-        y1:0,
-        y2:50,
-        get height() {return this.y2 - this.y1;}
-      },
-      {
-        id: 1,
-        name: null,
-        y1:50,
-        y2:80,
-        get height() {return this.y2 - this.y1;}
-      },
-      {
-        id: 2,
-        name: null,
-        y1:80,
-        y2:130,
-        get height() {return this.y2 - this.y1;}
-      },
-      {
-        id: 3,
-        name: null,
-        y1:130,
-        y2:170,
-        get height() {return this.y2 - this.y1;}
-      },
-      {
-        id: 4,
-        name: null,
-        y1:170,
-        y2:210,
-        get height() {return this.y2 - this.y1;}
-      },
-      {
-        id: 5,
-        name: null,
-        y1:210,
-        y2:250,
-        get height() {return this.y2 - this.y1;}
-      }
-    ]
-  });
-
-  let cmX = 0;
-  let cmY = 0;
-  let cmShow = false;
-
-  function showContextMenu(event: PointerEvent) {
-    console.log(event);
-    cmX = event.x;
-    cmY = event.y;
-
-    cmShow = true;
-  }
-
-  function hideContextMenu() {
-    cmShow = false;
+  let res = [];
+  let data: DataTableData|null = null;
+  let trenutnaStranica: null|number = 0;
+  $: {
+    if (res.length > 0){
+      const columns = res[trenutnaStranica].columns.map((column, index) => {
+        return {
+          id: index,
+          name: "naziv",
+          x1: column[0],
+          x2: column[1],
+          get width() {return this.x2 - this.x1;}
+        }
+      });
+      const rows = res[trenutnaStranica].rows.map((row, index) => {
+        return {
+          id: index,
+          name: "naziv",
+          y1: row[0],
+          y2: row[1],
+          get height() {return this.y2 - this.y1;}
+        }
+      });
+      const resolution = res[trenutnaStranica].resolution;
+      const image = res[trenutnaStranica].image;
+      data = new DataTableData({
+        columns: columns,
+        rows: rows,
+        resolution: resolution,
+        image: image
+      });
+    }
   }
 
   onMount(async () => {
@@ -118,17 +59,7 @@
       console.log(event);
     });
 
-    document.addEventListener("click", (event) => {
-      console.log(event);
-      if (cmShow == true) {
-        setTimeout(() => {
-          hideContextMenu();
-        }, 50);
-      }
-    });
-
     document.getElementById("table").addEventListener("mousewheel", (event: WheelEvent) => {
-      hideContextMenu();
       if (event.shiftKey) {
         // noinspection JSSuspiciousNameCombination Ako je shift pritisnut, scroll rotiramo za 90°
         Y -= event.deltaX;
@@ -141,19 +72,22 @@
       if (X > X0) X = X0;
       if (Y > Y0) Y = Y0;
     });
+
+    res = await (await fetch("/data.json")).json()
+
   });
 </script>
-
 <svg height="100%" id="table" width="100%">
-  <image href="/slika.png" width="1548" height="1472" transform="translate({X0} {Y0})"></image>
+  {#if data}
+  <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X0} {Y0})"></image>
   <g transform="translate({X} 0)">
     {#each data.columns as column}
-      <ColumnHeader bind:column onRightClick={showContextMenu} />
+      <ColumnHeader bind:column />
     {/each}
   </g>
   <g transform="translate(0 {Y})">
     {#each data.rows as row}
-      <RowHeader bind:row onRightClick={showContextMenu} />
+      <RowHeader bind:row />
     {/each}
   </g>
   <!-- END columns and rows -->
@@ -172,4 +106,5 @@
   </g>
 
   <DataTableCorner height={Y0} width={X0} x={0} y={0} />
+    {/if}
 </svg>
