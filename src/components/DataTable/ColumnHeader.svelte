@@ -1,18 +1,29 @@
 <script lang="ts">
   import "../../app.css";
-  import { DataTableColumn, COLUMN_HEADER_HEIGHT } from "../../components/DataTable";
+  import { DataTableColumn, COLUMN_HEADER_HEIGHT } from "./index";
   import { onMount } from "svelte";
+  import {drag, select} from "d3";
 
   export let column: DataTableColumn;
   export let onRightClick: Function = null;
 
   onMount(async () => {
+    select(`#column-header-${column.id}`).call(
+            drag()
+                    .on("drag", function (event: any) {
+                      select(`#column-header-${column.id}`)
+                      column.x1 += event.dx;
+                      column.x2 += event.dx;
+                    })
+    );
+
     document
       .getElementById(`column-header-${column.id}`)
       .addEventListener("contextmenu", (event: PointerEvent) => {
         event.preventDefault();
         onRightClick(event);
       });
+
   });
 </script>
 
