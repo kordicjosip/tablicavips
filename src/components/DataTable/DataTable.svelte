@@ -145,6 +145,7 @@
 </script>
 
 <svg height="100%" id="table" width="100%">
+  <image href="/slika.png" width="1548" height="1472" class=""></image>
   <g transform="translate({X} 0)">
     {#each data.columns as column}
       <ColumnHeader bind:column onRightClick={showContextMenu} />
