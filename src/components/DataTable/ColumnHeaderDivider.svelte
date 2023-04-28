@@ -35,13 +35,13 @@
 </script>
 <rect
         class="cursor-col-resize fill-red-600 hover:w-1.5"
-        height="100vh"
+        height="100%"
         id="drag-col-{column.id}-1"
         transform="translate({column.x1} 0)"
         width="3"></rect>
 <rect
         class="cursor-col-resize fill-red-600 hover:w-1.5"
-        height="100vh"
+        height="100%"
         id="drag-col-{column.id}-2"
         transform="translate({column.x2} 0)"
         width="3"></rect>

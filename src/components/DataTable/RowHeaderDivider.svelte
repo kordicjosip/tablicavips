@@ -38,10 +38,10 @@
         height="3"
         id="drag-row-{row.id}-1"
         transform="translate(0 {row.y1})"
-        width="100vw"></rect>
+        width="100%"></rect>
 <rect
         class="cursor-row-resize fill-blue-600 hover:h-1.5"
         height="3"
         id="drag-row-{row.id}-2"
         transform="translate(0 {row.y2})"
-        width="100vw"></rect>
+        width="100%"></rect>
