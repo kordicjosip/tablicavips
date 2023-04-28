@@ -6,7 +6,6 @@
 
   export let column: DataTableColumn;
   export let dataTable: DataTableData;
-
   export let high_performance = false;
 
   let offset;

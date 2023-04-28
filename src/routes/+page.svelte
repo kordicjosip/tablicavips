@@ -1,6 +1,5 @@
 <script lang="ts">
     import { DataTable } from "../components/DataTable";
-
     import { ContextMenu } from "../components/ContextMenu";
 </script>
 

@@ -3,11 +3,6 @@ export { default as DataTable } from "../../components/DataTable/DataTable.svelt
 export const ROW_HEADER_WIDTH = 25;
 export const COLUMN_HEADER_HEIGHT = 20;
 
-export enum DataTableDataColumnType {
-  String = "string",
-  Number = "number"
-}
-
 export interface DataTableColumnInterface {
   id: number;
   name: string | null;
@@ -24,57 +19,10 @@ export interface DataTableRowInterface {
   height: number;
 }
 
-export interface DataTableCellInterface {
-  column_ids: number[];
-  row_ids: number[];
-  type: DataTableDataColumnType;
-}
 
 export interface DataTableDataInterface {
   columns: DataTableColumnInterface[];
   rows: DataTableRowInterface[];
-  cells: DataTableCellInterface[];
-}
-
-export class DataTableCell {
-  columns: DataTableColumn[] = [];
-  rows: DataTableRow[] = [];
-
-  get width(): number {
-    let width = 0;
-    this.columns.forEach((column) => {
-      width += column.width;
-    });
-    return width;
-  }
-
-  get height(): number {
-    let height = 0;
-    this.rows.forEach((row) => {
-      height += row.height;
-    });
-    return height;
-  }
-
-  get x(): number {
-    let lowest = -1;
-    this.columns.forEach((column) => {
-      if (column.x < lowest || lowest == -1) {
-        lowest = column.x;
-      }
-    });
-    return lowest;
-  }
-
-  get y(): number {
-    let lowest = -1;
-    this.rows.forEach((row) => {
-      if (row.y < lowest || lowest == -1) {
-        lowest = row.y;
-      }
-    });
-    return lowest;
-  }
 }
 
 export class DataTableColumn {
@@ -98,7 +46,6 @@ export class DataTableRow {
 export class DataTableData {
   columns: DataTableColumn[] = [];
   rows: DataTableRow[] = [];
-  cells: DataTableCell[] = [];
 
   constructor(data: DataTableDataInterface) {
     data.columns.forEach((column) => {

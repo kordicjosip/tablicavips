@@ -11,18 +11,16 @@
   import ColumnHeaderDivider from "../../components/DataTable/ColumnHeaderDivider.svelte";
   import RowHeaderDivider from "../../components/DataTable/RowHeaderDivider.svelte";
   import { onMount } from "svelte";
-  import { ContextMenu, ContextMenuDefinition, ContextMenuEntry, ContextMenuGroup } from "../../components/ContextMenu";
+  import { ContextMenu, ContextMenuDefinition} from "../../components/ContextMenu";
 
   export let show_column_header = true;
   export let show_row_header = true;
-
   export let high_performance = true;
 
   const X0 = show_row_header ? ROW_HEADER_WIDTH : 0;
   const Y0 = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
   let X = show_row_header ? ROW_HEADER_WIDTH : 0;
   let Y = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
-
   export let data = new DataTableData({
     columns: [
       {
@@ -51,20 +49,6 @@
         name: "D",
         x1:450,
         x2:650,
-        get width() {return this.x2 - this.x1;}
-      },
-      {
-        id: 4,
-        name: null,
-        x1:650,
-        x2:850,
-        get width() {return this.x2 - this.x1;}
-      },
-      {
-        id: 5,
-        name: "F",
-        x1:850,
-        x2:1050,
         get width() {return this.x2 - this.x1;}
       }
     ],
@@ -110,48 +94,11 @@
         y1:210,
         y2:250,
         get height() {return this.y2 - this.y1;}
-      },
-      {
-        id: 6,
-        name: null,
-        y1:250,
-        y2:290,
-        get height() {return this.y2 - this.y1;}
-      },
-      {
-        id: 7,
-        name: null,
-        y1:290,
-        y2:330,
-        get height() {return this.y2 - this.y1;}
-      },
-      {
-        id: 8,
-        name: null,
-        y1:330,
-        y2:380,
-        get height() {return this.y2 - this.y1;}
-      },
-      {
-        id: 9,
-        name: null,
-        y1:380,
-        y2:430,
-        get height() {return this.y2 - this.y1;}
       }
-    ],
-    cells: []
+    ]
   });
 
   let contextMenuDefinition = new ContextMenuDefinition();
-  let testGroup = new ContextMenuGroup("Test group");
-  testGroup.entries.push(
-    new ContextMenuEntry("Test", "ico", () => {
-      console.log("Clicked menu entry");
-    })
-  );
-  contextMenuDefinition.groups.push(testGroup);
-
 
   let cmX = 0;
   let cmY = 0;
@@ -225,8 +172,6 @@
       <RowHeaderDivider bind:high_performance bind:row bind:dataTable={data} />
     {/each}
   </g>
-  <!-- END column and row dividers -->
-  <!-- END intractable elements -->
 
   <DataTableCorner height={Y0} width={X0} x={0} y={0} />
 </svg>

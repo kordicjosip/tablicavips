@@ -9,6 +9,5 @@
   <rect
     {width}
     {height}
-    fill="black"
-    class="cursor-grab hover:outline-indigo-600 outline-dotted outline-2 outline-transparent"></rect>
+    fill="gray"></rect>
 </g>
