@@ -67,4 +67,4 @@
         x={offset - 1.5}
         width="2"
         height="100vh"
-        class="fill-gray-200 pointer-events-none"></rect>
+        class="fill-red-600 pointer-events-none"></rect>

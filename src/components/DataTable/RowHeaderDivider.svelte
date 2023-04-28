@@ -68,4 +68,4 @@
         y={offset - 1.5}
         width="100vw"
         height="2"
-        class="fill-gray-200 z-30"></rect>
+        class="fill-blue-600 z-30"></rect>
