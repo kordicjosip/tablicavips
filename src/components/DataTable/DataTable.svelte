@@ -14,7 +14,6 @@
 
   export let show_column_header = true;
   export let show_row_header = true;
-  export let high_performance = true;
 
   const X0 = show_row_header ? ROW_HEADER_WIDTH : 0;
   const Y0 = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
@@ -71,13 +70,13 @@
   <!-- BEGIN column and row dividers -->
   <g transform="translate({X} 0)">
     {#each data.columns as column}
-      <ColumnHeaderDivider bind:high_performance bind:column bind:dataTable={data} />
+      <ColumnHeaderDivider bind:column />
     {/each}
   </g>
 
   <g transform="translate(0 {Y})">
     {#each data.rows as row}
-      <RowHeaderDivider bind:high_performance bind:row bind:dataTable={data} />
+      <RowHeaderDivider bind:row />
     {/each}
   </g>
 

@@ -3,35 +3,6 @@
   import { DataTableColumn, COLUMN_HEADER_HEIGHT } from "../../components/DataTable";
   import { onMount } from "svelte";
 
-  const ALPHABET = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z"
-  ];
-
   export let column: DataTableColumn;
   export let onRightClick: Function = null;
 
@@ -58,7 +29,7 @@
       text-anchor="middle"
       dominant-baseline="central"
       class="fill-black"
-      font-size="10pt">{column.name === null ? ALPHABET[column.id] : column.name}</text
+      font-size="10pt">{column.name}</text
     >
   </svg>
 </g>

@@ -1,15 +1,10 @@
 <script lang="ts">
     import "../../app.css";
-    import {DataTableData, DataTableRow, ROW_HEADER_WIDTH} from "../../components/DataTable";
+    import { DataTableRow } from "../../components/DataTable";
     import {onMount} from "svelte";
     import {drag, select} from "d3";
 
     export let row: DataTableRow;
-    export let dataTable: DataTableData;
-    export let high_performance = false;
-
-    let offset: number;
-    $: offset = row.height;
 
     onMount(async () => {
         select(`#drag-row-${row.id}-1`).call(
