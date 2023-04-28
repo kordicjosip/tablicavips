@@ -15,12 +15,11 @@
         select(`#drag-col-${column.id}-1`).call(
             drag()
                 .on("drag", function (event: any) {
-                    select(`#table`).classed("cursor-col-resize", true);
                     select(`#drag-col-${column.id}`)
                     column.x1 += event.dx;
 
                     if (column.width < 1) {
-                        column.width = 1;
+                        column.x2 = column.x1 + 1;
                     }
 
                 })
@@ -28,12 +27,11 @@
         select(`#drag-col-${column.id}-2`).call(
             drag()
                 .on("drag", function (event: any) {
-                    select(`#table`).classed("cursor-col-resize", true);
                     select(`#drag-col-${column.id}`)
                     column.x2 += event.dx;
 
                     if (column.width < 1) {
-                        column.width = 1;
+                        column.x1 = column.x2 - 1;
                     }
 
                 })
