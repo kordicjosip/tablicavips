@@ -55,26 +55,7 @@
   }
 
   onMount(async () => {
-    document.getElementById("table").addEventListener("copy", (event) => {
-      console.log(event);
-    });
-
-    document.getElementById("table").addEventListener("mousewheel", (event: WheelEvent) => {
-      if (event.shiftKey) {
-        // noinspection JSSuspiciousNameCombination Ako je shift pritisnut, scroll rotiramo za 90°
-        Y -= event.deltaX;
-        // noinspection JSSuspiciousNameCombination Ako je shift pritisnut, scroll rotiramo za 90°
-        X -= event.deltaY;
-      } else {
-        Y -= event.deltaY;
-        X -= event.deltaX;
-      }
-      if (X > X0) X = X0;
-      if (Y > Y0) Y = Y0;
-    });
-
     res = await (await fetch("/data.json")).json()
-
   });
 </script>
 <svg height="100%" id="table" width="100%">
