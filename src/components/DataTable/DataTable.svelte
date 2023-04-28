@@ -11,6 +11,7 @@
   import ColumnHeaderDivider from "../../components/DataTable/ColumnHeaderDivider.svelte";
   import RowHeaderDivider from "../../components/DataTable/RowHeaderDivider.svelte";
   import { onMount } from "svelte";
+  import { ContextMenu, ContextMenuDefinition, ContextMenuEntry, ContextMenuGroup } from "../../components/ContextMenu";
 
   export let show_column_header = true;
   export let show_row_header = true;
@@ -22,6 +23,26 @@
   let res = [];
   let data: DataTableData|null = null;
   let trenutnaStranica: null|number = 0;
+
+  let contextMenuDefinition = new ContextMenuDefinition();
+  let testGroup = new ContextMenuGroup("Test group");
+  testGroup.entries.push(
+          new ContextMenuEntry("Context menu", "ico", () => {
+            console.log("Clicked menu entry");
+          })
+  );
+  contextMenuDefinition.groups.push(testGroup);
+  let cmX = 0;
+  let cmY = 0;
+  let cmShow = false;
+  function showContextMenu(event: PointerEvent) {
+    cmX = event.x;
+    cmY = event.y;
+    cmShow = true;
+  }
+  function hideContextMenu() {
+    cmShow = false;
+  }
 
   onMount(async () => {
     res = await (await fetch("/data.json")).json()
@@ -50,19 +71,28 @@
       resolution: resolution,
       image: image
     });
+
+    document.addEventListener("click", (event) => {
+      if (cmShow == true) {
+        setTimeout(() => {
+          hideContextMenu();
+        }, 50);
+      }
+    });
   });
+
 </script>
 <svg height="100%" id="table" width="100%">
   {#if data}
   <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X0} {Y0})"></image>
   <g transform="translate({X} 0)">
     {#each data.columns as column}
-      <ColumnHeader bind:column />
+      <ColumnHeader bind:column onRightClick={showContextMenu}/>
     {/each}
   </g>
   <g transform="translate(0 {Y})">
     {#each data.rows as row}
-      <RowHeader bind:row />
+      <RowHeader bind:row onRightClick={showContextMenu} />
     {/each}
   </g>
   <!-- END columns and rows -->
@@ -83,3 +113,4 @@
   <DataTableCorner height={Y0} width={X0} x={0} y={0} />
     {/if}
 </svg>
+<ContextMenu definition={contextMenuDefinition} visible={cmShow} x={cmX} y={cmY} />
