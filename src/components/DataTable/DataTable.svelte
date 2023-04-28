@@ -23,39 +23,34 @@
   let res = [];
   let data: DataTableData|null = null;
   let trenutnaStranica: null|number = 0;
-  $: {
-    if (res.length > 0){
-      const columns = res[trenutnaStranica].columns.map((column, index) => {
-        return {
-          id: index,
-          name: "naziv",
-          x1: column[0],
-          x2: column[1],
-          get width() {return this.x2 - this.x1;}
-        }
-      });
-      const rows = res[trenutnaStranica].rows.map((row, index) => {
-        return {
-          id: index,
-          name: "naziv",
-          y1: row[0],
-          y2: row[1],
-          get height() {return this.y2 - this.y1;}
-        }
-      });
-      const resolution = res[trenutnaStranica].resolution;
-      const image = res[trenutnaStranica].image;
-      data = new DataTableData({
-        columns: columns,
-        rows: rows,
-        resolution: resolution,
-        image: image
-      });
-    }
-  }
 
   onMount(async () => {
     res = await (await fetch("/data.json")).json()
+    const columns = res[trenutnaStranica].columns.map((column, index) => {
+      return {
+        id: index,
+        name: "naziv",
+        x1: column[0],
+        x2: column[1],
+        get width() {return this.x2 - this.x1;}
+      }
+    });
+    const rows = res[trenutnaStranica].rows.map((row, index) => {
+      return {
+        id: index,
+        name: "naziv",
+        y1: row[0],
+        y2: row[1]
+      }
+    });
+    const resolution = res[trenutnaStranica].resolution;
+    const image = res[trenutnaStranica].image;
+    data = new DataTableData({
+      columns: columns,
+      rows: rows,
+      resolution: resolution,
+      image: image
+    });
   });
 </script>
 <svg height="100%" id="table" width="100%">

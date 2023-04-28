@@ -45,7 +45,7 @@
   });
 </script>
 
-<g transform="translate({column.x} 0)" id="column-header-{column.id}">
+<g transform="translate({column.x1} 0)" id="column-header-{column.id}">
   <svg
     width={column.width}
     height={COLUMN_HEADER_HEIGHT}

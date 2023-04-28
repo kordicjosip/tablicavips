@@ -5,6 +5,7 @@
 
   export let row: DataTableRow;
   export let onRightClick: Function = null;
+
   onMount(async () => {
     document
       .getElementById(`row-header-${row.id}`)
@@ -15,7 +16,7 @@
   });
   </script>
 
-<g transform="translate(0 {row.y})" id="row-header-{row.id}">
+<g transform="translate(0 {row.y1})" id="row-header-{row.id}">
   <svg
     width={ROW_HEADER_WIDTH}
     height={row.height}

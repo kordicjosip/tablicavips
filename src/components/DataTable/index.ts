@@ -8,7 +8,6 @@ export interface DataTableColumnInterface {
   name: string | null;
   x1: number;
   x2: number;
-  width: number;
 }
 
 export interface DataTableRowInterface {
@@ -16,7 +15,6 @@ export interface DataTableRowInterface {
   name: string | null;
   y1: number;
   y2: number;
-  height: number;
 }
 
 
@@ -32,8 +30,9 @@ export class DataTableColumn {
   name: string | null = null;
   x1: number = -1;
   x2: number = -1;
-  width: number = -1;
-  x: number = -1;
+  get width(): number{
+    return this.x2 - this.x1;
+  }
 }
 
 export class DataTableRow {
@@ -41,8 +40,9 @@ export class DataTableRow {
   name: string | null = null;
   y1: number = -1;
   y2: number = -1;
-  height: number = -1;
-  y: number = -1;
+   get height(): number{
+    return this.y2 - this.y1;
+  }
 }
 
 export class DataTableData {
@@ -62,35 +62,13 @@ export class DataTableData {
     this.resolution = data.resolution;
   }
 
-  recalculateColumns() {
-    let x = 0;
-    this.columns.forEach((column) => {
-      column.x = x;
-      x += column.width;
-    });
-  }
-  recalculateRows() {
-    let y = 0;
-    this.rows.forEach((row) => {
-      row.y = y;
-      y += row.height;
-    });
-  }
-
   addColumn(column: DataTableColumnInterface) {
     const new_column = new DataTableColumn();
 
-    new_column.id = column.id;
+    new_column.id = this.columns.length;
     new_column.x1 = column.x1;
     new_column.x2 = column.x2;
-    new_column.width = column.width;
     new_column.name = column.name;
-
-    let x = 0;
-    this.columns.forEach(({ width }) => {
-      x += width;
-    });
-    new_column.x = x;
 
     this.columns.push(new_column);
   }
@@ -98,17 +76,10 @@ export class DataTableData {
   addRow(row: DataTableRowInterface) {
     const new_row = new DataTableRow();
 
-    new_row.id = row.id;
+    new_row.id = this.rows.length;
     new_row.y1 = row.y1;
     new_row.y2 = row.y2;
-    new_row.height = row.height;
     new_row.name = row.name;
-
-    let y = 0;
-    this.rows.forEach(({ height }) => {
-      y += height;
-    });
-    new_row.y = y;
 
     this.rows.push(new_row);
   }
