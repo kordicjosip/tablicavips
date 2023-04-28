@@ -11,7 +11,6 @@
   import ColumnHeaderDivider from "../../components/DataTable/ColumnHeaderDivider.svelte";
   import RowHeaderDivider from "../../components/DataTable/RowHeaderDivider.svelte";
   import { onMount } from "svelte";
-  import { ContextMenu, ContextMenuDefinition} from "../../components/ContextMenu";
 
   export let show_column_header = true;
   export let show_row_header = true;
@@ -98,8 +97,6 @@
     ]
   });
 
-  let contextMenuDefinition = new ContextMenuDefinition();
-
   let cmX = 0;
   let cmY = 0;
   let cmShow = false;
@@ -175,5 +172,3 @@
 
   <DataTableCorner height={Y0} width={X0} x={0} y={0} />
 </svg>
-
-<ContextMenu definition={contextMenuDefinition} visible={cmShow} x={cmX} y={cmY} />
