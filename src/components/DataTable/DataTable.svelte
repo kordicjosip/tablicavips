@@ -28,7 +28,7 @@
   let testGroup = new ContextMenuGroup("Test group");
   testGroup.entries.push(
           new ContextMenuEntry("Context menu", "ico", () => {
-            console.log("Clicked menu entry");
+            console.log("clicked menu");
           })
   );
   contextMenuDefinition.groups.push(testGroup);
@@ -49,7 +49,7 @@
     const columns = res[trenutnaStranica].columns.map((column, index) => {
       return {
         id: index,
-        name: "naziv",
+        name: "column",
         x1: column[0],
         x2: column[1],
         get width() {return this.x2 - this.x1;}
@@ -58,7 +58,7 @@
     const rows = res[trenutnaStranica].rows.map((row, index) => {
       return {
         id: index,
-        name: "naziv",
+        name: "row",
         y1: row[0],
         y2: row[1]
       }

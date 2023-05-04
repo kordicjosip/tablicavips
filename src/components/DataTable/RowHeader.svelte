@@ -34,7 +34,7 @@
   >
     <rect width={ROW_HEADER_WIDTH} height={row.height} stroke="black" />
     <text
-      x={ROW_HEADER_WIDTH - 6}
+      x={ROW_HEADER_WIDTH - 1}
       y={row.height / 2}
       text-anchor="end"
       class="fill-black"
