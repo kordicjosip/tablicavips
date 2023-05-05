@@ -3,7 +3,7 @@
     COLUMN_HEADER_HEIGHT,
     ROW_HEADER_WIDTH,
     DataTableData
-  } from "../../components/DataTable";
+  } from "./index.ts";
   import "../../app.css";
   import RowHeader from "../../components/DataTable/RowHeader.svelte";
   import ColumnHeader from "../../components/DataTable/ColumnHeader.svelte";
@@ -25,24 +25,44 @@
   let trenutnaStranica: null|number = 0;
 
   let contextMenuDefinition = new ContextMenuDefinition();
-  let testGroup = new ContextMenuGroup("Test group");
-  testGroup.entries.push(
-          new ContextMenuEntry("Context menu", "ico", () => {
-            console.log("clicked menu");
+  let rowContextMenu = new ContextMenuGroup("Context menu za redove");
+  rowContextMenu.entries.push(
+          new ContextMenuEntry("Dodaj red", "ico", ()=> {
+              data?.addRow({
+                id: Number(data?.rows.length),
+                name: "row",
+                y1: 0,
+                y2: 50
+              });
+              data = data;
           })
   );
-  contextMenuDefinition.groups.push(testGroup);
+  let columnContextMenu = new ContextMenuGroup("Context menu za stupce");
+  columnContextMenu.entries.push(
+          new ContextMenuEntry("Dodaj stupac", "ico", ()=> {
+            data?.addColumn({
+              id: Number(data?.rows.length),
+              name: "column",
+              x1: 0,
+              x2: 50
+            });
+            data = data;
+          })
+  );
   let cmX = 0;
   let cmY = 0;
   let cmShow = false;
   function showContextMenu(event: PointerEvent) {
     cmX = event.x;
     cmY = event.y;
-    cmShow = true;
+    cmShow=true;
   }
   function hideContextMenu() {
     cmShow = false;
   }
+
+  contextMenuDefinition.groups.push(columnContextMenu);
+  contextMenuDefinition.groups.push(rowContextMenu);
 
   onMount(async () => {
     res = await (await fetch("/data.json")).json()
@@ -80,7 +100,6 @@
       }
     });
   });
-
 </script>
 <svg height="100%" id="table" width="100%">
   {#if data}

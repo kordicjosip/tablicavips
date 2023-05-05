@@ -6,8 +6,6 @@
     export let x = 0;
     export let y = 0;
     export let visible = false;
-
-    // TODO animate visibility
 </script>
 
 <div
