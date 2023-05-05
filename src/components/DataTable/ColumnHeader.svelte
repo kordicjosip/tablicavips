@@ -43,4 +43,5 @@
       font-size="10pt">{column.name}</text
     >
   </svg>
+
 </g>

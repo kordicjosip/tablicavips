@@ -12,6 +12,8 @@
   import RowHeaderDivider from "../../components/DataTable/RowHeaderDivider.svelte";
   import { onMount } from "svelte";
   import { ContextMenu, ContextMenuDefinition, ContextMenuEntry, ContextMenuGroup } from "../../components/ContextMenu";
+  import ColumnHeaderBackground from "./ColumnHeaderBackground.svelte";
+  import RowHeaderBackground from "./RowHeaderBackground.svelte";
 
   export let show_column_header = true;
   export let show_row_header = true;
@@ -108,16 +110,23 @@
       }
     });
   });
+
 </script>
 <svg height="100%" id="table" width="100%">
   {#if data}
   <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X0} {Y0})"></image>
+
+    <!-- HEADERS COLUMNS -->
   <g transform="translate({X} 0)">
+    <ColumnHeaderBackground onRightClick={showContextMenuCols}/>
     {#each data.columns as column}
       <ColumnHeader bind:column onRightClick={showContextMenuCols}/>
     {/each}
   </g>
+    <!-- HEADERS ROWS -->
+    <rect id="header" height="100%" width="25" color="black"></rect>
   <g transform="translate(0 {Y})">
+    <RowHeaderBackground onRightClick={showContextMenuCols}/>
     {#each data.rows as row}
       <RowHeader bind:row onRightClick={showContextMenuRows} />
     {/each}

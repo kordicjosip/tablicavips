@@ -12,7 +12,7 @@
         id="context-menu"
         class="bg-cyan-700 text-white"
         class:invisible={visible === false}
-        style="top: {y}px; left: {x}px;"
+        style="top: {y}px; left: {x+2}px;"
 >
     {#each definition.groups as group}
         <ul>
