@@ -32,8 +32,8 @@
               data?.addRow({
                 id: Number(data?.rows.length),
                 name: "row",
-                y1: 0,
-                y2: 50
+                y1: cmY-COLUMN_HEADER_HEIGHT,
+                y2: cmY-COLUMN_HEADER_HEIGHT + 50
               });
               data = data;
           })
@@ -44,8 +44,8 @@
             data?.addColumn({
               id: Number(data?.rows.length),
               name: "column",
-              x1: 0,
-              x2: 50
+              x1: cmX-ROW_HEADER_WIDTH,
+              x2: cmX-ROW_HEADER_WIDTH+50
             });
             data = data;
           })
