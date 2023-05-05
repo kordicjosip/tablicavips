@@ -24,7 +24,8 @@
   let data: DataTableData|null = null;
   let trenutnaStranica: null|number = 0;
 
-  let contextMenuDefinition = new ContextMenuDefinition();
+  let contextMenuDefinitionRows = new ContextMenuDefinition();
+  let contextMenuDefinitionCols = new ContextMenuDefinition();
   let rowContextMenu = new ContextMenuGroup("Context menu za redove");
   rowContextMenu.entries.push(
           new ContextMenuEntry("Dodaj red", "ico", ()=> {
@@ -51,18 +52,25 @@
   );
   let cmX = 0;
   let cmY = 0;
-  let cmShow = false;
-  function showContextMenu(event: PointerEvent) {
+  let cmShowRows = false;
+  let cmShowCols = false;
+  function showContextMenuRows(event: PointerEvent) {
     cmX = event.x;
     cmY = event.y;
-    cmShow=true;
+    cmShowRows=true;
+  }
+  function showContextMenuCols(event: PointerEvent) {
+    cmX = event.x;
+    cmY = event.y;
+    cmShowCols=true;
   }
   function hideContextMenu() {
-    cmShow = false;
+    cmShowRows = false;
+    cmShowCols = false;
   }
 
-  contextMenuDefinition.groups.push(columnContextMenu);
-  contextMenuDefinition.groups.push(rowContextMenu);
+  contextMenuDefinitionCols.groups.push(columnContextMenu);
+  contextMenuDefinitionRows.groups.push(rowContextMenu);
 
   onMount(async () => {
     res = await (await fetch("/data.json")).json()
@@ -93,7 +101,7 @@
     });
 
     document.addEventListener("click", (event) => {
-      if (cmShow == true) {
+      if (cmShowCols == true || cmShowRows == true) {
         setTimeout(() => {
           hideContextMenu();
         }, 50);
@@ -106,12 +114,12 @@
   <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X0} {Y0})"></image>
   <g transform="translate({X} 0)">
     {#each data.columns as column}
-      <ColumnHeader bind:column onRightClick={showContextMenu}/>
+      <ColumnHeader bind:column onRightClick={showContextMenuCols}/>
     {/each}
   </g>
   <g transform="translate(0 {Y})">
     {#each data.rows as row}
-      <RowHeader bind:row onRightClick={showContextMenu} />
+      <RowHeader bind:row onRightClick={showContextMenuRows} />
     {/each}
   </g>
   <!-- END columns and rows -->
@@ -132,4 +140,6 @@
   <DataTableCorner height={Y0} width={X0} x={0} y={0} />
     {/if}
 </svg>
-<ContextMenu definition={contextMenuDefinition} visible={cmShow} x={cmX} y={cmY} />
+
+<ContextMenu definition={contextMenuDefinitionCols} visible={cmShowCols} x={cmX} y={cmY} />
+<ContextMenu definition={contextMenuDefinitionRows} visible={cmShowRows} x={cmX} y={cmY} />
