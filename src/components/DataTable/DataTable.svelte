@@ -26,7 +26,6 @@
   let data: DataTableData|null = null;
   let trenutnaStranica: null|number = 0;
 
-  let ScrollPosition = 0;
   let contextMenuDefinitionRows = new ContextMenuDefinition();
   let contextMenuDefinitionCols = new ContextMenuDefinition();
 
@@ -48,8 +47,8 @@
             data?.addColumn({
               id: Number(data?.rows.length),
               name: "column",
-              x1: cmX-ROW_HEADER_WIDTH,
-              x2: cmX-ROW_HEADER_WIDTH+50
+              x1: cmX-ROW_HEADER_WIDTH+scrollX,
+              x2: cmX-ROW_HEADER_WIDTH+scrollX+50
             });
             data = data;
           })
@@ -117,7 +116,6 @@
         setTimeout(() => {
           hideContextMenu();
         }, 50);
-        ScrollPosition = window.scrollY;
       }
     });
 

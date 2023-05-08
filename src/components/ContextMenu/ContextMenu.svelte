@@ -8,10 +8,12 @@
     export let y = 0;
     export let visible = false;
 
-    let ScrollPosition = 0;
+    let ScrollPositionVertical = 0;
+    let ScrollPositionHorizontal = 0;
     onMount(async () => {
         document.addEventListener("scroll", (event) => {
-            ScrollPosition = window.scrollY;
+            ScrollPositionHorizontal = window.scrollX;
+            ScrollPositionVertical = window.scrollY;
         });
     })
 </script>
@@ -20,7 +22,7 @@
         id="context-menu"
         class="bg-cyan-700 text-white"
         class:invisible={visible === false}
-        style="left: {x+2}px; top: {y+ScrollPosition}px;"
+        style="left: {x+ScrollPositionHorizontal+2}px; top: {y+ScrollPositionVertical}px;"
 >
     {#each definition.groups as group}
         <ul>
