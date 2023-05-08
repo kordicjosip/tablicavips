@@ -1,18 +1,26 @@
 <script lang="ts">
     import {ContextMenuDefinition} from "./index";
+    import {onMount} from "svelte";
 
     export let definition = new ContextMenuDefinition();
 
     export let x = 0;
     export let y = 0;
     export let visible = false;
+
+    let ScrollPosition = 0;
+    onMount(async () => {
+        document.addEventListener("scroll", (event) => {
+            ScrollPosition = window.scrollY;
+        });
+    })
 </script>
 
 <div
         id="context-menu"
         class="bg-cyan-700 text-white"
         class:invisible={visible === false}
-        style="top: {y}px; left: {x+2}px;"
+        style="left: {x+2}px; top: {y+ScrollPosition}px;"
 >
     {#each definition.groups as group}
         <ul>

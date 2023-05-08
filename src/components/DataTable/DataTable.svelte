@@ -26,6 +26,7 @@
   let data: DataTableData|null = null;
   let trenutnaStranica: null|number = 0;
 
+  let ScrollPosition = 0;
   let contextMenuDefinitionRows = new ContextMenuDefinition();
   let contextMenuDefinitionCols = new ContextMenuDefinition();
 
@@ -35,8 +36,8 @@
               data?.addRow({
                 id: Number(data?.rows.length),
                 name: "row",
-                y1: cmY-COLUMN_HEADER_HEIGHT,
-                y2: cmY-COLUMN_HEADER_HEIGHT + 50
+                y1: cmY-COLUMN_HEADER_HEIGHT+scrollY,
+                y2: cmY-COLUMN_HEADER_HEIGHT+scrollY + 50
               });
               data = data;
           })
@@ -111,6 +112,15 @@
         }, 50);
       }
     });
+    document.addEventListener("scroll", (event) => {
+      if (cmShowCols == true || cmShowRows == true) {
+        setTimeout(() => {
+          hideContextMenu();
+        }, 50);
+        ScrollPosition = window.scrollY;
+      }
+    });
+
   });
 
 </script>
