@@ -28,6 +28,7 @@
 
   let contextMenuDefinitionRows = new ContextMenuDefinition();
   let contextMenuDefinitionCols = new ContextMenuDefinition();
+
   let rowContextMenu = new ContextMenuGroup("Context menu za redove");
   rowContextMenu.entries.push(
           new ContextMenuEntry("Dodaj red", "ico", ()=> {
@@ -51,6 +52,7 @@
             });
             data = data;
           })
+
   );
   let cmX = 0;
   let cmY = 0;
@@ -71,8 +73,8 @@
     cmShowCols = false;
   }
 
-  contextMenuDefinitionCols.groups.push(columnContextMenu);
   contextMenuDefinitionRows.groups.push(rowContextMenu);
+  contextMenuDefinitionCols.groups.push(columnContextMenu);
 
   onMount(async () => {
     res = await (await fetch("/data.json")).json()
@@ -126,7 +128,7 @@
     <!-- HEADERS ROWS -->
     <rect id="header" height="100%" width="25" color="black"></rect>
   <g transform="translate(0 {Y})">
-    <RowHeaderBackground onRightClick={showContextMenuCols}/>
+    <RowHeaderBackground onRightClick={showContextMenuRows}/>
     {#each data.rows as row}
       <RowHeader bind:row onRightClick={showContextMenuRows} />
     {/each}
