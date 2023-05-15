@@ -20,14 +20,14 @@
 
 <div
         id="context-menu"
-        class="bg-cyan-700 text-white"
+        class="bg-gray-200 text-white"
         class:invisible={visible === false}
         style="left: {x+ScrollPositionHorizontal+2}px; top: {y+ScrollPositionVertical}px;"
 >
     {#each definition.groups as group}
         <ul>
             {#each group.entries as entry}
-                <li on:click={entry.action} class="border-4 p-1">{entry.title}</li>
+                <li on:click={entry.action} class="bg-cyan-600 hover:bg-cyan-700 border-1 rounded m-1 px-1 cursor-pointer">{entry.title}</li>
             {/each}
         </ul>
     {/each}
@@ -40,6 +40,6 @@
         height: auto;
     }
     ul li {
-        width: 250px;
+        width: 150px;
     }
 </style>
