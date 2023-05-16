@@ -31,6 +31,7 @@
                         row.y1 = row.y2 - 1;
                     }
                     if (row.y1 < 0) {
+                        row.y1 = 0;
                         row.y2 = 30;
                     }
                 })

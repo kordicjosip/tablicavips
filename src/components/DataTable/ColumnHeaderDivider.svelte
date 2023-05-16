@@ -26,11 +26,11 @@
                 .on("drag", function (event: any) {
                     select(`#drag-col-${column.id}`)
                     column.x2 += event.dx;
-
                     if (column.width < 1) {
                         column.x1 = column.x2 - 1;
                     }
                     if (column.x1 < 0) {
+                        column.x1 = 0;
                         column.x2 = 40;
                     }
                 })
