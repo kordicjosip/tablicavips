@@ -18,7 +18,7 @@
 
 <g id="row-header">
     <svg>
-        <rect height="100%" width={ROW_HEADER_WIDTH} fill="gray"/>
+        <rect height="100%" width={ROW_HEADER_WIDTH} fill="lightgray"/>
     </svg>
 
 </g>

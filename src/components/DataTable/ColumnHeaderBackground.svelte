@@ -18,7 +18,7 @@
 
 <g id="column-header">
     <svg>
-        <rect width="100%" height={COLUMN_HEADER_HEIGHT} fill="gray"/>
+        <rect width="100%" height={COLUMN_HEADER_HEIGHT} fill="lightgray"/>
     </svg>
 
 </g>

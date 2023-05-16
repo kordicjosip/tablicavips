@@ -3,7 +3,6 @@
     import {onMount} from "svelte";
 
     export let definition = new ContextMenuDefinition();
-
     export let x = 0;
     export let y = 0;
     export let visible = false;
@@ -22,12 +21,12 @@
         id="context-menu"
         class="bg-gray-200 text-white"
         class:invisible={visible === false}
-        style="left: {x+ScrollPositionHorizontal+2}px; top: {y+ScrollPositionVertical}px;"
+        style="left: {x+ScrollPositionHorizontal+1}px; top: {y+ScrollPositionVertical}px;"
 >
     {#each definition.groups as group}
         <ul>
             {#each group.entries as entry}
-                <li on:click={entry.action} class="bg-cyan-600 hover:bg-cyan-700 border-1 rounded m-1 px-1 cursor-pointer">{entry.title}</li>
+                <li on:click={entry.action} class="bg-cyan-600 hover:bg-cyan-700 border-1 rounded m-1 px-2 py-0.5 cursor-pointer">{entry.title}</li>
             {/each}
         </ul>
     {/each}
@@ -40,6 +39,6 @@
         height: auto;
     }
     ul li {
-        width: 150px;
+        width: auto;
     }
 </style>

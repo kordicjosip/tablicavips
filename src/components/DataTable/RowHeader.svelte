@@ -30,7 +30,7 @@
   <svg
     width={ROW_HEADER_WIDTH}
     height={row.height}
-    class="cursor-grab hover:fill-teal-600 fill-teal-500"
+    class="cursor-grab fill-teal-400 hover:fill-teal-500"
   >
     <rect width={ROW_HEADER_WIDTH} height={row.height} stroke="black" />
     <text

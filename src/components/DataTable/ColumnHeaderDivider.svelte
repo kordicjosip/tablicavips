@@ -16,7 +16,6 @@
                     if (column.width < 1) {
                         column.x2 = column.x1 + 1;
                     }
-
                 })
         );
         select(`#drag-col-${column.id}-2`).call(
@@ -28,19 +27,18 @@
                     if (column.width < 1) {
                         column.x1 = column.x2 - 1;
                     }
-
                 })
         );
     });
 </script>
 <rect
-        class="cursor-col-resize fill-red-600 hover:w-1.5"
+        class="cursor-col-resize fill-red-500 hover:w-1.5"
         height="100%"
         id="drag-col-{column.id}-1"
         transform="translate({column.x1} 0)"
         width="3"></rect>
 <rect
-        class="cursor-col-resize fill-red-600 hover:w-1.5"
+        class="cursor-col-resize fill-red-500 hover:w-1.5"
         height="100%"
         id="drag-col-{column.id}-2"
         transform="translate({column.x2} 0)"

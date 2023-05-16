@@ -23,7 +23,6 @@
         event.preventDefault();
         onRightClick(event);
       });
-
   });
 </script>
 
@@ -31,7 +30,7 @@
   <svg
     width={column.width}
     height={COLUMN_HEADER_HEIGHT}
-    class="cursor-grab hover:fill-teal-600 fill-teal-500"
+    class="cursor-grab fill-teal-400 hover:fill-teal-500"
   >
     <rect width={column.width} height={COLUMN_HEADER_HEIGHT} stroke="black" />
     <text
@@ -43,5 +42,4 @@
       font-size="10pt">{column.name}</text
     >
   </svg>
-
 </g>
