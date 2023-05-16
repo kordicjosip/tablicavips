@@ -1,6 +1,6 @@
 <script lang="ts">
     import "../../app.css";
-    import { DataTableRow } from "../../components/DataTable";
+    import { DataTableRow } from "./index";
     import {onMount} from "svelte";
     import {drag, select} from "d3";
 
@@ -16,6 +16,9 @@
                     if (row.height < 1) {
                         row.y2 = row.y1 + 1;
                     }
+                    if (row.y1 < 0) {
+                        row.y1 = 0;
+                    }
                 })
         );
         select(`#drag-row-${row.id}-2`).call(
@@ -26,6 +29,9 @@
 
                     if (row.height < 1) {
                         row.y1 = row.y2 - 1;
+                    }
+                    if (row.y1 < 0) {
+                        row.y2 = 30;
                     }
                 })
         );
