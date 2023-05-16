@@ -26,12 +26,18 @@
   let data: DataTableData|null = null;
   let trenutnaStranica: null|number = 0;
 
-  let contextMenuDefinitionRows = new ContextMenuDefinition();
-  let contextMenuDefinitionCols = new ContextMenuDefinition();
+  let contextMenuDefinition = new ContextMenuDefinition();
+  let elContextMenu = new ContextMenuGroup("Context menu za redove");
 
-  let rowContextMenu = new ContextMenuGroup("Context menu za redove");
-  rowContextMenu.entries.push(
-          new ContextMenuEntry("Dodaj red", "ico", ()=> {
+  let cmX = 0;
+  let cmY = 0;
+  let cmShow = false;
+  function showContextMenuRows(event: PointerEvent) {
+    cmX = event.x;
+    cmY = event.y;
+    elContextMenu.entries= [];
+    elContextMenu.entries.push(
+            new ContextMenuEntry("Dodaj red", "ico", ()=> {
               data?.addRow({
                 id: Number(data?.rows.length),
                 name: "row",
@@ -39,42 +45,35 @@
                 y2: cmY-COLUMN_HEADER_HEIGHT+scrollY + 50
               });
               data = data;
-          })
-  );
-  let columnContextMenu = new ContextMenuGroup("Context menu za stupce");
-  columnContextMenu.entries.push(
-          new ContextMenuEntry("Dodaj stupac", "ico", ()=> {
-            data?.addColumn({
-              id: Number(data?.rows.length),
-              name: "column",
-              x1: cmX-ROW_HEADER_WIDTH+scrollX,
-              x2: cmX-ROW_HEADER_WIDTH+scrollX+50
-            });
-            data = data;
-          })
-
-  );
-  let cmX = 0;
-  let cmY = 0;
-  let cmShowRows = false;
-  let cmShowCols = false;
-  function showContextMenuRows(event: PointerEvent) {
-    cmX = event.x;
-    cmY = event.y;
-    cmShowRows=true;
+            })
+    );
+    contextMenuDefinition.groups=[];
+    contextMenuDefinition.groups.push(elContextMenu);
+    cmShow=true;
   }
   function showContextMenuCols(event: PointerEvent) {
     cmX = event.x;
     cmY = event.y;
-    cmShowCols=true;
-  }
-  function hideContextMenu() {
-    cmShowRows = false;
-    cmShowCols = false;
+    elContextMenu.entries= [];
+    elContextMenu.entries.push(
+            new ContextMenuEntry("Dodaj stupac", "ico", ()=> {
+              data?.addColumn({
+                id: Number(data?.rows.length),
+                name: "column",
+                x1: cmX-ROW_HEADER_WIDTH+scrollX,
+                x2: cmX-ROW_HEADER_WIDTH+scrollX+50
+              });
+              data = data;
+            })
+    );
+    contextMenuDefinition.groups=[];
+    contextMenuDefinition.groups.push(elContextMenu);
+    cmShow=true;
   }
 
-  contextMenuDefinitionRows.groups.push(rowContextMenu);
-  contextMenuDefinitionCols.groups.push(columnContextMenu);
+  function hideContextMenu() {
+    cmShow = false;
+  }
 
   onMount(async () => {
     res = await (await fetch("/data.json")).json()
@@ -105,14 +104,14 @@
     });
 
     document.addEventListener("click", (event) => {
-      if (cmShowCols == true || cmShowRows == true) {
+      if (cmShow == true) {
         setTimeout(() => {
           hideContextMenu();
         }, 50);
       }
     });
     document.addEventListener("scroll", (event) => {
-      if (cmShowCols == true || cmShowRows == true) {
+      if (cmShow == true) {
         setTimeout(() => {
           hideContextMenu();
         }, 50);
@@ -160,5 +159,4 @@
     {/if}
 </svg>
 
-<ContextMenu definition={contextMenuDefinitionCols} visible={cmShowCols} x={cmX} y={cmY} />
-<ContextMenu definition={contextMenuDefinitionRows} visible={cmShowRows} x={cmX} y={cmY} />
+<ContextMenu definition={contextMenuDefinition} visible={cmShow} x={cmX} y={cmY} />
