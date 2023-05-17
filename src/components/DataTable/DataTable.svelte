@@ -139,7 +139,7 @@
 </script>
 <svg height="100%" id="table" width="100%">
   {#if data}
-  <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X0+X} {Y0+Y})"></image>
+  <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X0+X-25} {Y0+Y-20})"></image>
 
     <!-- HEADERS COLUMNS -->
   <g transform="translate({X} 0)">
