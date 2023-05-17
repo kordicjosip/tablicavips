@@ -45,13 +45,60 @@
                 y2: cmY-COLUMN_HEADER_HEIGHT+scrollY +15
               });
               data = data;
+            }),
+            new ContextMenuEntry("Obriši red", "ico", ()=> {
+
             })
     );
     contextMenuDefinition.groups=[];
     contextMenuDefinition.groups.push(elContextMenu);
     cmShow=true;
   }
+
   function showContextMenuCols(event: PointerEvent) {
+    cmX = event.x;
+    cmY = event.y;
+    elContextMenu.entries= [];
+    elContextMenu.entries.push(
+            new ContextMenuEntry("Dodaj stupac", "ico", ()=> {
+              data?.addColumn({
+                id: Number(data?.rows.length),
+                name: "column",
+                x1: cmX-ROW_HEADER_WIDTH+scrollX -25,
+                x2: cmX-ROW_HEADER_WIDTH+scrollX +25
+              });
+              data = data;
+            }),
+            new ContextMenuEntry("Obriši stupac", "ico", ()=> {
+
+            })
+    );
+    contextMenuDefinition.groups=[];
+    contextMenuDefinition.groups.push(elContextMenu);
+    cmShow=true;
+  }
+
+  function showContextMenuRowsBg(event: PointerEvent) {
+    cmX = event.x;
+    cmY = event.y;
+    elContextMenu.entries= [];
+    elContextMenu.entries.push(
+            new ContextMenuEntry("Dodaj red", "ico", ()=> {
+              data?.addRow({
+                id: Number(data?.rows.length),
+                name: "row",
+                y1: cmY-COLUMN_HEADER_HEIGHT+scrollY -15,
+                y2: cmY-COLUMN_HEADER_HEIGHT+scrollY +15
+              });
+              data = data;
+            })
+    );
+    contextMenuDefinition.groups=[];
+    contextMenuDefinition.groups.push(elContextMenu);
+    cmShow=true;
+  }
+
+  function showContextMenuColsBg(event: PointerEvent) {
     cmX = event.x;
     cmY = event.y;
     elContextMenu.entries= [];
@@ -133,7 +180,6 @@
       if (X > X0) X = X0;
       if (Y > Y0) Y = Y0;
     });
-
   });
 
 </script>
@@ -143,14 +189,14 @@
 
     <!-- HEADERS COLUMNS -->
   <g transform="translate({X} 0)">
-    <ColumnHeaderBackground onRightClick={showContextMenuCols}/>
+    <ColumnHeaderBackground onRightClick={showContextMenuColsBg}/>
     {#each data.columns as column}
       <ColumnHeader bind:column onRightClick={showContextMenuCols}/>
     {/each}
   </g>
     <!-- HEADERS ROWS -->
   <g transform="translate(0 {Y})">
-    <RowHeaderBackground onRightClick={showContextMenuRows} height={data.resolution[1]}/>
+    <RowHeaderBackground onRightClick={showContextMenuRowsBg} height={data.resolution[1]}/>
     {#each data.rows as row}
       <RowHeader bind:row onRightClick={showContextMenuRows} />
     {/each}
