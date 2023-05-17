@@ -3,6 +3,7 @@
     import { ROW_HEADER_WIDTH } from "./index";
     import { onMount } from "svelte";
 
+    export let height: number = 0;
     export let onRightClick: Function = null;
 
     onMount(async () => {
@@ -17,8 +18,5 @@
 </script>
 
 <g id="row-header">
-    <svg>
-        <rect height="100%" width={ROW_HEADER_WIDTH} fill="lightgray"/>
-    </svg>
-
+    <rect height="{height}px" width={ROW_HEADER_WIDTH} fill="lightgray"/>
 </g>

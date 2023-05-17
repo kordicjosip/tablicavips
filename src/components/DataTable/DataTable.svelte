@@ -118,12 +118,28 @@
       }
     });
 
+    document.getElementById("table").addEventListener("mousewheel", (event: WheelEvent) => {
+      hideContextMenu();
+
+      if (event.shiftKey) {
+        // noinspection JSSuspiciousNameCombination
+        Y -= event.deltaX;
+        // noinspection JSSuspiciousNameCombination
+        X -= event.deltaY;
+      } else {
+        Y -= event.deltaY;
+        X -= event.deltaX;
+      }
+      if (X > X0) X = X0;
+      if (Y > Y0) Y = Y0;
+    });
+
   });
 
 </script>
 <svg height="100%" id="table" width="100%">
   {#if data}
-  <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X0} {Y0})"></image>
+  <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X0+X} {Y0+Y})"></image>
 
     <!-- HEADERS COLUMNS -->
   <g transform="translate({X} 0)">
@@ -133,9 +149,8 @@
     {/each}
   </g>
     <!-- HEADERS ROWS -->
-    <rect id="header" height="100%" width="25" color="black"></rect>
   <g transform="translate(0 {Y})">
-    <RowHeaderBackground onRightClick={showContextMenuRows}/>
+    <RowHeaderBackground onRightClick={showContextMenuRows} height={data.resolution[1]}/>
     {#each data.rows as row}
       <RowHeader bind:row onRightClick={showContextMenuRows} />
     {/each}
