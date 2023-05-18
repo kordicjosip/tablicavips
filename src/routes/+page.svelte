@@ -4,5 +4,4 @@
 </script>
 <div class="bg-white">
     <DataTable />
-    <ContextMenu />
 </div>
