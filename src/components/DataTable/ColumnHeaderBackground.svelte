@@ -3,6 +3,7 @@
     import { COLUMN_HEADER_HEIGHT } from "./index";
     import { onMount } from "svelte";
 
+    export let width: number = 0;
     export let onRightClick: Function = null;
 
     onMount(async () => {
@@ -12,13 +13,9 @@
                 event.preventDefault();
                 onRightClick(event);
             });
-
     });
 </script>
 
 <g id="column-header">
-    <svg>
-        <rect width="100%" height={COLUMN_HEADER_HEIGHT} fill="lightgray"/>
-    </svg>
-
+    <rect height={COLUMN_HEADER_HEIGHT} width={width} fill="lightgray"></rect>
 </g>

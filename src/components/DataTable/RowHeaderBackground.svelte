@@ -13,10 +13,9 @@
                 event.preventDefault();
                 onRightClick(event);
             });
-
     });
 </script>
 
 <g id="row-header">
-    <rect height="{height}px" width={ROW_HEADER_WIDTH} fill="lightgray"/>
+    <rect height={height} width={ROW_HEADER_WIDTH} fill="lightgray"></rect>
 </g>

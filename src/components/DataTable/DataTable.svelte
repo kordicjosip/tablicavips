@@ -189,7 +189,7 @@
 
     <!-- HEADERS COLUMNS -->
   <g transform="translate({X} 0)">
-    <ColumnHeaderBackground onRightClick={showContextMenuColsBg}/>
+    <ColumnHeaderBackground onRightClick={showContextMenuColsBg} width={data.resolution[0]}/>
     {#each data.columns as column}
       <ColumnHeader bind:column onRightClick={showContextMenuCols}/>
     {/each}
@@ -217,7 +217,7 @@
   </g>
 
   <DataTableCorner height={Y0} width={X0} x={0} y={0} />
-    {/if}
+  {/if}
 </svg>
 
 <ContextMenu definition={contextMenuDefinition} visible={cmShow} x={cmX} y={cmY} />
