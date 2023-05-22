@@ -5,6 +5,7 @@
     import {drag, select} from "d3";
 
     export let row: DataTableRow;
+    export let width: number;
 
     onMount(async () => {
         select(`#drag-row-${row.id}-1`).call(
@@ -43,10 +44,10 @@
         height="3"
         id="drag-row-{row.id}-1"
         transform="translate(0 {row.y1})"
-        width="100%"></rect>
+        width={width}></rect>
 <rect
         class="cursor-row-resize fill-blue-500 hover:h-1.5"
         height="3"
         id="drag-row-{row.id}-2"
         transform="translate(0 {row.y2})"
-        width="100%"></rect>
+        width={width}></rect>

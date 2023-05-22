@@ -5,6 +5,7 @@
     import {drag, select} from "d3";
 
     export let column: DataTableColumn;
+    export let height: number;
 
     onMount(async () => {
         select(`#drag-col-${column.id}-1`).call(
@@ -39,13 +40,13 @@
 </script>
 <rect
         class="cursor-col-resize fill-red-500 hover:w-1.5"
-        height="100%"
+        height={height}
         id="drag-col-{column.id}-1"
         transform="translate({column.x1} 0)"
         width="3"></rect>
 <rect
         class="cursor-col-resize fill-red-500 hover:w-1.5"
-        height="100%"
+        height={height}
         id="drag-col-{column.id}-2"
         transform="translate({column.x2} 0)"
         width="3"></rect>

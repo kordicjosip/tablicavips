@@ -157,13 +157,6 @@
         }, 50);
       }
     });
-    document.addEventListener("scroll", (event) => {
-      if (cmShow == true) {
-        setTimeout(() => {
-          hideContextMenu();
-        }, 50);
-      }
-    });
 
     document.getElementById("table").addEventListener("mousewheel", (event: WheelEvent) => {
       hideContextMenu();
@@ -183,7 +176,7 @@
   });
 
 </script>
-<svg height="100%" id="table" width="100%">
+<svg height="100dvh" id="table" width="100%">
   {#if data}
   <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X} {Y})"></image>
 
@@ -206,13 +199,13 @@
   <!-- BEGIN column and row dividers -->
   <g transform="translate({X} 0)">
     {#each data.columns as column}
-      <ColumnHeaderDivider bind:column />
+      <ColumnHeaderDivider bind:column height={data.resolution[1]+Y}/>
     {/each}
   </g>
 
   <g transform="translate(0 {Y})">
     {#each data.rows as row}
-      <RowHeaderDivider bind:row />
+      <RowHeaderDivider bind:row width={data.resolution[0]+X}/>
     {/each}
   </g>
 
