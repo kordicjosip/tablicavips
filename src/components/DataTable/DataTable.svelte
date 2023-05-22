@@ -182,32 +182,29 @@
   {#if data}
   <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X} {Y})"></image>
 
-    <!-- HEADERS COLUMNS -->
-  <g transform="translate({X} 0)">
-    <ColumnHeaderBackground onRightClick={showContextMenuColsBg} width={data.resolution[0]}/>
-    {#each data.columns as column}
-      <ColumnHeader bind:column onRightClick={showContextMenuCols}/>
-    {/each}
-  </g>
-    <!-- HEADERS ROWS -->
   <g transform="translate(0 {Y})">
     <RowHeaderBackground onRightClick={showContextMenuRowsBg} height={data.resolution[1]}/>
     {#each data.rows as row}
       <RowHeader bind:row onRightClick={showContextMenuRows} />
     {/each}
   </g>
-  <!-- END columns and rows -->
-
-  <!-- BEGIN column and row dividers -->
-  <g transform="translate({X} 0)">
-    {#each data.columns as column}
-      <ColumnHeaderDivider bind:column height={data.resolution[1]+Y}/>
-    {/each}
-  </g>
 
   <g transform="translate(0 {Y})">
     {#each data.rows as row}
       <RowHeaderDivider bind:row width={data.resolution[0]+X}/>
+    {/each}
+  </g>
+
+  <g transform="translate({X} 0)">
+    <ColumnHeaderBackground onRightClick={showContextMenuColsBg} width={data.resolution[0]}/>
+    {#each data.columns as column}
+      <ColumnHeader bind:column onRightClick={showContextMenuCols}/>
+    {/each}
+  </g>
+
+  <g transform="translate({X} 0)">
+    {#each data.columns as column}
+      <ColumnHeaderDivider bind:column height={data.resolution[1]+Y}/>
     {/each}
   </g>
 
