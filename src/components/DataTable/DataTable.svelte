@@ -14,6 +14,8 @@
   import { ContextMenu, ContextMenuDefinition, ContextMenuEntry, ContextMenuGroup } from "../../components/ContextMenu";
   import ColumnHeaderBackground from "./ColumnHeaderBackground.svelte";
   import RowHeaderBackground from "./RowHeaderBackground.svelte";
+  import RowHeaderDividerLine from "./RowHeaderDividerLine.svelte";
+  import ColumnHeaderDividerLine from "./ColumnHeaderDividerLine.svelte";
 
   export let show_column_header = true;
   export let show_row_header = true;
@@ -183,6 +185,18 @@
   <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X} {Y})"></image>
 
   <g transform="translate(0 {Y})">
+    {#each data.rows as row}
+      <RowHeaderDividerLine bind:row width={data.resolution[0]}/>
+    {/each}
+  </g>
+
+  <g transform="translate({X} 0)">
+    {#each data.columns as column}
+      <ColumnHeaderDividerLine bind:column height={data.resolution[1]}/>
+    {/each}
+  </g>
+
+  <g transform="translate(0 {Y})">
     <RowHeaderBackground onRightClick={showContextMenuRowsBg} height={data.resolution[1]}/>
     {#each data.rows as row}
       <RowHeader bind:row onRightClick={showContextMenuRows} />
@@ -191,7 +205,7 @@
 
   <g transform="translate(0 {Y})">
     {#each data.rows as row}
-      <RowHeaderDivider bind:row width={data.resolution[0]+X}/>
+      <RowHeaderDivider bind:row width={ROW_HEADER_WIDTH}/>
     {/each}
   </g>
 
@@ -204,7 +218,7 @@
 
   <g transform="translate({X} 0)">
     {#each data.columns as column}
-      <ColumnHeaderDivider bind:column height={data.resolution[1]+Y}/>
+      <ColumnHeaderDivider bind:column height={COLUMN_HEADER_HEIGHT}/>
     {/each}
   </g>
 
