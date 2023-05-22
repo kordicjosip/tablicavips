@@ -1,11 +1,11 @@
 <script lang="ts">
     import "../../app.css";
-    import {COLUMN_HEADER_HEIGHT, DataTableColumn} from "./index";
+    import {COLUMN_HEADER_HEIGHT, DataTableColumn, type DataTableColumnInterface} from "./index";
     import {onMount} from "svelte";
     import {drag, select} from "d3";
 
     export let column: DataTableColumn;
-    export let onRightClick: Function = null;
+    export let onRightClick: (event: PointerEvent, column: DataTableColumnInterface)=>void = null;
 
     onMount(async () => {
         select(`#column-header-${column.id}`).call(
@@ -26,7 +26,7 @@
             .getElementById(`column-header-${column.id}`)
             .addEventListener("contextmenu", (event: PointerEvent) => {
                 event.preventDefault();
-                onRightClick(event);
+                onRightClick(event, column);
             });
     });
 </script>

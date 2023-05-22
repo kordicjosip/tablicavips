@@ -73,6 +73,10 @@ export class DataTableData {
     this.columns.push(new_column);
   }
 
+  removeColumn(column: DataTableColumnInterface) {
+    this.columns=this.columns.filter((col)=>col.id!==column.id);
+  }
+
   addRow(row: DataTableRowInterface) {
     const new_row = new DataTableRow();
 
@@ -82,5 +86,9 @@ export class DataTableData {
     new_row.name = row.name;
 
     this.rows.push(new_row);
+  }
+
+  removeRow(row: DataTableRowInterface) {
+    this.rows=this.rows.filter((r)=>r.id!==row.id);
   }
 }

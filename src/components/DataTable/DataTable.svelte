@@ -2,7 +2,7 @@
   import {
     COLUMN_HEADER_HEIGHT,
     ROW_HEADER_WIDTH,
-    DataTableData
+    DataTableData, type DataTableRowInterface, type DataTableColumnInterface
   } from "./index.ts";
   import "../../app.css";
   import RowHeader from "../../components/DataTable/RowHeader.svelte";
@@ -32,7 +32,7 @@
   let cmX = 0;
   let cmY = 0;
   let cmShow = false;
-  function showContextMenuRows(event: PointerEvent) {
+  function showContextMenuRows(event: PointerEvent, row: DataTableRowInterface) {
     cmX = event.x;
     cmY = event.y;
     elContextMenu.entries= [];
@@ -48,7 +48,8 @@
               data = data;
             }),
             new ContextMenuEntry("Obriši red", "ico", ()=> {
-
+              data?.removeRow(row);
+              data=data;
             })
     );
     contextMenuDefinition.groups=[];
@@ -56,7 +57,7 @@
     cmShow=true;
   }
 
-  function showContextMenuCols(event: PointerEvent) {
+  function showContextMenuCols(event: PointerEvent, column: DataTableColumnInterface) {
     cmX = event.x;
     cmY = event.y;
     elContextMenu.entries= [];
@@ -71,7 +72,8 @@
               data = data;
             }),
             new ContextMenuEntry("Obriši stupac", "ico", ()=> {
-
+                data?.removeColumn(column);
+                data=data;
             })
     );
     contextMenuDefinition.groups=[];

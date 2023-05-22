@@ -1,11 +1,11 @@
 <script lang="ts">
     import "../../app.css";
-    import {DataTableRow, ROW_HEADER_WIDTH} from "./index";
+    import { DataTableRow, type DataTableRowInterface, ROW_HEADER_WIDTH} from "./index";
     import {onMount} from "svelte";
     import {drag, select} from "d3";
 
     export let row: DataTableRow;
-    export let onRightClick: Function = null;
+    export let onRightClick: (event: PointerEvent, row: DataTableRowInterface)=>void = null;
 
     onMount(async () => {
         select(`#row-header-${row.id}`).call(
@@ -26,7 +26,7 @@
             .getElementById(`row-header-${row.id}`)
             .addEventListener("contextmenu", (event: PointerEvent) => {
                 event.preventDefault();
-                onRightClick(event);
+                onRightClick(event, row);
             });
     });
 </script>
