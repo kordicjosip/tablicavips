@@ -42,8 +42,8 @@
               data?.addRow({
                 id: Number(data?.rows.length),
                 name: "row",
-                y1: cmY-COLUMN_HEADER_HEIGHT+scrollY -15,
-                y2: cmY-COLUMN_HEADER_HEIGHT+scrollY +15
+                y1: cmY-Y -15,
+                y2: cmY-Y +15
               });
               data = data;
             }),
@@ -66,8 +66,8 @@
               data?.addColumn({
                 id: Number(data?.rows.length),
                 name: "column",
-                x1: cmX-ROW_HEADER_WIDTH+scrollX -25,
-                x2: cmX-ROW_HEADER_WIDTH+scrollX +25
+                x1: cmX-X -25,
+                x2: cmX-X +25
               });
               data = data;
             }),
