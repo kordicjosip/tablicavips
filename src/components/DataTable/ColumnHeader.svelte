@@ -15,7 +15,7 @@
                     column.x1 += event.dx;
                     column.x2 += event.dx;
                     if (column.x1 < 0) {
-                        var sirina = column.width
+                        let sirina = column.width
                         column.x1 = 0;
                         column.x2 = sirina;
                     }

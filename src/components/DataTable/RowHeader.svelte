@@ -15,7 +15,7 @@
                     row.y1 += event.dy;
                     row.y2 += event.dy;
                     if (row.y1 < 0) {
-                        var visina = row.height
+                        let visina = row.height
                         row.y1 = 0;
                         row.y2 = visina;
                     }
