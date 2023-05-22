@@ -176,7 +176,7 @@
   });
 
 </script>
-<svg height="100dvh" id="table" width="100%">
+<svg height="100%" id="table" width="100%">
   {#if data}
   <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X} {Y})"></image>
 

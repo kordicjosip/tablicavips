@@ -2,6 +2,6 @@
     import { DataTable } from "../components/DataTable";
     import { ContextMenu } from "../components/ContextMenu";
 </script>
-<div class="bg-white">
+<div class="bg-white h-screen">
     <DataTable />
 </div>
