@@ -28,12 +28,16 @@
   let data: DataTableData|null = null;
   let trenutnaStranica: null|number = 0;
 
+  let scaleW = 0;
+  let scaleH = 0;
+  let scale = 1;
+
   let contextMenuDefinition = new ContextMenuDefinition();
   let elContextMenu = new ContextMenuGroup("Context menu za redove");
-
   let cmX = 0;
   let cmY = 0;
   let cmShow = false;
+
   function showContextMenuRows(event: PointerEvent, row: DataTableRowInterface) {
     cmX = event.x;
     cmY = event.y;
@@ -129,12 +133,13 @@
 
   onMount(async () => {
     res = await (await fetch("/data.json")).json()
+    scale = (scaleW-ROW_HEADER_WIDTH)/res[trenutnaStranica].resolution[0];
     const columns = res[trenutnaStranica].columns.map((column, index) => {
       return {
         id: index,
         name: "column",
-        x1: column[0],
-        x2: column[1],
+        x1: column[0]*scale,
+        x2: column[1]*scale,
         get width() {return this.x2 - this.x1;}
       }
     });
@@ -142,8 +147,8 @@
       return {
         id: index,
         name: "row",
-        y1: row[0],
-        y2: row[1]
+        y1: row[0]*scale,
+        y2: row[1]*scale
       }
     });
     const resolution = res[trenutnaStranica].resolution;
@@ -180,24 +185,29 @@
     });
   });
 </script>
+
+<div class="h-full" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
+<button on:click={()=>scale=scale-0.05} class="absolute right-8 top-8 w-6 bg-fuchsia-300">-</button>
+<button on:click={()=>scale=scale+0.05} class="absolute right-1 top-8 w-6 bg-fuchsia-300">+</button>
+
 <svg height="100%" id="table" width="100%">
   {#if data}
-  <image href="{data.image}" width={data.resolution[0]} height={data.resolution[1]} transform="translate({X} {Y})"></image>
+  <image href="{data.image}" width={data.resolution[0]*scale} height={data.resolution[1]*scale} transform="translate({X} {Y})"></image>
 
   <g transform="translate(0 {Y})">
     {#each data.rows as row}
-      <RowHeaderDividerLine bind:row width={data.resolution[0]}/>
+      <RowHeaderDividerLine bind:row width={data.resolution[0]*scale+X}/>
     {/each}
   </g>
 
   <g transform="translate({X} 0)">
     {#each data.columns as column}
-      <ColumnHeaderDividerLine bind:column height={data.resolution[1]}/>
+      <ColumnHeaderDividerLine bind:column height={data.resolution[1]*scale+Y}/>
     {/each}
   </g>
 
   <g transform="translate(0 {Y})">
-    <RowHeaderBackground onRightClick={showContextMenuRowsBg} height={data.resolution[1]}/>
+    <RowHeaderBackground onRightClick={showContextMenuRowsBg} height={data.resolution[1]*scale}/>
     {#each data.rows as row}
       <RowHeader bind:row onRightClick={showContextMenuRows} />
     {/each}
@@ -210,7 +220,7 @@
   </g>
 
   <g transform="translate({X} 0)">
-    <ColumnHeaderBackground onRightClick={showContextMenuColsBg} width={data.resolution[0]}/>
+    <ColumnHeaderBackground onRightClick={showContextMenuColsBg} width={data.resolution[0]*scale}/>
     {#each data.columns as column}
       <ColumnHeader bind:column onRightClick={showContextMenuCols}/>
     {/each}
@@ -224,6 +234,6 @@
 
   <DataTableCorner height={Y0} width={X0} x={0} y={0} />
   {/if}
-</svg>
+</svg></div>
 
 <ContextMenu definition={contextMenuDefinition} visible={cmShow} x={cmX} y={cmY} />
