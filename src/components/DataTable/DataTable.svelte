@@ -210,7 +210,7 @@
 		>+</button
 	>
 
-	<svg width="{data? data.resolution[0] * scale : 0}px" height="{data? data.resolution[1] * scale : 0}px" id="table" viewBox="0 0 {data? data.resolution[0]: 0} {data? data.resolution[1]: 0}">
+	<svg width="{data? data.resolution[0] * scale: 0}px" height="{data? data.resolution[1] * scale : 0}px" id="table" viewBox="0 0 {data? data.resolution[0] + X0/scale: 0} {data? data.resolution[1] + Y0/scale: 0}">
 		{#if data}
 			<image
 				href={data.image}
