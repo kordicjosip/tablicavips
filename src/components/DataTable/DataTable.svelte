@@ -202,7 +202,7 @@
 	}
 </script>
 
-<div class="h-full overflow-x-clip" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
+<div class="h-full overflow-clip" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
 	<button on:click={() => (scale = scale - 0.05)} class="absolute right-8 top-8 w-6 bg-fuchsia-300"
 		>-</button
 	>
