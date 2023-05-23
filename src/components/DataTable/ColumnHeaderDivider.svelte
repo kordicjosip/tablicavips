@@ -5,6 +5,7 @@
 
 	export let column: DataTableColumn;
 	export let height: number;
+	export let scale: number = 1;
 
 	onMount(async () => {
 		select(`#drag-col-${column.id}-1`).call(
@@ -36,15 +37,15 @@
 
 <rect
 	class="cursor-col-resize fill-red-500 hover:w-1.5"
-	{height}
+	height={height / scale}
 	id="drag-col-{column.id}-1"
 	transform="translate({column.x1} 0)"
-	width="3"
+	width="{3 / scale}"
 />
 <rect
 	class="cursor-col-resize fill-red-500 hover:w-1.5"
-	{height}
+	height={height / scale}
 	id="drag-col-{column.id}-2"
 	transform="translate({column.x2} 0)"
-	width="3"
+	width="{3 / scale}"
 />

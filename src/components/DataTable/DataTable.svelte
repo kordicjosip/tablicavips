@@ -140,13 +140,12 @@
 
 	onMount(async () => {
 		res = await (await fetch('/data.json')).json();
-		scale = (scaleW - ROW_HEADER_WIDTH) / res[trenutnaStranica].resolution[0];
 		const columns = res[trenutnaStranica].columns.map((column, index) => {
 			return {
 				id: index,
 				name: 'column',
-				x1: column[0] * scale,
-				x2: column[1] * scale,
+				x1: column[0],
+				x2: column[1],
 				get width() {
 					return this.x2 - this.x1;
 				}
@@ -156,8 +155,8 @@
 			return {
 				id: index,
 				name: 'row',
-				y1: row[0] * scale,
-				y2: row[1] * scale
+				y1: row[0],
+				y2: row[1]
 			};
 		});
 		const resolution = res[trenutnaStranica].resolution;
@@ -169,7 +168,11 @@
 			image: image
 		});
 
-		document.addEventListener('click', (event) => {
+		window.addEventListener('resize', () => {
+			hideContextMenu();
+		});
+
+		document.addEventListener('click', () => {
 			if (cmShow == true) {
 				setTimeout(() => {
 					hideContextMenu();
@@ -193,9 +196,13 @@
 			if (Y > Y0) Y = Y0;
 		});
 	});
+
+	$: {
+		if (data) scale = scaleW / data.resolution[0];
+	}
 </script>
 
-<div class="h-full" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
+<div class="h-full overflow-x-clip" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
 	<button on:click={() => (scale = scale - 0.05)} class="absolute right-8 top-8 w-6 bg-fuchsia-300"
 		>-</button
 	>
@@ -203,60 +210,62 @@
 		>+</button
 	>
 
-	<svg height="100%" id="table" width="100%">
+	<svg width="{data? data.resolution[0] * scale : 0}px" height="{data? data.resolution[1] * scale : 0}px" id="table" viewBox="0 0 {data? data.resolution[0]: 0} {data? data.resolution[1]: 0}">
 		{#if data}
 			<image
 				href={data.image}
-				width={data.resolution[0] * scale}
-				height={data.resolution[1] * scale}
-				transform="translate({X} {Y})"
+				width={data.resolution[0]}
+				height={data.resolution[1]}
+				transform="translate({X/scale} {Y/scale})"
 			/>
 
-			<g transform="translate(0 {Y})">
+			<g transform="translate({X/scale} {Y/scale})">
 				{#each data.rows as row}
-					<RowHeaderDividerLine bind:row width={data.resolution[0] * scale + X} />
+					<RowHeaderDividerLine bind:row bind:scale={scale} width={data.resolution[0]} />
 				{/each}
 			</g>
 
-			<g transform="translate({X} 0)">
+			<g transform="translate({X/scale} {Y/scale})">
 				{#each data.columns as column}
-					<ColumnHeaderDividerLine bind:column height={data.resolution[1] * scale + Y} />
+					<ColumnHeaderDividerLine bind:column bind:scale={scale} height={data.resolution[1]} />
 				{/each}
 			</g>
 
-			<g transform="translate(0 {Y})">
+			<g transform="translate(0 {Y/scale})">
 				<RowHeaderBackground
 					onRightClick={showContextMenuRowsBg}
-					height={data.resolution[1] * scale}
+					bind:scale={scale}
+					height={data.resolution[1]}
 				/>
 				{#each data.rows as row}
-					<RowHeader bind:row onRightClick={showContextMenuRows} />
+					<RowHeader bind:row bind:scale={scale} onRightClick={showContextMenuRows} />
 				{/each}
 			</g>
 
-			<g transform="translate(0 {Y})">
+			<g transform="translate(0 {Y/scale})">
 				{#each data.rows as row}
-					<RowHeaderDivider bind:row width={ROW_HEADER_WIDTH} />
+					<RowHeaderDivider bind:row bind:scale={scale} width={X0} />
 				{/each}
 			</g>
 
-			<g transform="translate({X} 0)">
+			<g transform="translate({X/scale} 0)">
 				<ColumnHeaderBackground
 					onRightClick={showContextMenuColsBg}
-					width={data.resolution[0] * scale}
+					width={data.resolution[0]}
+					bind:scale={scale}
 				/>
 				{#each data.columns as column}
-					<ColumnHeader bind:column onRightClick={showContextMenuCols} />
+					<ColumnHeader bind:column bind:scale={scale} onRightClick={showContextMenuCols} />
 				{/each}
 			</g>
 
-			<g transform="translate({X} 0)">
+			<g transform="translate({X/scale} 0)">
 				{#each data.columns as column}
-					<ColumnHeaderDivider bind:column height={COLUMN_HEADER_HEIGHT} />
+					<ColumnHeaderDivider bind:column bind:scale={scale} height={Y0} />
 				{/each}
 			</g>
 
-			<DataTableCorner height={Y0} width={X0} x={0} y={0} />
+			<DataTableCorner height={Y0 / scale} width={X0 / scale} x={0} y={0} />
 		{/if}
 	</svg>
 </div>

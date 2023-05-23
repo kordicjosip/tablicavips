@@ -1,8 +1,9 @@
 <script lang='ts'>
-	import { COLUMN_HEADER_HEIGHT } from './index';
 	import { onMount } from 'svelte';
+	import { COLUMN_HEADER_HEIGHT } from './index';
 
 	export let width: number = 0;
+	export let scale: number = 0;
 	export let onRightClick: Function = null;
 
 	onMount(async () => {
@@ -16,5 +17,5 @@
 </script>
 
 <g id='column-header'>
-	<rect fill='lightgray' height={COLUMN_HEADER_HEIGHT} {width} />
+	<rect fill='lightgray' height={COLUMN_HEADER_HEIGHT / scale} {width} />
 </g>

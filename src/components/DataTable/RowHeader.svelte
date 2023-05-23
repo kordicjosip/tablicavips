@@ -4,6 +4,7 @@
 	import { drag, select } from 'd3';
 
 	export let row: DataTableRow;
+	export let scale: number = 1;
 	export let onRightClick: (event: PointerEvent, row: DataTableRowInterface) => void = null;
 
 	onMount(async () => {
@@ -33,15 +34,15 @@
 	<svg
 		class="cursor-grab fill-teal-400 hover:fill-teal-500"
 		height={row.height}
-		width={ROW_HEADER_WIDTH}
+		width={ROW_HEADER_WIDTH / scale}
 	>
-		<rect height={row.height} stroke="black" width={ROW_HEADER_WIDTH} />
+		<rect height={row.height} stroke="black" width={ROW_HEADER_WIDTH / scale} />
 		<text
 			class="fill-black"
 			dominant-baseline="central"
-			font-size="10pt"
-			text-anchor="end"
-			x={ROW_HEADER_WIDTH - 1}
+			font-size="{10 / scale}pt"
+			text-anchor="start"
+			x={5}
 			y={row.height / 2}>{row.name === null ? row.id : row.name}</text
 		>
 	</svg>

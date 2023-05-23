@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { ROW_HEADER_WIDTH } from './index';
 	import { onMount } from 'svelte';
+	import { ROW_HEADER_WIDTH } from './index';
 
 	export let height: number = 0;
+	export let scale: number = 0;
 	export let onRightClick: Function = null;
 
 	onMount(async () => {
@@ -14,5 +15,5 @@
 </script>
 
 <g id="row-header">
-	<rect {height} width={ROW_HEADER_WIDTH} fill="lightgray" />
+	<rect {height} width={ROW_HEADER_WIDTH / scale} fill="lightgray" />
 </g>
