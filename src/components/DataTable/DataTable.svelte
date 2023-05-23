@@ -204,7 +204,6 @@
 	});
 
 	$: {
-		console.log(scaleH / scale);
 		if (data) scale = scaleW / data.resolution[0];
 	}
 </script>
