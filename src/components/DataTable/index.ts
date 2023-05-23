@@ -64,7 +64,7 @@ export class DataTableData {
 	addColumn(column: DataTableColumnInterface) {
 		const new_column = new DataTableColumn();
 
-		new_column.id = this.columns.length;
+		new_column.id = this.columns.reduce((max, col) => (col.id > max ? col.id : max), -1) + 1;
 		new_column.x1 = column.x1;
 		new_column.x2 = column.x2;
 		new_column.name = column.name;
@@ -79,7 +79,7 @@ export class DataTableData {
 	addRow(row: DataTableRowInterface) {
 		const new_row = new DataTableRow();
 
-		new_row.id = this.rows.length;
+		new_row.id = this.rows.reduce((max, row) => (row.id > max ? row.id : max), -1) + 1;
 		new_row.y1 = row.y1;
 		new_row.y2 = row.y2;
 		new_row.name = row.name;
