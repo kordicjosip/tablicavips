@@ -192,12 +192,19 @@
 				Y -= event.deltaY;
 				X -= event.deltaX;
 			}
+			if (X < scaleW - data?.resolution[0] * scale) {
+				X = scaleW - data?.resolution[0] * scale;
+			}
+			if (Y < scaleH - data?.resolution[1] * scale) {
+				Y = scaleH - data?.resolution[1] * scale;
+			}
 			if (X > X0) X = X0;
 			if (Y > Y0) Y = Y0;
 		});
 	});
 
 	$: {
+		console.log(scaleH / scale);
 		if (data) scale = scaleW / data.resolution[0];
 	}
 </script>
@@ -210,58 +217,65 @@
 		>+</button
 	>
 
-	<svg width="{data? data.resolution[0] * scale: 0}px" height="{data? data.resolution[1] * scale : 0}px" id="table" viewBox="0 0 {data? data.resolution[0] + X0/scale: 0} {data? data.resolution[1] + Y0/scale: 0}">
+	<svg
+		width="{data ? data.resolution[0] * scale : 0}px"
+		height="{data ? data.resolution[1] * scale : 0}px"
+		id="table"
+		viewBox="0 0 {data ? data.resolution[0] + X0 / scale : 0} {data
+			? data.resolution[1] + Y0 / scale
+			: 0}"
+	>
 		{#if data}
 			<image
 				href={data.image}
 				width={data.resolution[0]}
 				height={data.resolution[1]}
-				transform="translate({X/scale} {Y/scale})"
+				transform="translate({X / scale} {Y / scale})"
 			/>
 
-			<g transform="translate({X/scale} {Y/scale})">
+			<g transform="translate({X / scale} {Y / scale})">
 				{#each data.rows as row}
-					<RowHeaderDividerLine bind:row bind:scale={scale} width={data.resolution[0]} />
+					<RowHeaderDividerLine bind:row bind:scale width={data.resolution[0]} />
 				{/each}
 			</g>
 
-			<g transform="translate({X/scale} {Y/scale})">
+			<g transform="translate({X / scale} {Y / scale})">
 				{#each data.columns as column}
-					<ColumnHeaderDividerLine bind:column bind:scale={scale} height={data.resolution[1]} />
+					<ColumnHeaderDividerLine bind:column bind:scale height={data.resolution[1]} />
 				{/each}
 			</g>
 
-			<g transform="translate(0 {Y/scale})">
+			<g transform="translate(0 {Y / scale})">
 				<RowHeaderBackground
 					onRightClick={showContextMenuRowsBg}
-					bind:scale={scale}
+					bind:scale
 					height={data.resolution[1]}
 				/>
 				{#each data.rows as row}
-					<RowHeader bind:row bind:scale={scale} onRightClick={showContextMenuRows} />
+					<RowHeader bind:row bind:scale onRightClick={showContextMenuRows} />
 				{/each}
 			</g>
 
-			<g transform="translate(0 {Y/scale})">
+			<g transform="translate(0 {Y / scale})">
 				{#each data.rows as row}
-					<RowHeaderDivider bind:row bind:scale={scale} width={X0} />
+					<RowHeaderDivider bind:row bind:scale width={X0} />
 				{/each}
 			</g>
 
-			<g transform="translate({X/scale} 0)">
+			<g transform="translate({X / scale} 0)">
 				<ColumnHeaderBackground
 					onRightClick={showContextMenuColsBg}
 					width={data.resolution[0]}
-					bind:scale={scale}
+					bind:scale
 				/>
 				{#each data.columns as column}
-					<ColumnHeader bind:column bind:scale={scale} onRightClick={showContextMenuCols} />
+					<ColumnHeader bind:column bind:scale onRightClick={showContextMenuCols} />
 				{/each}
 			</g>
 
-			<g transform="translate({X/scale} 0)">
+			<g transform="translate({X / scale} 0)">
 				{#each data.columns as column}
-					<ColumnHeaderDivider bind:column bind:scale={scale} height={Y0} />
+					<ColumnHeaderDivider bind:column bind:scale height={Y0} />
 				{/each}
 			</g>
 

@@ -3,7 +3,7 @@
 	import { ROW_HEADER_WIDTH } from './index';
 
 	export let height: number = 0;
-	export let scale: number = 0;
+	export let scale: number = 1;
 	export let onRightClick: Function = null;
 
 	onMount(async () => {
