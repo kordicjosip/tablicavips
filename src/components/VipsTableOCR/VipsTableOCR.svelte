@@ -2,16 +2,16 @@
 	import {
 		COLUMN_HEADER_HEIGHT,
 		ROW_HEADER_WIDTH,
-		DataTableData,
-		type DataTableRowInterface,
-		type DataTableColumnInterface
+		TableData,
+		type TableRowInterface,
+		type TableColumnInterface
 	} from './index.ts';
 	import '../../app.css';
-	import RowHeader from '../../components/DataTable/RowHeader.svelte';
-	import ColumnHeader from '../../components/DataTable/ColumnHeader.svelte';
+	import RowHeader from './/RowHeader.svelte';
+	import ColumnHeader from './/ColumnHeader.svelte';
 	import Corner from './Corner.svelte';
-	import ColumnHeaderDivider from '../../components/DataTable/ColumnHeaderDivider.svelte';
-	import RowHeaderDivider from '../../components/DataTable/RowHeaderDivider.svelte';
+	import ColumnHeaderDivider from './/ColumnHeaderDivider.svelte';
+	import RowHeaderDivider from './/RowHeaderDivider.svelte';
 	import { onMount } from 'svelte';
 	import {
 		ContextMenu,
@@ -32,7 +32,7 @@
 	let X = show_row_header ? ROW_HEADER_WIDTH : 0;
 	let Y = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
 	let res = [];
-	let data: DataTableData | null = null;
+	let data: TableData | null = null;
 	let dataStranica = [];
 	let trenutnaStranica: null | number = 0;
 
@@ -46,7 +46,7 @@
 	let cmY = 0;
 	let cmShow = false;
 
-	function showContextMenuRows(event: PointerEvent, row: DataTableRowInterface) {
+	function showContextMenuRows(event: PointerEvent, row: TableRowInterface) {
 		cmX = event.x;
 		cmY = event.y;
 		elContextMenu.entries = [];
@@ -70,7 +70,7 @@
 		cmShow = true;
 	}
 
-	function showContextMenuCols(event: PointerEvent, column: DataTableColumnInterface) {
+	function showContextMenuCols(event: PointerEvent, column: TableColumnInterface) {
 		cmX = event.x;
 		cmY = event.y;
 		elContextMenu.entries = [];
@@ -162,7 +162,7 @@
 			});
 			const resolution = res[i].resolution;
 			const image = res[i].image;
-			data = new DataTableData({
+			data = new TableData({
 				columns: columns,
 				rows: rows,
 				resolution: resolution,

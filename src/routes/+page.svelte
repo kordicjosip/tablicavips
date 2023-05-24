@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { DataTable } from '../components/DataTable';
+	import { VipsTableOCR } from '../components/VipsTableOCR';
 </script>
 
 <div class="bg-white h-screen">
-	<DataTable />
+	<VipsTableOCR />
 </div>

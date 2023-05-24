@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { DataTableColumn } from './index';
+	import { TableColumn } from './index';
 	import { onMount } from 'svelte';
 	import { drag, select } from 'd3';
 
-	export let column: DataTableColumn;
+	export let column: TableColumn;
 	export let height: number;
 	export let scale: number = 1;
 
@@ -40,12 +40,12 @@
 	height={height / scale}
 	id="drag-col-{column.id}-1"
 	transform="translate({column.x1} 0)"
-	width="{3 / scale}"
+	width={3 / scale}
 />
 <rect
 	class="cursor-col-resize fill-red-500 hover:w-1.5"
 	height={height / scale}
 	id="drag-col-{column.id}-2"
 	transform="translate({column.x2} 0)"
-	width="{3 / scale}"
+	width={3 / scale}
 />

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { DataTableRow, type DataTableRowInterface, ROW_HEADER_WIDTH } from './index';
+	import { TableRow, type TableRowInterface, ROW_HEADER_WIDTH } from './index';
 	import { onMount } from 'svelte';
 	import { drag, select } from 'd3';
 
-	export let row: DataTableRow;
+	export let row: TableRow;
 	export let scale: number = 1;
-	export let onRightClick: (event: PointerEvent, row: DataTableRowInterface) => void = null;
+	export let onRightClick: (event: PointerEvent, row: TableRowInterface) => void = null;
 
 	onMount(async () => {
 		select(`#row-header-${row.id}`).call(

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { DataTableRow } from './index';
+	import { TableRow } from './index';
 	import { onMount } from 'svelte';
 	import { drag, select } from 'd3';
 
-	export let row: DataTableRow;
+	export let row: TableRow;
 	export let width: number;
 	export let scale: number = 1;
 
@@ -38,14 +38,14 @@
 
 <rect
 	class="cursor-row-resize fill-blue-500 hover:h-1.5"
-	height="{3 / scale}"
+	height={3 / scale}
 	id="drag-row-{row.id}-1"
 	transform="translate(0 {row.y1})"
 	width={width / scale}
 />
 <rect
 	class="cursor-row-resize fill-blue-500 hover:h-1.5"
-	height="{3 / scale}"
+	height={3 / scale}
 	id="drag-row-{row.id}-2"
 	transform="translate(0 {row.y2})"
 	width={width / scale}
