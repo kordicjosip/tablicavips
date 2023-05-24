@@ -52,17 +52,17 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj red', 'ico', () => {
-				data?.addRow({
-					id: Number(data?.rows.length),
+				dataStranica[trenutnaStranica].addRow({
+					id: Number(dataStranica[trenutnaStranica].rows.length),
 					name: 'row',
 					y1: (cmY - Y - 15) / scale,
 					y2: (cmY - Y + 15) / scale
 				});
-				data = data;
+				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
 			}),
 			new ContextMenuEntry('Obriši red', 'ico', () => {
-				data?.removeRow(row);
-				data = data;
+				dataStranica[trenutnaStranica].removeRow(row);
+				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -76,17 +76,17 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj stupac', 'ico', () => {
-				data?.addColumn({
+				dataStranica[trenutnaStranica].addColumn({
 					id: Number(data?.rows.length),
 					name: 'column',
 					x1: (cmX - X - 25) / scale,
 					x2: (cmX - X + 25) / scale
 				});
-				data = data;
+				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
 			}),
 			new ContextMenuEntry('Obriši stupac', 'ico', () => {
-				data?.removeColumn(column);
-				data = data;
+				dataStranica[trenutnaStranica].removeColumn(column);
+				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -100,13 +100,13 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj red', 'ico', () => {
-				data?.addRow({
-					id: Number(data?.rows.length),
+				dataStranica[trenutnaStranica].addRow({
+					id: Number(dataStranica[trenutnaStranica].rows.length),
 					name: 'row',
 					y1: (cmY - Y - 15) / scale,
 					y2: (cmY - Y + 15) / scale
 				});
-				data = data;
+				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -120,13 +120,13 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj stupac', 'ico', () => {
-				data?.addColumn({
-					id: Number(data?.rows.length),
+				dataStranica[trenutnaStranica].addColumn({
+					id: Number(dataStranica[trenutnaStranica].rows.length),
 					name: 'column',
 					x1: (cmX - X - 25) / scale,
 					x2: (cmX - X + 25) / scale
 				});
-				data = data;
+				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
 			})
 		);
 		contextMenuDefinition.groups = [];
