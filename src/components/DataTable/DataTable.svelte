@@ -9,7 +9,7 @@
 	import '../../app.css';
 	import RowHeader from '../../components/DataTable/RowHeader.svelte';
 	import ColumnHeader from '../../components/DataTable/ColumnHeader.svelte';
-	import DataTableCorner from '../../components/DataTable/DataTableCorner.svelte';
+	import Corner from './Corner.svelte';
 	import ColumnHeaderDivider from '../../components/DataTable/ColumnHeaderDivider.svelte';
 	import RowHeaderDivider from '../../components/DataTable/RowHeaderDivider.svelte';
 	import { onMount } from 'svelte';
@@ -33,6 +33,7 @@
 	let Y = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
 	let res = [];
 	let data: DataTableData | null = null;
+	let dataStranica = [];
 	let trenutnaStranica: null | number = 0;
 
 	let scaleW = 0;
@@ -49,7 +50,6 @@
 		cmX = event.x;
 		cmY = event.y;
 		elContextMenu.entries = [];
-		console.log(scrollY);
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj red', 'ico', () => {
 				data?.addRow({
@@ -140,67 +140,68 @@
 
 	onMount(async () => {
 		res = await (await fetch('/data.json')).json();
-		const columns = res[trenutnaStranica].columns.map((column, index) => {
-			return {
-				id: index,
-				name: 'column',
-				x1: column[0],
-				x2: column[1],
-				get width() {
-					return this.x2 - this.x1;
+		for (let i = 0; i < res.length; i++) {
+			const columns = res[i].columns.map((column, index) => {
+				return {
+					id: index,
+					name: 'column',
+					x1: column[0],
+					x2: column[1],
+					get width() {
+						return this.x2 - this.x1;
+					}
+				};
+			});
+			const rows = res[i].rows.map((row, index) => {
+				return {
+					id: index,
+					name: 'row',
+					y1: row[0],
+					y2: row[1]
+				};
+			});
+			const resolution = res[i].resolution;
+			const image = res[i].image;
+			data = new DataTableData({
+				columns: columns,
+				rows: rows,
+				resolution: resolution,
+				image: image
+			});
+			dataStranica[i] = data;
+
+			window.addEventListener('resize', () => {
+				hideContextMenu();
+			});
+			document.addEventListener('click', () => {
+				if (cmShow == true) {
+					setTimeout(() => {
+						hideContextMenu();
+					}, 50);
 				}
-			};
-		});
-		const rows = res[trenutnaStranica].rows.map((row, index) => {
-			return {
-				id: index,
-				name: 'row',
-				y1: row[0],
-				y2: row[1]
-			};
-		});
-		const resolution = res[trenutnaStranica].resolution;
-		const image = res[trenutnaStranica].image;
-		data = new DataTableData({
-			columns: columns,
-			rows: rows,
-			resolution: resolution,
-			image: image
-		});
+			});
+			document.getElementById('table').addEventListener('mousewheel', (event: WheelEvent) => {
+				hideContextMenu();
 
-		window.addEventListener('resize', () => {
-			hideContextMenu();
-		});
-
-		document.addEventListener('click', () => {
-			if (cmShow == true) {
-				setTimeout(() => {
-					hideContextMenu();
-				}, 50);
-			}
-		});
-
-		document.getElementById('table').addEventListener('mousewheel', (event: WheelEvent) => {
-			hideContextMenu();
-
-			if (event.shiftKey) {
-				// noinspection JSSuspiciousNameCombination
-				Y -= event.deltaX;
-				// noinspection JSSuspiciousNameCombination
-				X -= event.deltaY;
-			} else {
-				Y -= event.deltaY;
-				X -= event.deltaX;
-			}
-			if (X < scaleW - data?.resolution[0] * scale) {
-				X = scaleW - data?.resolution[0] * scale;
-			}
-			if (Y < scaleH - data?.resolution[1] * scale) {
-				Y = scaleH - data?.resolution[1] * scale;
-			}
-			if (X > X0) X = X0;
-			if (Y > Y0) Y = Y0;
-		});
+				if (event.shiftKey) {
+					// noinspection JSSuspiciousNameCombination
+					Y -= event.deltaX;
+					// noinspection JSSuspiciousNameCombination
+					X -= event.deltaY;
+				} else {
+					Y -= event.deltaY;
+					X -= event.deltaX;
+				}
+				if (X < scaleW - data?.resolution[0] * scale) {
+					X = scaleW - data?.resolution[0] * scale;
+				}
+				if (Y < scaleH - data?.resolution[1] * scale) {
+					Y = scaleH - data?.resolution[1] * scale;
+				}
+				if (X > X0) X = X0;
+				if (Y > Y0) Y = Y0;
+			});
+		}
 	});
 
 	$: {
@@ -209,10 +210,10 @@
 </script>
 
 <div class="h-full overflow-clip" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
-	<button on:click={() => (scale = scale - 0.05)} class="absolute right-8 top-8 w-6 bg-fuchsia-300"
+	<button on:click={() => (scale = scale - 0.05)} class="absolute left-1 top-8 w-6 bg-blue-300"
 		>-</button
 	>
-	<button on:click={() => (scale = scale + 0.05)} class="absolute right-1 top-8 w-6 bg-fuchsia-300"
+	<button on:click={() => (scale = scale + 0.05)} class="absolute left-8 top-8 w-6 bg-blue-300"
 		>+</button
 	>
 
@@ -226,21 +227,29 @@
 	>
 		{#if data}
 			<image
-				href={data.image}
-				width={data.resolution[0]}
-				height={data.resolution[1]}
+				href={dataStranica[trenutnaStranica].image}
+				width={dataStranica[trenutnaStranica].resolution[0]}
+				height={dataStranica[trenutnaStranica].resolution[1]}
 				transform="translate({X / scale} {Y / scale})"
 			/>
 
 			<g transform="translate({X / scale} {Y / scale})">
-				{#each data.rows as row}
-					<RowHeaderDividerLine bind:row bind:scale width={data.resolution[0]} />
+				{#each dataStranica[trenutnaStranica].rows as row}
+					<RowHeaderDividerLine
+						bind:row
+						bind:scale
+						width={dataStranica[trenutnaStranica].resolution[0]}
+					/>
 				{/each}
 			</g>
 
 			<g transform="translate({X / scale} {Y / scale})">
-				{#each data.columns as column}
-					<ColumnHeaderDividerLine bind:column bind:scale height={data.resolution[1]} />
+				{#each dataStranica[trenutnaStranica].columns as column}
+					<ColumnHeaderDividerLine
+						bind:column
+						bind:scale
+						height={dataStranica[trenutnaStranica].resolution[1]}
+					/>
 				{/each}
 			</g>
 
@@ -248,15 +257,15 @@
 				<RowHeaderBackground
 					onRightClick={showContextMenuRowsBg}
 					bind:scale
-					height={data.resolution[1]}
+					height={dataStranica[trenutnaStranica].resolution[1]}
 				/>
-				{#each data.rows as row}
+				{#each dataStranica[trenutnaStranica].rows as row}
 					<RowHeader bind:row bind:scale onRightClick={showContextMenuRows} />
 				{/each}
 			</g>
 
 			<g transform="translate(0 {Y / scale})">
-				{#each data.rows as row}
+				{#each dataStranica[trenutnaStranica].rows as row}
 					<RowHeaderDivider bind:row bind:scale width={X0} />
 				{/each}
 			</g>
@@ -264,23 +273,33 @@
 			<g transform="translate({X / scale} 0)">
 				<ColumnHeaderBackground
 					onRightClick={showContextMenuColsBg}
-					width={data.resolution[0]}
+					width={dataStranica[trenutnaStranica].resolution[0]}
 					bind:scale
 				/>
-				{#each data.columns as column}
+				{#each dataStranica[trenutnaStranica].columns as column}
 					<ColumnHeader bind:column bind:scale onRightClick={showContextMenuCols} />
 				{/each}
 			</g>
 
 			<g transform="translate({X / scale} 0)">
-				{#each data.columns as column}
+				{#each dataStranica[trenutnaStranica].columns as column}
 					<ColumnHeaderDivider bind:column bind:scale height={Y0} />
 				{/each}
 			</g>
 
-			<DataTableCorner height={Y0 / scale} width={X0 / scale} x={0} y={0} />
+			<Corner height={Y0 / scale} width={X0 / scale} x={0} y={0} />
 		{/if}
 	</svg>
+
+	{#each dataStranica as stranica, i}
+		<button
+			on:click={() => (trenutnaStranica = i)}
+			class="absolute bg-white bottom-5 w-7 border border-black text-black text-xl cursor-pointer select-none"
+			style="left: {2 + i * 2}rem"
+		>
+			<h1 class="font-semibold">{i + 1}</h1></button
+		>
+	{/each}
 </div>
 
 <ContextMenu definition={contextMenuDefinition} visible={cmShow} x={cmX} y={cmY} />
