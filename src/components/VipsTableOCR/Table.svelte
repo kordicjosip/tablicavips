@@ -176,7 +176,7 @@
 	}
 </script>
 
-<div class="w-full overflow-clip" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
+<div class="w-full h-full" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
 	<svg
 		width="{data ? data.resolution[0] * scale : 0}px"
 		height="{data ? data.resolution[1] * scale : 0}px"
@@ -188,8 +188,6 @@
 		{#if data}
 			<image
 				href={dataStranica[trenutnaStranica].image}
-				width={dataStranica[trenutnaStranica].resolution[0]}
-				height={dataStranica[trenutnaStranica].resolution[1]}
 				transform="translate({X / scale} {Y / scale})"
 			/>
 
