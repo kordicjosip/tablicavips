@@ -143,9 +143,7 @@
 		});
 		document.addEventListener('click', () => {
 			if (cmShow == true) {
-				setTimeout(() => {
-					hideContextMenu();
-				}, 50);
+				hideContextMenu();
 			}
 		});
 		document.getElementById('table').addEventListener('mousewheel', (event: WheelEvent) => {
