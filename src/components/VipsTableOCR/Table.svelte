@@ -54,8 +54,8 @@
 				dataStranica[trenutnaStranica].addRow({
 					id: Number(dataStranica[trenutnaStranica].rows.length),
 					name: 'row',
-					y1: (cmY - Y - 15) / scale,
-					y2: (cmY - Y + 15) / scale
+					y1: (event.offsetY - Y - 15) / scale,
+					y2: (event.offsetY - Y + 15) / scale
 				});
 				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
 			}),
@@ -78,8 +78,8 @@
 				dataStranica[trenutnaStranica].addColumn({
 					id: Number(data?.rows.length),
 					name: 'column',
-					x1: (cmX - X - 25) / scale,
-					x2: (cmX - X + 25) / scale
+					x1: (event.offsetX - X - 25) / scale,
+					x2: (event.offsetX - X + 25) / scale
 				});
 				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
 			}),
@@ -102,8 +102,8 @@
 				dataStranica[trenutnaStranica].addRow({
 					id: Number(dataStranica[trenutnaStranica].rows.length),
 					name: 'row',
-					y1: (cmY - Y - 15) / scale,
-					y2: (cmY - Y + 15) / scale
+					y1: (event.offsetY - Y - 15) / scale,
+					y2: (event.offsetY - Y + 15) / scale
 				});
 				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
 			})
@@ -122,8 +122,8 @@
 				dataStranica[trenutnaStranica].addColumn({
 					id: Number(dataStranica[trenutnaStranica].rows.length),
 					name: 'column',
-					x1: (cmX - X - 25) / scale,
-					x2: (cmX - X + 25) / scale
+					x1: (event.offsetX - X - 25) / scale,
+					x2: (event.offsetX - X + 25) / scale
 				});
 				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
 			})
