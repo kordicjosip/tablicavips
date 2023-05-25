@@ -34,10 +34,10 @@
 	export let data: TableData | null = null;
 	export let dataStranica = [];
 	export let trenutnaStranica: null | number = 0;
+	export let scale = 1;
 
 	let scaleW = 0;
 	let scaleH = 0;
-	let scale = 1;
 
 	let contextMenuDefinition = new ContextMenuDefinition();
 	let elContextMenu = new ContextMenuGroup('Context menu za redove');
@@ -176,14 +176,7 @@
 	}
 </script>
 
-<div class="h-full overflow-clip" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
-	<button on:click={() => (scale = scale - 0.05)} class="absolute left-1 top-8 w-6 bg-blue-300"
-		>-</button
-	>
-	<button on:click={() => (scale = scale + 0.05)} class="absolute left-8 top-8 w-6 bg-blue-300"
-		>+</button
-	>
-
+<div class="w-full overflow-clip" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
 	<svg
 		width="{data ? data.resolution[0] * scale : 0}px"
 		height="{data ? data.resolution[1] * scale : 0}px"
