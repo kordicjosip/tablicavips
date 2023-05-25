@@ -149,6 +149,17 @@
 		document.getElementById('table').addEventListener('mousewheel', (event: WheelEvent) => {
 			hideContextMenu();
 
+			if (event.ctrlKey) {
+				if (event.deltaY > 0) {
+					scale = Math.max(scale - 0.05, 0.01);
+				}
+				else {
+					scale = Math.min(scale + 0.05, 2.5);
+				}
+
+				event.preventDefault();
+			}
+
 			if (event.shiftKey) {
 				// noinspection JSSuspiciousNameCombination
 				Y -= event.deltaX;
