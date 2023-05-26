@@ -5,7 +5,7 @@
 		TableData,
 		type TableRowInterface,
 		type TableColumnInterface
-	} from './index.ts';
+	} from './index';
 	import '../../app.css';
 	import RowHeader from './/RowHeader.svelte';
 	import ColumnHeader from './/ColumnHeader.svelte';
@@ -31,16 +31,14 @@
 	const Y0 = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
 	let X = show_row_header ? ROW_HEADER_WIDTH : 0;
 	let Y = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
-	export let data: TableData | null = null;
-	export let dataStranica = [];
-	export let trenutnaStranica: null | number = 0;
-	export let scale = 1;
+	export let data: TableData;
+	export let scale;
 
 	let scaleW = 0;
 	let scaleH = 0;
 
 	let contextMenuDefinition = new ContextMenuDefinition();
-	let elContextMenu = new ContextMenuGroup('Context menu za redove');
+	let elContextMenu = new ContextMenuGroup('Context menu');
 	let cmX = 0;
 	let cmY = 0;
 	let cmShow = false;
@@ -51,17 +49,17 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj red', 'ico', () => {
-				dataStranica[trenutnaStranica].addRow({
-					id: Number(dataStranica[trenutnaStranica].rows.length),
+				data.addRow({
+					id: Number(data.rows.length),
 					name: 'row',
 					y1: (event.offsetY - Y - 15) / scale,
 					y2: (event.offsetY - Y + 15) / scale
 				});
-				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+				data = data;
 			}),
 			new ContextMenuEntry('Obriši red', 'ico', () => {
-				dataStranica[trenutnaStranica].removeRow(row);
-				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+				data.removeRow(row);
+				data = data;
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -75,23 +73,23 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj stupac', 'ico', () => {
-				dataStranica[trenutnaStranica].addColumn({
+				data.addColumn({
 					id: Number(data?.rows.length),
 					name: 'column',
 					x1: (event.offsetX - X - 25) / scale,
 					x2: (event.offsetX - X + 25) / scale
 				});
-				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+				data = data;
 			}),
 			new ContextMenuEntry('Obriši stupac', 'ico', () => {
-				dataStranica[trenutnaStranica].removeColumn(column);
-				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+				data.removeColumn(column);
+				data = data;
 			}),
 			new ContextMenuEntry('Preimenuj', 'ico', () => {
 				setTimeout(() => {
 					showContextMenuColsRename(event, column);
 				}, 1);
-				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+				data = data;
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -105,13 +103,13 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj red', 'ico', () => {
-				dataStranica[trenutnaStranica].addRow({
-					id: Number(dataStranica[trenutnaStranica].rows.length),
+				data.addRow({
+					id: Number(data.rows.length),
 					name: 'row',
 					y1: (event.offsetY - Y - 15) / scale,
 					y2: (event.offsetY - Y + 15) / scale
 				});
-				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+				data = data;
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -125,13 +123,13 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj stupac', 'ico', () => {
-				dataStranica[trenutnaStranica].addColumn({
-					id: Number(dataStranica[trenutnaStranica].rows.length),
+				data.addColumn({
+					id: Number(data.rows.length),
 					name: 'column',
 					x1: (event.offsetX - X - 25) / scale,
 					x2: (event.offsetX - X + 25) / scale
 				});
-				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+				data = data;
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -146,19 +144,19 @@
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Naziv', 'ico', () => {
 				column.name = 'Naziv';
-				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+				data = data;
 			}),
 			new ContextMenuEntry('Barcode', 'ico', () => {
 				column.name = 'Barcode';
-				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+				data = data;
 			}),
 			new ContextMenuEntry('Šifra', 'ico', () => {
 				column.name = 'Šifra';
-				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+				data = data;
 			}),
 			new ContextMenuEntry('Količina', 'ico', () => {
 				column.name = 'Količina';
-				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+				data = data;
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -167,127 +165,107 @@
 	}
 
 	function hideContextMenu() {
-		cmShow = false;
+		if (cmShow) cmShow = false;
 	}
 
 	onMount(async () => {
-		window.addEventListener('resize', () => {
-			hideContextMenu();
-		});
-		document.addEventListener('click', () => {
-			if (cmShow == true) {
-				hideContextMenu();
-			}
-		});
-		document.getElementById('table').addEventListener('mousewheel', (event: WheelEvent) => {
-			hideContextMenu();
-
-			if (event.ctrlKey) {
-				if (event.deltaY > 0) {
-					scale = Math.max(scale - 0.05, 0.01);
-				} else {
-					scale = Math.min(scale + 0.05, 2.5);
-				}
-
-				event.preventDefault();
-			}
-
-			if (event.shiftKey) {
-				// noinspection JSSuspiciousNameCombination
-				Y -= event.deltaX;
-				// noinspection JSSuspiciousNameCombination
-				X -= event.deltaY;
-			} else {
-				Y -= event.deltaY;
-				X -= event.deltaX;
-			}
-			if (X < scaleW - data?.resolution[0] * scale) {
-				X = scaleW - data?.resolution[0] * scale;
-			}
-			if (Y < scaleH - data?.resolution[1] * scale) {
-				Y = scaleH - data?.resolution[1] * scale;
-			}
-			if (X > X0) X = X0;
-			if (Y > Y0) Y = Y0;
-		});
+		scale = scaleW / data.resolution[0];
 	});
 
-	$: {
-		if (data) scale = scaleW / data.resolution[0];
+	function mousewheel(event: WheelEvent) {
+		hideContextMenu();
+		event.preventDefault();
+
+		if (event.ctrlKey) {
+			if (event.deltaY > 0) {
+				scale = Math.max(scale - 0.05, 0.01);
+			} else {
+				scale = Math.min(scale + 0.05, 2.5);
+			}
+			return;
+		}
+
+		if (event.shiftKey) {
+			// noinspection JSSuspiciousNameCombination
+			Y -= event.deltaX;
+			// noinspection JSSuspiciousNameCombination
+			X -= event.deltaY;
+		} else {
+			Y -= event.deltaY;
+			X -= event.deltaX;
+		}
+		if (X < scaleW - data?.resolution[0] * scale) {
+			X = scaleW - data?.resolution[0] * scale;
+		}
+		if (Y < scaleH - data?.resolution[1] * scale) {
+			Y = scaleH - data?.resolution[1] * scale;
+		}
+		if (X > X0) X = X0;
+		if (Y > Y0) Y = Y0;
+	}
+
+	function toggleSelectAllColumnHeaders() {
+		data.columns.forEach((column) => {
+			column.selected = !column.selected;
+		});
+		data = data;
 	}
 </script>
 
+<svelte:window on:click={hideContextMenu} on:resize={hideContextMenu} />
+
 <div class="w-full h-full" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
-	<svg
-		width="{data ? data.resolution[0] * scale : 0}px"
-		height="{data ? data.resolution[1] * scale : 0}px"
-		id="table"
-		viewBox="0 0 {data ? data.resolution[0] + X0 / scale : 0} {data
-			? data.resolution[1] + Y0 / scale
-			: 0}"
-	>
-		{#if data}
-			<image
-				href={dataStranica[trenutnaStranica].image}
-				transform="translate({X / scale} {Y / scale})"
+	<svg width="100%" height="100%" on:mousewheel={mousewheel}>
+		<image href={data.image} transform="translate({X} {Y}) scale({scale})" />
+		<g transform="translate({X} {Y})">
+			{#each data.rows as row}
+				<RowHeaderDividerLine bind:row bind:scale width={data.resolution[0]} />
+			{/each}
+			{#each data.columns as column}
+				<ColumnHeaderDividerLine bind:column bind:scale height={data.resolution[1]} />
+			{/each}
+		</g>
+
+		<g transform="translate(0 {Y})">
+			<RowHeaderBackground
+				onRightClick={showContextMenuRowsBg}
+				bind:scale
+				height={data.resolution[1]}
 			/>
+			{#each data.rows as row}
+				<RowHeader bind:row bind:scale onRightClick={showContextMenuRows} />
+			{/each}
 
-			<g transform="translate({X / scale} {Y / scale})">
-				{#each dataStranica[trenutnaStranica].rows as row}
-					<RowHeaderDividerLine
-						bind:row
-						bind:scale
-						width={dataStranica[trenutnaStranica].resolution[0]}
-					/>
-				{/each}
-			</g>
+			{#each data.rows as row}
+				<RowHeaderDivider bind:row bind:scale width={X0} />
+			{/each}
+		</g>
 
-			<g transform="translate({X / scale} {Y / scale})">
-				{#each dataStranica[trenutnaStranica].columns as column}
-					<ColumnHeaderDividerLine
-						bind:column
-						bind:scale
-						height={dataStranica[trenutnaStranica].resolution[1]}
-					/>
-				{/each}
-			</g>
-
-			<g transform="translate(0 {Y / scale})">
-				<RowHeaderBackground
-					onRightClick={showContextMenuRowsBg}
+		<g transform="translate({X} 0)">
+			<ColumnHeaderBackground
+				onRightClick={showContextMenuColsBg}
+				width={data.resolution[0]}
+				bind:scale
+			/>
+			{#each data.columns as column}
+				<ColumnHeader
+					bind:column
 					bind:scale
-					height={dataStranica[trenutnaStranica].resolution[1]}
+					onRightClick={showContextMenuCols}
+					on:dblclick={toggleSelectAllColumnHeaders}
+					on:offset={(event) => {
+						data.setOffset(event.detail);
+						data = data;
+					}}
 				/>
-				{#each dataStranica[trenutnaStranica].rows as row}
-					<RowHeader bind:row bind:scale onRightClick={showContextMenuRows} />
-				{/each}
-			</g>
+			{/each}
 
-			<g transform="translate(0 {Y / scale})">
-				{#each dataStranica[trenutnaStranica].rows as row}
-					<RowHeaderDivider bind:row bind:scale width={X0} />
-				{/each}
-			</g>
+			{#each data.columns as column}
+				<ColumnHeaderDivider bind:column bind:scale height={Y0} />
+			{/each}
+		</g>
 
-			<g transform="translate({X / scale} 0)">
-				<ColumnHeaderBackground
-					onRightClick={showContextMenuColsBg}
-					width={dataStranica[trenutnaStranica].resolution[0]}
-					bind:scale
-				/>
-				{#each dataStranica[trenutnaStranica].columns as column}
-					<ColumnHeader bind:column bind:scale onRightClick={showContextMenuCols} />
-				{/each}
-			</g>
-
-			<g transform="translate({X / scale} 0)">
-				{#each dataStranica[trenutnaStranica].columns as column}
-					<ColumnHeaderDivider bind:column bind:scale height={Y0} />
-				{/each}
-			</g>
-
-			<Corner height={Y0 / scale} width={X0 / scale} x={0} y={0} />
-		{/if}
+		<Corner height={Y0} width={X0} />
 	</svg>
 </div>
 

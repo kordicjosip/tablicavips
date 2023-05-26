@@ -27,8 +27,30 @@ export interface TableDataInterface {
 export class TableColumn {
 	id: number = -1;
 	name: string | null = null;
-	x1: number = -1;
-	x2: number = -1;
+
+	selected = false;
+
+	offset: number = 0;
+	_x1: number = -1;
+	_x2: number = -1;
+
+	setOffset(offset: number) {
+		this.offset += offset;
+	}
+
+	get x1(): number {
+		return this._x1 + this.offset;
+	}
+	set x1(value: number) {
+		this._x1 = value;
+	}
+
+	get x2(): number {
+		return this._x2 + this.offset;
+	}
+	set x2(value: number) {
+		this._x2 = value;
+	}
 	get width(): number {
 		return this.x2 - this.x1;
 	}
@@ -59,6 +81,12 @@ export class TableData {
 		});
 		this.image = data.image;
 		this.resolution = data.resolution;
+	}
+
+	setOffset(offset: number) {
+		this.columns.forEach((col) => {
+			col.setOffset(offset);
+		});
 	}
 
 	addColumn(column: TableColumnInterface) {

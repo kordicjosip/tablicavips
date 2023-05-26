@@ -4,15 +4,14 @@
 	import { drag, select } from 'd3';
 
 	export let row: TableRow;
-	export let scale: number = 1;
-	export let onRightClick: (event: PointerEvent, row: TableRowInterface) => void = null;
+	export let scale: number;
+	export let onRightClick: (event: PointerEvent, row: TableRowInterface) => void;
 
 	onMount(async () => {
 		select(`#row-header-${row.id}`).call(
 			drag().on('drag', function (event: any) {
-				select(`#row-header-${row.id}`);
-				row.y1 += event.dy;
-				row.y2 += event.dy;
+				row.y1 += event.dy / scale;
+				row.y2 += event.dy / scale;
 				if (row.y1 < 0) {
 					let visina = row.height;
 					row.y1 = 0;
@@ -20,30 +19,30 @@
 				}
 			})
 		);
-
-		document
-			.getElementById(`row-header-${row.id}`)
-			.addEventListener('contextmenu', (event: PointerEvent) => {
-				event.preventDefault();
-				onRightClick(event, row);
-			});
 	});
 </script>
 
-<g id="row-header-{row.id}" transform="translate(0 {row.y1})">
+<g
+	id="row-header-{row.id}"
+	transform="translate(0 {row.y1 * scale})"
+	on:contextmenu={(event) => {
+		event.preventDefault();
+		onRightClick(event, row);
+	}}
+>
 	<svg
 		class="cursor-grab fill-teal-400 hover:fill-teal-500"
-		height={row.height}
-		width={ROW_HEADER_WIDTH / scale}
+		height={row.height * scale}
+		width={ROW_HEADER_WIDTH}
 	>
-		<rect height={row.height} stroke="black" width={ROW_HEADER_WIDTH / scale} />
+		<rect height={row.height * scale} stroke="black" width={ROW_HEADER_WIDTH} />
 		<text
 			class="fill-black"
 			dominant-baseline="central"
-			font-size="{10 / scale}pt"
+			font-size="10pt"
 			text-anchor="start"
 			x={2}
-			y={row.height / 2}>{row.name === null ? row.id : row.name}</text
+			y={(row.height * scale) / 2}>{row.name === null ? row.id : row.name}</text
 		>
 	</svg>
 </g>

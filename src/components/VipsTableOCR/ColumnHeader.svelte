@@ -1,49 +1,56 @@
 <script lang="ts">
 	import { COLUMN_HEADER_HEIGHT, TableColumn, type TableColumnInterface } from './index';
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { drag, select } from 'd3';
 
+	const dispatch = createEventDispatcher();
+
 	export let column: TableColumn;
-	export let scale: number = 1;
-	export let onRightClick: (event: PointerEvent, column: TableColumnInterface) => void = null;
+	export let scale: number;
+	export let onRightClick: (event: PointerEvent, column: TableColumnInterface) => void;
 
 	onMount(async () => {
 		select(`#column-header-${column.id}`).call(
 			drag().on('drag', function (event: any) {
-				select(`#column-header-${column.id}`);
-				column.x1 += event.dx;
-				column.x2 += event.dx;
-				if (column.x1 < 0) {
-					let sirina = column.width;
-					column.x1 = 0;
-					column.x2 = sirina;
+				if (column.selected) {
+					dispatch('offset', event.dx / scale);
+				} else {
+					column.setOffset(event.dx / scale);
+					column = column;
 				}
 			})
 		);
-
-		document
-			.getElementById(`column-header-${column.id}`)
-			.addEventListener('contextmenu', (event: PointerEvent) => {
-				event.preventDefault();
-				onRightClick(event, column);
-			});
 	});
+
+	function dblclick() {
+		dispatch('dblclick');
+	}
 </script>
 
-<g id="column-header-{column.id}" transform="translate({column.x1} 0)">
+<g
+	id="column-header-{column.id}"
+	transform="translate({column.x1 * scale} 0)"
+	on:contextmenu={(event) => {
+		event.preventDefault();
+		onRightClick(event, column);
+	}}
+	on:dblclick={dblclick}
+>
 	<svg
-		class="cursor-grab fill-teal-400 hover:fill-teal-500"
-		height={COLUMN_HEADER_HEIGHT / scale}
-		width={column.width}
+		class="cursor-grab {column.selected
+			? 'fill-blue-400 hover:fill-blue-500'
+			: 'fill-teal-400 hover:fill-teal-500'}"
+		height={COLUMN_HEADER_HEIGHT}
+		width={column.width * scale}
 	>
-		<rect height={COLUMN_HEADER_HEIGHT / scale} stroke="black" width={column.width} />
+		<rect height={COLUMN_HEADER_HEIGHT} stroke="black" width={column.width * scale} />
 		<text
 			class="fill-black"
 			dominant-baseline="central"
-			font-size="{10 / scale}pt"
+			font-size="10pt"
 			text-anchor="middle"
-			x={column.width / 2}
-			y={COLUMN_HEADER_HEIGHT / scale / 2}>{column.name}</text
+			x={(column.width * scale) / 2}
+			y={COLUMN_HEADER_HEIGHT / 2}>{column.name}</text
 		>
 	</svg>
 </g>

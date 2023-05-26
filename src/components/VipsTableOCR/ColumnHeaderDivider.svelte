@@ -5,12 +5,12 @@
 
 	export let column: TableColumn;
 	export let height: number;
-	export let scale: number = 1;
+	export let scale: number;
 
 	onMount(async () => {
 		select(`#drag-col-${column.id}-1`).call(
 			drag().on('drag', function (event: any) {
-				column.x1 += event.dx;
+				column.x1 += event.dx / scale;
 
 				if (column.width < 1) {
 					column.x2 = column.x1 + 1;
@@ -22,7 +22,7 @@
 		);
 		select(`#drag-col-${column.id}-2`).call(
 			drag().on('drag', function (event: any) {
-				column.x2 += event.dx;
+				column.x2 += event.dx / scale;
 				if (column.width < 1) {
 					column.x1 = column.x2 - 1;
 				}
@@ -37,15 +37,15 @@
 
 <rect
 	class="cursor-col-resize fill-red-500 hover:w-1.5"
-	height={height / scale}
+	{height}
 	id="drag-col-{column.id}-1"
-	transform="translate({column.x1} 0)"
-	width={3 / scale}
+	transform="translate({column.x1 * scale} 0)"
+	width={3}
 />
 <rect
 	class="cursor-col-resize fill-red-500 hover:w-1.5"
-	height={height / scale}
+	{height}
 	id="drag-col-{column.id}-2"
-	transform="translate({column.x2} 0)"
-	width={3 / scale}
+	transform="translate({column.x2 * scale} 0)"
+	width={3}
 />
