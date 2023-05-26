@@ -46,15 +46,15 @@
 	});
 </script>
 
-<div class='h-full w-full flex flex-col'>
-	<div class='h-[2.5rem]'>
-		<Navbar bind:scale bind:trenutnaStranica {dataStranica} />
+<div class="h-full w-full flex flex-col">
+	<div class="h-[2.5rem]">
+		<Navbar bind:scale bind:trenutnaStranica bind:dataStranica />
 	</div>
-	<div class='basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]'>
-		<div class='basis-auto flex-grow flex-shrink overflow-y-auto w-[10rem]'>
+	<div class="basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]">
+		<div class="basis-auto flex-grow flex-shrink overflow-y-auto w-[10rem]">
 			<Sidebar bind:trenutnaStranica {dataStranica} />
 		</div>
-		<div class='basis-auto w-full flex-grow flex-shrink overflow-clip'>
+		<div class="basis-auto w-full flex-grow flex-shrink overflow-clip">
 			<Table {data} {dataStranica} bind:scale bind:trenutnaStranica />
 		</div>
 	</div>
