@@ -86,6 +86,12 @@
 			new ContextMenuEntry('Obriši stupac', 'ico', () => {
 				dataStranica[trenutnaStranica].removeColumn(column);
 				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+			}),
+			new ContextMenuEntry('Preimenuj', 'ico', () => {
+				setTimeout(() => {
+					showContextMenuColsRename(event, column);
+				}, 1);
+				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -133,6 +139,33 @@
 		cmShow = true;
 	}
 
+	function showContextMenuColsRename(event: PointerEvent, column: TableColumnInterface) {
+		cmX = event.x;
+		cmY = event.y;
+		elContextMenu.entries = [];
+		elContextMenu.entries.push(
+			new ContextMenuEntry('Naziv', 'ico', () => {
+				column.name = 'Naziv';
+				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+			}),
+			new ContextMenuEntry('Barcode', 'ico', () => {
+				column.name = 'Barcode';
+				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+			}),
+			new ContextMenuEntry('Šifra', 'ico', () => {
+				column.name = 'Šifra';
+				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+			}),
+			new ContextMenuEntry('Količina', 'ico', () => {
+				column.name = 'Količina';
+				dataStranica[trenutnaStranica] = dataStranica[trenutnaStranica];
+			})
+		);
+		contextMenuDefinition.groups = [];
+		contextMenuDefinition.groups.push(elContextMenu);
+		cmShow = true;
+	}
+
 	function hideContextMenu() {
 		cmShow = false;
 	}
@@ -152,8 +185,7 @@
 			if (event.ctrlKey) {
 				if (event.deltaY > 0) {
 					scale = Math.max(scale - 0.05, 0.01);
-				}
-				else {
+				} else {
 					scale = Math.min(scale + 0.05, 2.5);
 				}
 

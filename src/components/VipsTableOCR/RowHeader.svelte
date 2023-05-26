@@ -42,7 +42,7 @@
 			dominant-baseline="central"
 			font-size="{10 / scale}pt"
 			text-anchor="start"
-			x={5}
+			x={2}
 			y={row.height / 2}>{row.name === null ? row.id : row.name}</text
 		>
 	</svg>

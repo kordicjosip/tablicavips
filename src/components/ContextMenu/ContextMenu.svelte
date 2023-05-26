@@ -19,7 +19,7 @@
 
 <div
 	id="context-menu"
-	class="bg-gray-200 text-white"
+	class="bg-neutral-700 border border-gray-400 text-white"
 	class:invisible={visible === false}
 	style="left: {x + ScrollPositionHorizontal + 1}px; top: {y + ScrollPositionVertical}px;"
 >
@@ -28,7 +28,7 @@
 			{#each group.entries as entry}
 				<li
 					on:click={entry.action}
-					class="bg-cyan-600 hover:bg-cyan-700 border-1 rounded m-1 px-2 py-0.5 cursor-pointer"
+					class="text-white hover:bg-neutral-600 hover:outline hover:outline-1 rounded m-0.5 px-2 py-0.5 cursor-pointer"
 				>
 					{entry.title}
 				</li>
