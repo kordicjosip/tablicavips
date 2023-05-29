@@ -6,6 +6,7 @@
 	export let row: TableRow;
 	export let scale: number;
 	export let onRightClick: (event: PointerEvent, row: TableRowInterface) => void;
+	export let height;
 
 	onMount(async () => {
 		select(`#row-header-${row.id}`).call(
@@ -16,6 +17,11 @@
 					let visina = row.height;
 					row.y1 = 0;
 					row.y2 = visina;
+				}
+				if (row.y2 > height) {
+					let visina = row.height;
+					row.y1 = height - visina;
+					row.y2 = height;
 				}
 			})
 		);

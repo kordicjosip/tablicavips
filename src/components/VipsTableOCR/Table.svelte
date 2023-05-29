@@ -233,7 +233,12 @@
 				height={data.resolution[1]}
 			/>
 			{#each data.rows as row}
-				<RowHeader bind:row bind:scale onRightClick={showContextMenuRows} />
+				<RowHeader
+					bind:row
+					bind:scale
+					height={data.resolution[1]}
+					onRightClick={showContextMenuRows}
+				/>
 			{/each}
 
 			{#each data.rows as row}

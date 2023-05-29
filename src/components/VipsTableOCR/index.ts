@@ -34,8 +34,17 @@ export class TableColumn {
 	_x1: number = -1;
 	_x2: number = -1;
 
+	tableWidth: number = 0;
+
 	setOffset(offset: number) {
 		this.offset += offset;
+
+		if (this.offset + this._x1 < 0) {
+			this.offset = -this._x1;
+		}
+		if (this.offset + this._x2 > this.tableWidth) {
+			this.offset = this.tableWidth - this._x2;
+		}
 	}
 
 	get x1(): number {
@@ -73,14 +82,14 @@ export class TableData {
 	image: string = '';
 
 	constructor(data: TableDataInterface) {
+		this.image = data.image;
+		this.resolution = data.resolution;
 		data.columns.forEach((column) => {
 			this.addColumn(column);
 		});
 		data.rows.forEach((row) => {
 			this.addRow(row);
 		});
-		this.image = data.image;
-		this.resolution = data.resolution;
 	}
 
 	setOffset(offset: number) {
@@ -96,6 +105,7 @@ export class TableData {
 		new_column.x1 = column.x1;
 		new_column.x2 = column.x2;
 		new_column.name = column.name;
+		new_column.tableWidth = this.resolution[0];
 
 		this.columns.push(new_column);
 	}
