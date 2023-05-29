@@ -80,6 +80,7 @@ export class TableData {
 	rows: TableRow[] = [];
 	resolution: number[] = [];
 	image: string = '';
+	otkljucana: boolean = false;
 
 	constructor(data: TableDataInterface) {
 		this.image = data.image;

@@ -168,17 +168,13 @@
 		if (cmShow) cmShow = false;
 	}
 
-	onMount(async () => {
-		scale = scaleW / data.resolution[0];
-	});
-
 	function mousewheel(event: WheelEvent) {
 		hideContextMenu();
 		event.preventDefault();
 
 		if (event.ctrlKey) {
 			if (event.deltaY > 0) {
-				scale = Math.max(scale - 0.05, 0.01);
+				scale = Math.max(scale - 0.05, 0.05);
 			} else {
 				scale = Math.min(scale + 0.05, 2.5);
 			}
@@ -210,6 +206,10 @@
 		});
 		data = data;
 	}
+
+	onMount(async () => {
+		scale = scaleW / data.resolution[0];
+	});
 </script>
 
 <svelte:window on:click={hideContextMenu} on:resize={hideContextMenu} />

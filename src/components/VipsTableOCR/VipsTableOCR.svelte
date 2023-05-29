@@ -9,12 +9,13 @@
 	let data: TableData[] = [];
 	let trenutnaStranica = null;
 	let scale = 1;
+	let urediStranicu = true;
 
 	onMount(async () => {
 		data = [];
 		res = await (await fetch('/data.json')).json();
 		for (let i = 0; i < res.length; i++) {
-			const columns = res[i].columns.map((column, index) => {
+			const columns = res[0].columns.map((column, index) => {
 				return {
 					id: index,
 					name: 'column',
@@ -54,7 +55,13 @@
 
 <div class="h-full w-full flex flex-col">
 	<div class="h-[2.5rem]">
-		<Navbar bind:scale bind:trenutnaStranica bind:brojStranica={data.length} />
+		<Navbar
+			bind:brojStranica={data.length}
+			bind:scale
+			bind:trenutnaStranica
+			on:toggleOtkljucaj={(event) => (data[trenutnaStranica].otkljucana = event.detail)}
+			otkljucana={data[trenutnaStranica]?.otkljucana}
+		/>
 	</div>
 	<div class="basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]">
 		{#if data.length > 0}
