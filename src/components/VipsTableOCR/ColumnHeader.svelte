@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { COLUMN_HEADER_HEIGHT, TableColumn, type TableColumnInterface } from './index';
+	import { COLUMN_HEADER_HEIGHT, TableColumn, type TableColumnInterface, TableData } from './index';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { drag, select } from 'd3';
 
@@ -7,21 +7,25 @@
 
 	export let column: TableColumn;
 	export let scale: number;
+	export let data: TableData;
 	export let onRightClick: (event: PointerEvent, column: TableColumnInterface) => void;
 
 	onMount(async () => {
 		select(`#column-header-${column.id}`).call(
 			drag().on('drag', function (event: any) {
-				if (column.selected) {
-					dispatch('offset', event.dx / scale);
+				if (data.otkljucana) {
+					if (column.selected) {
+						dispatch('offset', event.dx / scale);
+					} else {
+						column.setOffset(event.dx / scale);
+						column = column;
+					}
 				} else {
-					column.setOffset(event.dx / scale);
-					column = column;
+					console.log('Tabela je zakljucana!');
 				}
 			})
 		);
 	});
-
 	function dblclick() {
 		dispatch('dblclick');
 	}

@@ -256,6 +256,7 @@
 				<ColumnHeader
 					bind:column
 					bind:scale
+					bind:data
 					onRightClick={showContextMenuCols}
 					on:dblclick={toggleSelectAllColumnHeaders}
 					on:offset={(event) => {

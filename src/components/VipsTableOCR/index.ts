@@ -24,6 +24,10 @@ export interface TableDataInterface {
 	image: string;
 }
 
+export interface TablesDataInterface {
+	tables: TableData[];
+}
+
 export class TableColumn {
 	id: number = -1;
 	name: string | null = null;
@@ -128,5 +132,15 @@ export class TableData {
 
 	removeRow(row: TableRowInterface) {
 		this.rows = this.rows.filter((r) => r.id !== row.id);
+	}
+}
+
+export class TablesData {
+	tables: TableData[] = [];
+
+	constructor() {}
+
+	addTable(table: TableData) {
+		this.tables.push(table);
 	}
 }

@@ -1,18 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { TableData } from './index';
+	import { TableData, TablesData } from './index';
 	import Table from './Table.svelte';
 	import Sidebar from './Sidebar.svelte';
 	import Navbar from './Navbar.svelte';
 
 	let res;
-	let data: TableData[] = [];
+	let data: TablesData = new TablesData();
 	let trenutnaStranica = null;
 	let scale = 1;
-	let urediStranicu = true;
 
 	onMount(async () => {
-		data = [];
 		res = await (await fetch('/data.json')).json();
 		for (let i = 0; i < res.length; i++) {
 			const columns = res[0].columns.map((column, index) => {
@@ -34,7 +32,8 @@
 					y2: row[1]
 				};
 			});
-			data.push(
+
+			data.addTable(
 				new TableData({
 					columns: columns,
 					rows: rows,
@@ -47,7 +46,7 @@
 	});
 
 	$: {
-		if (data.length > 0 && trenutnaStranica === null) {
+		if (data.tables.length > 0 && trenutnaStranica === null) {
 			trenutnaStranica = 0;
 		}
 	}
@@ -56,21 +55,21 @@
 <div class="h-full w-full flex flex-col">
 	<div class="h-[2.5rem]">
 		<Navbar
-			bind:brojStranica={data.length}
+			bind:brojStranica={data.tables.length}
 			bind:scale
 			bind:trenutnaStranica
-			on:toggleOtkljucaj={(event) => (data[trenutnaStranica].otkljucana = event.detail)}
-			otkljucana={data[trenutnaStranica]?.otkljucana}
+			on:toggleOtkljucaj={(event) => (data.tables[trenutnaStranica].otkljucana = event.detail)}
+			otkljucana={data.tables[trenutnaStranica]?.otkljucana}
 		/>
 	</div>
 	<div class="basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]">
-		{#if data.length > 0}
+		{#if data.tables.length > 0}
 			<div class="basis-auto flex-grow flex-shrink overflow-y-auto w-[10rem]">
-				<Sidebar bind:trenutnaStranica {data} />
+				<Sidebar bind:trenutnaStranica data={data.tables} />
 			</div>
 			<div class="basis-auto w-full flex-grow flex-shrink overflow-clip">
-				{#key data}
-					<Table data={data[trenutnaStranica]} bind:scale />
+				{#key data.tables}
+					<Table data={data.tables[trenutnaStranica]} bind:scale />
 				{/key}
 			</div>
 		{/if}
