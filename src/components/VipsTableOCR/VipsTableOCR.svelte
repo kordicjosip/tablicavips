@@ -90,6 +90,7 @@
 						on:removeColumn={removeColumn}
 						on:renameColumn={renameColumn}
 						data={data.trenutnaStranicaTable}
+						tablesData={data}
 						bind:scale
 					/>
 				{/key}

@@ -196,4 +196,10 @@ export class TablesData {
 			this.trenutnaStranicaTable.setOffset(offset);
 		}
 	}
+
+	setOffsetForAllTables(offset: number) {
+		this.tables.forEach((table) => {
+			table.setOffset(offset);
+		});
+	}
 }

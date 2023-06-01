@@ -34,6 +34,7 @@
 	let X = show_row_header ? ROW_HEADER_WIDTH : 0;
 	let Y = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
 	export let data: TableData;
+	export let tablesData: TablesData;
 	export let scale;
 
 	let scaleW = 0;
@@ -212,8 +213,13 @@
 	}
 
 	function setOffset(event) {
-		data.setOffset(event.detail);
-		data = data;
+		if (data.otkljucana) {
+			data.setOffset(event.detail);
+			data = data;
+		} else {
+			tablesData.setOffsetForAllTables(event.detail);
+			data = data;
+		}
 	}
 
 	onMount(async () => {

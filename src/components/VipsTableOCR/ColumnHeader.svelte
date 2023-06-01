@@ -27,8 +27,7 @@
 					}
 				} else {
 					if (column.selected) {
-						/*TODO funkcija za offsetanje svih stupaca na svim stranicama*/
-						console.log('svi stupci na svim stranicama');
+						dispatch('setOffset', event.dx / scale);
 					} else {
 						/*TODO funkcija za pomjeranje stupca na svim stranicama*/
 						console.log('jedan stupac na svim stranicama');
