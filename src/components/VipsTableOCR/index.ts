@@ -24,10 +24,6 @@ export interface TableDataInterface {
 	image: string;
 }
 
-export interface TablesDataInterface {
-	tables: TableData[];
-}
-
 export class TableColumn {
 	id: number = -1;
 	name: string | null = null;
@@ -88,7 +84,7 @@ export class TableData {
 	rows: TableRow[] = [];
 	resolution: number[] = [];
 	image: string = '';
-	otkljucana: boolean = false;
+	isUnlinked: boolean = false;
 
 	constructor(data: TableDataInterface) {
 		this.image = data.image;
@@ -148,52 +144,52 @@ export class TableData {
 
 export class TablesData {
 	tables: TableData[] = [];
-	trenutnaStranica: number = 0;
+	currentPage: number = 0;
 
-	get trenutnaStranicaTable(): TableData | undefined {
-		return this.tables[this.trenutnaStranica];
+	get currentPageTable(): TableData | undefined {
+		return this.tables[this.currentPage];
 	}
 
 	addColumn(column: TableColumnInterface) {
-		if (this.trenutnaStranicaTable) {
-			this.trenutnaStranicaTable.addColumn(column);
+		if (this.currentPageTable) {
+			this.currentPageTable.addColumn(column);
 		}
 	}
 
 	removeColumn(column: TableColumnInterface) {
-		if (this.trenutnaStranicaTable) {
-			this.trenutnaStranicaTable.removeColumn(column);
+		if (this.currentPageTable) {
+			this.currentPageTable.removeColumn(column);
 		}
 	}
 
 	addRow(row: TableRowInterface) {
-		if (this.trenutnaStranicaTable) {
-			this.trenutnaStranicaTable.addRow(row);
+		if (this.currentPageTable) {
+			this.currentPageTable.addRow(row);
 		}
 	}
 
 	removeRow(row: TableRowInterface) {
-		if (this.trenutnaStranicaTable) {
-			this.trenutnaStranicaTable.removeRow(row);
+		if (this.currentPageTable) {
+			this.currentPageTable.removeRow(row);
 		}
 	}
 
 	addTable(table: TableDataInterface) {
 		this.tables.push(new TableData(table));
 		if (this.tables.length === 1) {
-			this.trenutnaStranica = 0;
+			this.currentPage = 0;
 		}
 	}
 
 	renameColumn(id: number, newName: string) {
-		if (this.trenutnaStranicaTable) {
-			this.trenutnaStranicaTable.renameColumn(id, newName);
+		if (this.currentPageTable) {
+			this.currentPageTable.renameColumn(id, newName);
 		}
 	}
 
 	setOffset(offset: number) {
-		if (this.trenutnaStranicaTable) {
-			this.trenutnaStranicaTable.setOffset(offset);
+		if (this.currentPageTable) {
+			this.currentPageTable.setOffset(offset);
 		}
 	}
 

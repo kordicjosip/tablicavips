@@ -69,17 +69,17 @@
 <div class="h-full w-full flex flex-col">
 	<div class="h-[2.5rem]">
 		<Navbar
-			bind:brojStranica={data.tables.length}
+			bind:numberOfPages={data.tables.length}
 			bind:scale
-			bind:trenutnaStranica={data.trenutnaStranica}
-			on:toggleOtkljucaj={(event) => (data.trenutnaStranicaTable.otkljucana = event.detail)}
-			otkljucana={data.trenutnaStranicaTable?.otkljucana}
+			bind:currentPage={data.currentPage}
+			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)}
+			isUnlinked={data.currentPageTable?.isUnlinked}
 		/>
 	</div>
 	<div class="basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]">
 		{#if data.tables.length > 0}
 			<div class="basis-auto flex-grow flex-shrink overflow-y-auto w-[10rem]">
-				<Sidebar bind:trenutnaStranica={data.trenutnaStranica} data={data.tables} />
+				<Sidebar bind:currentPage={data.currentPage} data={data.tables} />
 			</div>
 			<div class="basis-auto w-full flex-grow flex-shrink overflow-clip">
 				{#key data.tables}
@@ -89,7 +89,7 @@
 						on:addColumn={addColumn}
 						on:removeColumn={removeColumn}
 						on:renameColumn={renameColumn}
-						data={data.trenutnaStranicaTable}
+						data={data.currentPageTable}
 						tablesData={data}
 						bind:scale
 					/>

@@ -5,8 +5,7 @@
 		TableData,
 		type TableRowInterface,
 		type TableColumnInterface,
-		TablesData,
-		TableColumn
+		TablesData
 	} from './index';
 	import '../../app.css';
 	import RowHeader from './/RowHeader.svelte';
@@ -213,7 +212,7 @@
 	}
 
 	function setOffset(event) {
-		if (data.otkljucana) {
+		if (data.isUnlinked) {
 			data.setOffset(event.detail);
 			data = data;
 		} else {

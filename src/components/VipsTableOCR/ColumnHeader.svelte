@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {
-		COLUMN_HEADER_HEIGHT,
-		TableColumn,
-		type TableColumnInterface,
-		TablesData
-	} from './index';
+	import { COLUMN_HEADER_HEIGHT, TableColumn, type TableColumnInterface, TableData } from './index';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { drag, select } from 'd3';
 
@@ -12,13 +7,13 @@
 
 	export let column: TableColumn;
 	export let scale: number;
-	export let data: TablesData;
+	export let data: TableData;
 	export let onRightClick: (event: PointerEvent, column: TableColumnInterface) => void;
 
 	onMount(async () => {
 		select(`#column-header-${column.id}`).call(
 			drag().on('drag', function (event: any) {
-				if (data.otkljucana) {
+				if (data.isUnlinked) {
 					if (column.selected) {
 						dispatch('setOffset', event.dx / scale);
 					} else {
