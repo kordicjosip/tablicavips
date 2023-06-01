@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { COLUMN_HEADER_HEIGHT, TableColumn, type TableColumnInterface, TableData } from './index';
+	import {
+		COLUMN_HEADER_HEIGHT,
+		TableColumn,
+		type TableColumnInterface,
+		TablesData
+	} from './index';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { drag, select } from 'd3';
 
@@ -7,7 +12,7 @@
 
 	export let column: TableColumn;
 	export let scale: number;
-	export let data: TableData;
+	export let data: TablesData;
 	export let onRightClick: (event: PointerEvent, column: TableColumnInterface) => void;
 
 	onMount(async () => {
@@ -15,13 +20,19 @@
 			drag().on('drag', function (event: any) {
 				if (data.otkljucana) {
 					if (column.selected) {
-						dispatch('offset', event.dx / scale);
+						dispatch('setOffset', event.dx / scale);
 					} else {
 						column.setOffset(event.dx / scale);
 						column = column;
 					}
 				} else {
-					console.log('Tabela je zakljucana!');
+					if (column.selected) {
+						/*TODO funkcija za offsetanje svih stupaca na svim stranicama*/
+						console.log('svi stupci na svim stranicama');
+					} else {
+						/*TODO funkcija za pomjeranje stupca na svim stranicama*/
+						console.log('jedan stupac na svim stranicama');
+					}
 				}
 			})
 		);
@@ -33,12 +44,12 @@
 
 <g
 	id="column-header-{column.id}"
-	transform="translate({column.x1 * scale} 0)"
 	on:contextmenu={(event) => {
 		event.preventDefault();
 		onRightClick(event, column);
 	}}
 	on:dblclick={dblclick}
+	transform="translate({column.x1 * scale} 0)"
 >
 	<svg
 		class="cursor-grab {column.selected

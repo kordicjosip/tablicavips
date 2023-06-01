@@ -4,7 +4,9 @@
 		ROW_HEADER_WIDTH,
 		TableData,
 		type TableRowInterface,
-		type TableColumnInterface
+		type TableColumnInterface,
+		TablesData,
+		TableColumn
 	} from './index';
 	import '../../app.css';
 	import RowHeader from './/RowHeader.svelte';
@@ -12,7 +14,7 @@
 	import Corner from './Corner.svelte';
 	import ColumnHeaderDivider from './/ColumnHeaderDivider.svelte';
 	import RowHeaderDivider from './/RowHeaderDivider.svelte';
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import {
 		ContextMenu,
 		ContextMenuDefinition,
@@ -23,7 +25,7 @@
 	import RowHeaderBackground from './RowHeaderBackground.svelte';
 	import RowHeaderDividerLine from './RowHeaderDividerLine.svelte';
 	import ColumnHeaderDividerLine from './ColumnHeaderDividerLine.svelte';
-
+	const dispatch = new createEventDispatcher();
 	export let show_column_header = true;
 	export let show_row_header = true;
 
@@ -49,17 +51,15 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj red', 'ico', () => {
-				data.addRow({
+				dispatch('addRow', {
 					id: Number(data.rows.length),
 					name: 'row',
 					y1: (event.offsetY - Y - 15) / scale,
 					y2: (event.offsetY - Y + 15) / scale
 				});
-				data = data;
 			}),
 			new ContextMenuEntry('Obriši red', 'ico', () => {
-				data.removeRow(row);
-				data = data;
+				dispatch('removeRow', row);
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -73,17 +73,15 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj stupac', 'ico', () => {
-				data.addColumn({
+				dispatch('addColumn', {
 					id: Number(data?.rows.length),
 					name: 'column',
 					x1: (event.offsetX - X - 25) / scale,
 					x2: (event.offsetX - X + 25) / scale
 				});
-				data = data;
 			}),
 			new ContextMenuEntry('Obriši stupac', 'ico', () => {
-				data.removeColumn(column);
-				data = data;
+				dispatch('removeColumn', column);
 			}),
 			new ContextMenuEntry('Preimenuj', 'ico', () => {
 				setTimeout(() => {
@@ -103,13 +101,12 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj red', 'ico', () => {
-				data.addRow({
+				dispatch('addRow', {
 					id: Number(data.rows.length),
 					name: 'row',
 					y1: (event.offsetY - Y - 15) / scale,
 					y2: (event.offsetY - Y + 15) / scale
 				});
-				data = data;
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -123,13 +120,12 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Dodaj stupac', 'ico', () => {
-				data.addColumn({
+				dispatch('addColumn', {
 					id: Number(data.rows.length),
 					name: 'column',
 					x1: (event.offsetX - X - 25) / scale,
 					x2: (event.offsetX - X + 25) / scale
 				});
-				data = data;
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -143,20 +139,28 @@
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			new ContextMenuEntry('Naziv', 'ico', () => {
-				column.name = 'Naziv';
-				data = data;
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'Naziv'
+				});
 			}),
 			new ContextMenuEntry('Barcode', 'ico', () => {
-				column.name = 'Barcode';
-				data = data;
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'Barcode'
+				});
 			}),
 			new ContextMenuEntry('Šifra', 'ico', () => {
-				column.name = 'Šifra';
-				data = data;
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'Šifra'
+				});
 			}),
 			new ContextMenuEntry('Količina', 'ico', () => {
-				column.name = 'Količina';
-				data = data;
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'Količina'
+				});
 			})
 		);
 		contextMenuDefinition.groups = [];
@@ -204,6 +208,11 @@
 		data.columns.forEach((column) => {
 			column.selected = !column.selected;
 		});
+		data = data;
+	}
+
+	function setOffset(event) {
+		data.setOffset(event.detail);
 		data = data;
 	}
 
@@ -259,10 +268,7 @@
 					bind:data
 					onRightClick={showContextMenuCols}
 					on:dblclick={toggleSelectAllColumnHeaders}
-					on:offset={(event) => {
-						data.setOffset(event.detail);
-						data = data;
-					}}
+					on:setOffset={setOffset}
 				/>
 			{/each}
 

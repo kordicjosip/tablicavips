@@ -54,6 +54,7 @@ export class TableColumn {
 	get x1(): number {
 		return this._x1 + this.offset;
 	}
+
 	set x1(value: number) {
 		this._x1 = value;
 	}
@@ -61,9 +62,11 @@ export class TableColumn {
 	get x2(): number {
 		return this._x2 + this.offset;
 	}
+
 	set x2(value: number) {
 		this._x2 = value;
 	}
+
 	get width(): number {
 		return this.x2 - this.x1;
 	}
@@ -74,6 +77,7 @@ export class TableRow {
 	name: string | null = null;
 	y1: number = -1;
 	y2: number = -1;
+
 	get height(): number {
 		return this.y2 - this.y1;
 	}
@@ -119,6 +123,13 @@ export class TableData {
 		this.columns = this.columns.filter((col) => col.id !== column.id);
 	}
 
+	renameColumn(id: number, newName: string) {
+		const col = this.columns.find((c) => c.id === id);
+		if (col) {
+			col.name = newName;
+		}
+	}
+
 	addRow(row: TableRowInterface) {
 		const new_row = new TableRow();
 
@@ -137,10 +148,52 @@ export class TableData {
 
 export class TablesData {
 	tables: TableData[] = [];
+	trenutnaStranica: number = 0;
 
-	constructor() {}
+	get trenutnaStranicaTable(): TableData | undefined {
+		return this.tables[this.trenutnaStranica];
+	}
 
-	addTable(table: TableData) {
-		this.tables.push(table);
+	addColumn(column: TableColumnInterface) {
+		if (this.trenutnaStranicaTable) {
+			this.trenutnaStranicaTable.addColumn(column);
+		}
+	}
+
+	removeColumn(column: TableColumnInterface) {
+		if (this.trenutnaStranicaTable) {
+			this.trenutnaStranicaTable.removeColumn(column);
+		}
+	}
+
+	addRow(row: TableRowInterface) {
+		if (this.trenutnaStranicaTable) {
+			this.trenutnaStranicaTable.addRow(row);
+		}
+	}
+
+	removeRow(row: TableRowInterface) {
+		if (this.trenutnaStranicaTable) {
+			this.trenutnaStranicaTable.removeRow(row);
+		}
+	}
+
+	addTable(table: TableDataInterface) {
+		this.tables.push(new TableData(table));
+		if (this.tables.length === 1) {
+			this.trenutnaStranica = 0;
+		}
+	}
+
+	renameColumn(id: number, newName: string) {
+		if (this.trenutnaStranicaTable) {
+			this.trenutnaStranicaTable.renameColumn(id, newName);
+		}
+	}
+
+	setOffset(offset: number) {
+		if (this.trenutnaStranicaTable) {
+			this.trenutnaStranicaTable.setOffset(offset);
+		}
 	}
 }
