@@ -100,7 +100,6 @@
 						on:setOffsetColumnAllTables={setOffsetColumnAllTables}
 						on:setOffsetColumnsAllTables={setOffsetColumnsAllTables}
 						data={data.currentPageTable}
-						tablesData={data}
 						bind:scale
 					/>
 				{/key}
