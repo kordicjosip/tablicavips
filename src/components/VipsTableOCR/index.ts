@@ -203,7 +203,16 @@ export class TablesData {
 		}
 	}
 
-	setOffsetForAllTables(offset: number) {
+	setOffsetColumnAllTables(id: number, offset: number) {
+		this.tables.forEach((table) => {
+			const col = table.columns.find((c) => c.id === id);
+			if (col) {
+				col.setOffset(offset);
+			}
+		});
+	}
+
+	setOffsetColumnsAllTables(offset: number) {
 		this.tables.forEach((table) => {
 			table.setOffset(offset);
 		});

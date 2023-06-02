@@ -64,6 +64,14 @@
 		data.renameColumn(event.detail.id, event.detail.newName);
 		data = data;
 	}
+
+	function setOffsetColumnAllTables(event) {
+		data.setOffsetColumnAllTables(event.detail.id, event.detail);
+	}
+
+	function setOffsetColumnsAllTables(event) {
+		data.setOffsetColumnsAllTables(event.detail);
+	}
 </script>
 
 <div class="h-full w-full flex flex-col">
@@ -89,6 +97,8 @@
 						on:addColumn={addColumn}
 						on:removeColumn={removeColumn}
 						on:renameColumn={renameColumn}
+						on:setOffsetColumnAllTables={setOffsetColumnAllTables}
+						on:setOffsetColumnsAllTables={setOffsetColumnsAllTables}
 						data={data.currentPageTable}
 						tablesData={data}
 						bind:scale

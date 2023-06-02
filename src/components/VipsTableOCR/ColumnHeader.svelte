@@ -24,8 +24,10 @@
 					if (column.selected) {
 						dispatch('setOffset', event.dx / scale);
 					} else {
-						/*TODO funkcija za pomjeranje stupca na svim stranicama*/
-						console.log('jedan stupac na svim stranicama');
+						dispatch('setOffsetColumnAllTables', {
+							id: column.id,
+							offset: event.dx / scale
+						});
 					}
 				}
 			})

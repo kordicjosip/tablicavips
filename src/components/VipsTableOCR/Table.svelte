@@ -33,7 +33,6 @@
 	let X = show_row_header ? ROW_HEADER_WIDTH : 0;
 	let Y = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
 	export let data: TableData;
-	export let tablesData: TablesData;
 	export let scale;
 
 	let scaleW = 0;
@@ -216,9 +215,17 @@
 			data.setOffset(event.detail);
 			data = data;
 		} else {
-			tablesData.setOffsetForAllTables(event.detail);
+			dispatch('setOffsetColumnsAllTables', event.detail);
 			data = data;
 		}
+	}
+
+	function setOffsetColumnAllTables(event) {
+		dispatch('setOffsetColumnAllTables', {
+			id: event.detail.id,
+			offset: event.detail
+		});
+		data = data;
 	}
 
 	onMount(async () => {
@@ -274,6 +281,7 @@
 					onRightClick={showContextMenuCols}
 					on:dblclick={toggleSelectAllColumnHeaders}
 					on:setOffset={setOffset}
+					on:setOffsetColumnAllTables={setOffsetColumnAllTables}
 				/>
 			{/each}
 
