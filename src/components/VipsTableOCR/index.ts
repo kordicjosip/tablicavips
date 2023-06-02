@@ -206,7 +206,7 @@ export class TablesData {
 	setOffsetColumnAllTables(id: number, offset: number) {
 		this.tables.forEach((table) => {
 			const col = table.columns.find((c) => c.id === id);
-			if (col) {
+			if (col && !table.isUnlinked) {
 				col.setOffset(offset);
 			}
 		});
@@ -214,7 +214,9 @@ export class TablesData {
 
 	setOffsetColumnsAllTables(offset: number) {
 		this.tables.forEach((table) => {
-			table.setOffset(offset);
+			if (!table.isUnlinked) {
+				table.setOffset(offset);
+			}
 		});
 	}
 }
