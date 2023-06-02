@@ -4,8 +4,7 @@
 		ROW_HEADER_WIDTH,
 		TableData,
 		type TableRowInterface,
-		type TableColumnInterface,
-		TablesData
+		type TableColumnInterface
 	} from './index';
 	import '../../app.css';
 	import RowHeader from './/RowHeader.svelte';
@@ -223,7 +222,7 @@
 	function setOffsetColumnAllTables(event) {
 		dispatch('setOffsetColumnAllTables', {
 			id: event.detail.id,
-			offset: event.detail
+			offset: event.detail.offset
 		});
 		data = data;
 	}

@@ -66,7 +66,7 @@
 	}
 
 	function setOffsetColumnAllTables(event) {
-		data.setOffsetColumnAllTables(event.detail.id, event.detail);
+		data.setOffsetColumnAllTables(event.detail.id, event.detail.offset);
 	}
 
 	function setOffsetColumnsAllTables(event) {
