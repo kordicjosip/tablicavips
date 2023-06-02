@@ -84,7 +84,17 @@ export class TableData {
 	rows: TableRow[] = [];
 	resolution: number[] = [];
 	image: string = '';
-	isUnlinked: boolean = false;
+	private _isUnlinked: boolean = false;
+
+	get isUnlinked(): boolean {
+		return this._isUnlinked;
+	}
+
+	set isUnlinked(value: boolean) {
+		if (!this._isUnlinked) {
+			this._isUnlinked = value;
+		}
+	}
 
 	constructor(data: TableDataInterface) {
 		this.image = data.image;
