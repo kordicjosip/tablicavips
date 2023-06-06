@@ -9,6 +9,10 @@
 	export let currentPage: number | null;
 	export let isUnlinked: boolean;
 
+	function postColumnTemplate(event) {
+		dispatch('postColumnTemplate', event.detail);
+	}
+
 	$: scalePercent = Math.round(scale * 100);
 </script>
 
@@ -90,4 +94,4 @@
 	{/if}
 </div>
 
-<Dialog bind:this={dialog} />
+<Dialog bind:this={dialog} on:postColumnTemplate={postColumnTemplate} />

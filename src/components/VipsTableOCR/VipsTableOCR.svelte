@@ -8,6 +8,7 @@
 	let res;
 	let data: TablesData = new TablesData();
 	let scale = 1;
+	let columnTemplateData = null;
 
 	onMount(async () => {
 		res = await (await fetch('/data.json')).json();
@@ -43,6 +44,26 @@
 		}
 		data = data;
 	});
+
+	async function postColumnTemplate(event) {
+		const res = await fetch('https://httpbin.org/post', {
+			method: 'POST',
+			body: JSON.stringify({
+				nazivPredloska: event.detail,
+				stupci: data.currentPageTable?.columns.map((column) => {
+					return {
+						columnName: data.currentPageTable?.columns[column.id].name,
+						x1: column.x1,
+						x2: column.x2
+					};
+				})
+			})
+		});
+
+		const json = await res.json();
+		columnTemplateData = JSON.stringify(json);
+	}
+	$: console.log(columnTemplateData);
 	function addRow(event) {
 		data.addRow(event.detail);
 		data = data;
@@ -81,6 +102,7 @@
 			bind:scale
 			bind:currentPage={data.currentPage}
 			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)}
+			on:postColumnTemplate={postColumnTemplate}
 			isUnlinked={data.currentPageTable?.isUnlinked}
 		/>
 	</div>
