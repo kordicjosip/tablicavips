@@ -9,6 +9,7 @@
 	let data: TablesData = new TablesData();
 	let scale = 1;
 	let columnTemplateData = null;
+	let columnTemplatesData = [];
 
 	onMount(async () => {
 		res = await (await fetch('/data.json')).json();
@@ -43,6 +44,7 @@
 			);
 		}
 		data = data;
+		await getColumnTemplates();
 	});
 
 	async function postColumnTemplate(event) {
@@ -61,6 +63,16 @@
 
 		const json = await res.json();
 		columnTemplateData = JSON.stringify(json);
+	}
+
+	async function getColumnTemplates() {
+		const res = await fetch('http://192.168.10.20:8000/api/column_templates', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		columnTemplatesData = await res.json();
 	}
 
 	function addRow(event) {
@@ -103,8 +115,10 @@
 			bind:numberOfPages={data.tables.length}
 			bind:scale
 			bind:currentPage={data.currentPage}
+			bind:columnTemplatesData
 			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)}
 			on:postColumnTemplate={postColumnTemplate}
+			on:getColumnTemplates={getColumnTemplates}
 			isUnlinked={data.currentPageTable?.isUnlinked}
 		/>
 	</div>
