@@ -46,16 +46,15 @@
 	});
 
 	async function postColumnTemplate(event) {
-		const res = await fetch('https://httpbin.org/post', {
+		const res = await fetch('http://192.168.10.20:8000/api/column_templates', {
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify({
-				nazivPredloska: event.detail,
+				naziv: event.detail,
 				stupci: data.currentPageTable?.columns.map((column) => {
-					return {
-						columnName: data.currentPageTable?.columns[column.id].name,
-						x1: column.x1,
-						x2: column.x2
-					};
+					return [column.x1, column.x2];
 				})
 			})
 		});
@@ -63,19 +62,22 @@
 		const json = await res.json();
 		columnTemplateData = JSON.stringify(json);
 	}
-	$: console.log(columnTemplateData);
+
 	function addRow(event) {
 		data.addRow(event.detail);
 		data = data;
 	}
+
 	function removeRow(event) {
 		data.removeRow(event.detail);
 		data = data;
 	}
+
 	function addColumn(event) {
 		data.addColumn(event.detail);
 		data = data;
 	}
+
 	function removeColumn(event) {
 		data.removeColumn(event.detail);
 		data = data;
