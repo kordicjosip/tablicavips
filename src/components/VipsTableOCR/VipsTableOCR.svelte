@@ -149,6 +149,7 @@
 			isUnlinked={data.currentPageTable?.isUnlinked}
 			on:changeColumnTemplate={changeColumnTemplate}
 			on:postColumnTemplate={postColumnTemplate}
+			on:getColumnTemplates={getColumnTemplates}
 			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)}
 		/>
 	</div>

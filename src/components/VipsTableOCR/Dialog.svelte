@@ -11,6 +11,7 @@
 
 	function save() {
 		dispatch('postColumnTemplate', columnTemplateName);
+		dispatch('getColumnTemplates');
 		closeModal();
 	}
 

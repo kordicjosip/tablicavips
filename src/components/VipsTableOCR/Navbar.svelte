@@ -15,6 +15,10 @@
 		dispatch('postColumnTemplate', event.detail);
 	}
 
+	function getColumnTemplates() {
+		dispatch('getColumnTemplates');
+	}
+
 	$: scalePercent = Math.round(scale * 100);
 	function changeColumnTemplate() {
 		dispatch('changeColumnTemplate', selectedColumnTemplate['definicija']['stupci']);
@@ -112,4 +116,8 @@
 	{/if}
 </div>
 
-<Dialog bind:this={dialog} on:postColumnTemplate={postColumnTemplate} />
+<Dialog
+	bind:this={dialog}
+	on:postColumnTemplate={postColumnTemplate}
+	on:getColumnTemplates={getColumnTemplates}
+/>
