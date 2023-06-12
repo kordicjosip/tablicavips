@@ -80,7 +80,6 @@
 	}
 
 	function changeColumnTemplate(event) {
-		console.log(event.detail);
 		if (!data.currentPageTable?.isUnlinked) {
 			data.deleteColumnsAllTables();
 			for (let i = 0; i < event.detail.length; i++) {

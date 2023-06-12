@@ -102,7 +102,6 @@
 				bind:value={selectedColumnTemplate}
 				on:change={changeColumnTemplate}
 			>
-				<option value="">trenutna</option>
 				{#each columnTemplatesData as columnTemplate}
 					<option value={columnTemplate}>
 						{columnTemplate.naziv}
