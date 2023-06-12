@@ -81,15 +81,28 @@
 
 	function changeColumnTemplate(event) {
 		console.log(event.detail);
-		data.deleteColumnsAllTables();
-		for (let i = 0; i < event.detail.length; i++) {
-			data.AddColumnsAllTables({
-				id: event.detail[i].id,
-				name: event.detail[i].naziv,
-				x1: event.detail[i].x1,
-				x2: event.detail[i].x2
-			});
+		if (!data.currentPageTable?.isUnlinked) {
+			data.deleteColumnsAllTables();
+			for (let i = 0; i < event.detail.length; i++) {
+				data.AddColumnsAllTables({
+					id: event.detail[i].id,
+					name: event.detail[i].naziv,
+					x1: event.detail[i].x1,
+					x2: event.detail[i].x2
+				});
+			}
+		} else {
+			data.currentPageTable.columns = [];
+			for (let i = 0; i < event.detail.length; i++) {
+				data.currentPageTable.addColumn({
+					id: event.detail[i].id,
+					name: event.detail[i].naziv,
+					x1: event.detail[i].x1,
+					x2: event.detail[i].x2
+				});
+			}
 		}
+
 		data = data;
 	}
 
