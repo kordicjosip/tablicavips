@@ -56,7 +56,11 @@
 			body: JSON.stringify({
 				naziv: event.detail,
 				stupci: data.currentPageTable?.columns.map((column) => {
-					return [column.x1, column.x2];
+					return {
+						x1: column.x1,
+						x2: column.x2,
+						naziv: column.name
+					};
 				})
 			})
 		});
@@ -73,6 +77,20 @@
 			}
 		});
 		columnTemplatesData = await res.json();
+	}
+
+	function changeColumnTemplate(event) {
+		console.log(event.detail);
+		data.deleteColumnsAllTables();
+		for (let i = 0; i < event.detail.length; i++) {
+			data.AddColumnsAllTables({
+				id: event.detail[i].id,
+				name: event.detail[i].naziv,
+				x1: event.detail[i].x1,
+				x2: event.detail[i].x2
+			});
+		}
+		data = data;
 	}
 
 	function addRow(event) {
@@ -112,14 +130,14 @@
 <div class="h-full w-full flex flex-col">
 	<div class="h-[2.5rem]">
 		<Navbar
+			bind:columnTemplatesData
+			bind:currentPage={data.currentPage}
 			bind:numberOfPages={data.tables.length}
 			bind:scale
-			bind:currentPage={data.currentPage}
-			bind:columnTemplatesData
-			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)}
-			on:postColumnTemplate={postColumnTemplate}
-			on:getColumnTemplates={getColumnTemplates}
 			isUnlinked={data.currentPageTable?.isUnlinked}
+			on:changeColumnTemplate={changeColumnTemplate}
+			on:postColumnTemplate={postColumnTemplate}
+			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)}
 		/>
 	</div>
 	<div class="basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]">

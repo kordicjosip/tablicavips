@@ -129,6 +129,10 @@ export class TableData {
 		this.columns = this.columns.filter((col) => col.id !== column.id);
 	}
 
+	deleteColumns() {
+		this.columns = [];
+	}
+
 	renameColumn(id: number, newName: string) {
 		const col = this.columns.find((c) => c.id === id);
 		if (col) {
@@ -170,6 +174,22 @@ export class TablesData {
 		if (this.currentPageTable) {
 			this.currentPageTable.removeColumn(column);
 		}
+	}
+
+	deleteColumnsAllTables() {
+		this.tables.forEach((table) => {
+			if (!table.isUnlinked) {
+				table.deleteColumns();
+			}
+		});
+	}
+
+	AddColumnsAllTables(column: TableColumnInterface) {
+		this.tables.forEach((table) => {
+			if (!table.isUnlinked) {
+				table.addColumn(column);
+			}
+		});
 	}
 
 	addRow(row: TableRowInterface) {

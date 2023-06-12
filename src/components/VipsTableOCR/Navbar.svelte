@@ -9,12 +9,16 @@
 	export let currentPage: number | null;
 	export let isUnlinked: boolean;
 	export let columnTemplatesData: [];
+	let selectedColumnTemplate;
 
 	function postColumnTemplate(event) {
 		dispatch('postColumnTemplate', event.detail);
 	}
 
 	$: scalePercent = Math.round(scale * 100);
+	function changeColumnTemplate() {
+		dispatch('changeColumnTemplate', selectedColumnTemplate['definicija']['stupci']);
+	}
 </script>
 
 <div
@@ -93,10 +97,14 @@
 					</g>
 				</svg>
 			</div>
-			<select class="text-black text-base h-6 rounded ml-1">
-				<option value="" />
+			<select
+				class="text-black text-base h-6 rounded ml-1"
+				bind:value={selectedColumnTemplate}
+				on:change={changeColumnTemplate}
+			>
+				<option value="">trenutna</option>
 				{#each columnTemplatesData as columnTemplate}
-					<option value={columnTemplate.naziv}>
+					<option value={columnTemplate}>
 						{columnTemplate.naziv}
 					</option>
 				{/each}
