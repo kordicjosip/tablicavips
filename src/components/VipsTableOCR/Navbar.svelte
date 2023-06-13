@@ -70,54 +70,41 @@
 
 		<div class="flex items-center">
 			<div
-				title="Spremi stupce kao predložak"
+				title="Predlošci stupaca"
 				class="flex items-center justify-center w-7 h-7 rounded-full hover:bg-neutral-600 hover:cursor-pointer"
 				on:click={dialog.show}
 			>
-				<svg viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<g clip-path="url(#clip0_429_11181)">
+				<svg
+					width="80px"
+					height="80px"
+					viewBox="-6.24 -6.24 36.48 36.48"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+					><g id="SVGRepo_bgCarrier" stroke-width="0" /><g
+						id="SVGRepo_tracerCarrier"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/><g id="SVGRepo_iconCarrier">
 						<path
-							d="M7 21C5.89543 21 5 20.1046 5 19V3H14L19 8V19C19 20.1046 18.1046 21 17 21H7Z"
-							stroke="white"
-							stroke-width="1.2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						/>
-						<path
-							d="M12 13V17"
-							stroke="white"
-							stroke-width="1.2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						/>
-						<path
-							d="M10 15H14"
-							stroke="white"
-							stroke-width="1.2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						/>
-						<path d="M13 3V9H19" stroke="white" stroke-width="1.2" stroke-linejoin="round" />
-					</g>
-				</svg>
+							d="M3 20.4V3.6C3 3.26863 3.26863 3 3.6 3H20.4C20.7314 3 21 3.26863 21 3.6V20.4C21 20.7314 20.7314 21 20.4 21H3.6C3.26863 21 3 20.7314 3 20.4Z"
+							stroke="#ffffff"
+							stroke-width="1.7759999999999998"
+						/> <path d="M3 16.5H21" stroke="#ffffff" stroke-width="1.7759999999999998" />
+						<path d="M3 12H21" stroke="#ffffff" stroke-width="1.7759999999999998" />
+						<path d="M21 7.5H3" stroke="#ffffff" stroke-width="1.7759999999999998" />
+						<path d="M12 21V3" stroke="#ffffff" stroke-width="1.7759999999999998" />
+					</g></svg
+				>
 			</div>
-			<select
-				class="text-black text-base h-6 rounded ml-1"
-				bind:value={selectedColumnTemplate}
-				on:change={changeColumnTemplate}
-			>
-				{#each columnTemplatesData as columnTemplate}
-					<option value={columnTemplate}>
-						{columnTemplate.naziv}
-					</option>
-				{/each}
-			</select>
 		</div>
 	{/if}
 </div>
 
 <Dialog
+	bind:columnTemplatesData
+	bind:selectedColumnTemplate
 	bind:this={dialog}
 	on:postColumnTemplate={postColumnTemplate}
 	on:getColumnTemplates={getColumnTemplates}
+	on:changeColumnTemplate={changeColumnTemplate}
 />

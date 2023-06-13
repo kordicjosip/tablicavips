@@ -4,6 +4,8 @@
 	const dispatch = createEventDispatcher();
 	let dialog;
 	let columnTemplateName;
+	export let columnTemplatesData: [];
+	export let selectedColumnTemplate;
 
 	export function show() {
 		dialog.showModal();
@@ -15,20 +17,39 @@
 		closeModal();
 	}
 
+	function changeColumnTemplate() {
+		dispatch('changeColumnTemplate', selectedColumnTemplate['definicija']['stupci']);
+	}
+
 	const closeModal = () => {
 		dialog.close();
 	};
 </script>
 
 <dialog bind:this={dialog} class="bg-neutral-700 text-center w-fit rounded">
-	<div id="dialogdiv">
-		<label class="text-white" for="name">Unesite naziv predloška:</label><br />
+	<div id="dialogdiv" class="flex flex-col">
+		<label class="text-white" for="predlozak">Izaberi predložak:</label>
+		<select
+			id="predlozak"
+			class="text-black text-base h-6 rounded mt-1"
+			bind:value={selectedColumnTemplate}
+			on:change={changeColumnTemplate}
+			on:change={closeModal}
+		>
+			{#each columnTemplatesData as columnTemplate}
+				<option value={columnTemplate}>
+					{columnTemplate.naziv}
+				</option>
+			{/each}
+		</select>
+		<br />
+		<label class="text-white" for="name">Naziv novog predloška:</label>
 		<input
 			type="text"
 			id="name"
 			name="name"
 			required
-			class="px-1 mt-3 mb-5"
+			class="px-1 mt-1 mb-3 rounded"
 			minlength="1"
 			bind:value={columnTemplateName}
 		/>
