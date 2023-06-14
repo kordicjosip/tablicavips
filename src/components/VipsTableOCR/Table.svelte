@@ -228,7 +228,7 @@
 	}
 
 	onMount(async () => {
-		scale = scaleW / data.resolution[0];
+		scale = (scaleW - X0) / data.resolution[0];
 	});
 </script>
 
