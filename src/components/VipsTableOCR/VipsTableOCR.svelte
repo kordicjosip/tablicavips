@@ -137,7 +137,6 @@
 		data = data;
 		await getColumnTemplates();
 	});
-	$: console.log('res:', res, 'data:', data);
 </script>
 
 <div class="h-full w-full flex flex-col">
