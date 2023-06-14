@@ -28,10 +28,10 @@
 
 <dialog bind:this={dialog} class="bg-neutral-700 text-center w-fit rounded">
 	<div id="dialogdiv" class="flex flex-col">
-		<label class="text-white" for="predlozak">Izaberi predložak:</label>
+		<label class="text-white" for="predlozak">Izaberi predložak stupaca:</label>
 		<select
 			id="predlozak"
-			class="text-black text-base h-6 rounded mt-1"
+			class="text-black text-base h-6 rounded mt-1 mb-3"
 			bind:value={selectedColumnTemplate}
 			on:change={changeColumnTemplate}
 			on:change={closeModal}
@@ -42,14 +42,13 @@
 				</option>
 			{/each}
 		</select>
-		<br />
 		<label class="text-white" for="name">Naziv novog predloška:</label>
 		<input
 			type="text"
 			id="name"
 			name="name"
 			required
-			class="px-1 mt-1 mb-3 rounded"
+			class="px-1 mt-1 rounded"
 			minlength="1"
 			bind:value={columnTemplateName}
 		/>
