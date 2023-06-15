@@ -57,7 +57,7 @@
 </script>
 
 <div
-	class="w-[42rem] h-full m-auto cursor-pointer"
+	class="w-[26rem] h-full cursor-pointer"
 	on:drop={handleDrop}
 	on:dragover={handleDragOver}
 	on:dragenter={handleEnter}
@@ -68,7 +68,7 @@
 >
 	<div
 		id="fallback"
-		class="flex items-center w-full h-[15rem] rounded-xl border border-dashed border-black m-auto max-w-full max-h-full"
+		class="flex items-center w-full h-[11rem] rounded-xl border border-dashed border-black m-auto max-w-full max-h-full"
 	>
 		<FallbackSvg over={isOver} />
 	</div>
@@ -76,6 +76,7 @@
 <input
 	class="hidden"
 	type="file"
+	accept=".pdf"
 	on:change={handleChange}
 	bind:this={input}
 	{multiple}

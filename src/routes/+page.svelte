@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FileInput from '../components/Homepage/FileInput.svelte';
+	import DocumentSelect from '../components/Homepage/DocumentSelect.svelte';
 	import { goto } from '$app/navigation';
 
 	const onDrop = (files: File[]) => {
@@ -8,6 +9,7 @@
 	};
 </script>
 
-<div class="bg-white">
+<div class="bg-white flex flex-col justify-center items-center text-center min-h-screen">
 	<FileInput {onDrop} />
+	<DocumentSelect />
 </div>
