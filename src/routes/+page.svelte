@@ -1,11 +1,9 @@
 <script lang="ts">
 	import FileInput from '../components/Homepage/FileInput.svelte';
 	import DocumentSelect from '../components/Homepage/DocumentSelect.svelte';
-	import { goto } from '$app/navigation';
 
 	const onDrop = (files: File[]) => {
 		alert(`Odabrana datoteka: ${files.map((d) => d.name).join(', ')}`);
-		goto('/app');
 	};
 </script>
 

@@ -5,7 +5,7 @@
 	import Sidebar from './Sidebar.svelte';
 	import Navbar from './Navbar.svelte';
 
-	let res;
+	export let dokumentData;
 	let data: TablesData = new TablesData();
 	let scale = 1;
 	let columnTemplateData = null;
@@ -103,20 +103,21 @@
 	}
 
 	onMount(async () => {
-		res = await (await fetch('/data.json')).json();
-		for (let i = 0; i < res['stranice'].length; i++) {
-			const columns = res['stranice'][0]['tablica']['definicija'].columns.map((column, index) => {
-				return {
-					id: index,
-					name: 'column',
-					x1: column[0],
-					x2: column[1],
-					get width() {
-						return this.x2 - this.x1;
-					}
-				};
-			});
-			const rows = res['stranice'][i]['tablica']['definicija'].rows.map((row, index) => {
+		for (let i = 0; i < dokumentData['stranice'].length; i++) {
+			const columns = dokumentData['stranice'][0]['tablica']['definicija'].columns.map(
+				(column, index) => {
+					return {
+						id: index,
+						name: 'column',
+						x1: column[0],
+						x2: column[1],
+						get width() {
+							return this.x2 - this.x1;
+						}
+					};
+				}
+			);
+			const rows = dokumentData['stranice'][i]['tablica']['definicija'].rows.map((row, index) => {
 				return {
 					id: index,
 					name: 'row',
@@ -129,8 +130,8 @@
 				new TableData({
 					columns: columns,
 					rows: rows,
-					resolution: res['stranice'][i]['tablica']['definicija'].resolution,
-					image: res['stranice'][i]['tablica']['definicija'].image
+					resolution: dokumentData['stranice'][i]['tablica']['definicija'].resolution,
+					image: dokumentData['stranice'][i]['tablica']['definicija'].image
 				})
 			);
 		}
