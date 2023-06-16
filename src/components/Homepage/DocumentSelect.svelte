@@ -4,7 +4,7 @@
 
 	let documentsData = [];
 
-	async function getDocuments() {
+	export async function getDocuments() {
 		const res = await fetch('http://192.168.10.20:8000/api/doc', {
 			method: 'GET',
 			headers: {
