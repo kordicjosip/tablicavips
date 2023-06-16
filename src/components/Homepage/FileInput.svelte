@@ -3,9 +3,10 @@
 
 	export let multiple: boolean = false;
 	export let disabled: boolean = false;
-	export let onDrop: (files: File[]) => void;
+	export let onDrop: () => void;
 	export let onEnter: () => void = () => {};
 	export let onLeave: () => void = () => {};
+	export let value;
 
 	let isOver: boolean = false;
 	let input: HTMLInputElement;
@@ -30,8 +31,7 @@
 		if (!e?.dataTransfer?.items || disabled) {
 			return;
 		}
-		const items = Array.from(e.dataTransfer.files);
-		onDrop(items);
+		onDrop();
 		isOver = false;
 	};
 
@@ -41,8 +41,7 @@
 
 	const handleChange = (e: Event) => {
 		e.preventDefault();
-		const files: FileList = <FileList>(<HTMLInputElement>e.target).files;
-		onDrop(Array.from(files));
+		onDrop();
 	};
 
 	const onClick = () => {
@@ -77,8 +76,10 @@
 	class="hidden"
 	type="file"
 	accept=".pdf"
+	name="file"
 	on:change={handleChange}
 	bind:this={input}
+	bind:value
 	{multiple}
 	{disabled}
 />

@@ -5,7 +5,7 @@
 	import Sidebar from './Sidebar.svelte';
 	import Navbar from './Navbar.svelte';
 
-	export let dokumentData;
+	export let documentData;
 	let data: TablesData = new TablesData();
 	let scale = 1;
 	let columnTemplateData = null;
@@ -103,8 +103,8 @@
 	}
 
 	onMount(async () => {
-		for (let i = 0; i < dokumentData['stranice'].length; i++) {
-			const columns = dokumentData['stranice'][0]['tablica']['definicija'].columns.map(
+		for (let i = 0; i < documentData['stranice'].length; i++) {
+			const columns = documentData['stranice'][0]['tablica']['definicija'].columns.map(
 				(column, index) => {
 					return {
 						id: index,
@@ -117,7 +117,7 @@
 					};
 				}
 			);
-			const rows = dokumentData['stranice'][i]['tablica']['definicija'].rows.map((row, index) => {
+			const rows = documentData['stranice'][i]['tablica']['definicija'].rows.map((row, index) => {
 				return {
 					id: index,
 					name: 'row',
@@ -130,8 +130,8 @@
 				new TableData({
 					columns: columns,
 					rows: rows,
-					resolution: dokumentData['stranice'][i]['tablica']['definicija'].resolution,
-					image: dokumentData['stranice'][i]['tablica']['definicija'].image
+					resolution: documentData['stranice'][i]['tablica']['definicija'].resolution,
+					image: documentData['stranice'][i]['tablica']['definicija'].image
 				})
 			);
 		}
