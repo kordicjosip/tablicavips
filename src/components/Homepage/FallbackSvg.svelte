@@ -5,7 +5,7 @@
 <svg class="m-auto max-w-full max-h-full select-none" viewBox="0 0 80 80">
 	<title>Drop files(s) or click to browse the file system</title>
 	<g
-		transform="translate(28, 15)"
+		transform="translate(28, 12)"
 		fill="none"
 		stroke="currentColor"
 		stroke-width="2"
@@ -21,12 +21,12 @@
 			<polyline points="13 2 13 9 20 9" />
 		{/if}
 	</g>
-	<g transform="translate(40, 55)" text-anchor="middle" fill="currentColor" font-size="6">
+	<g transform="translate(40, 55)" text-anchor="middle" fill="currentColor" font-size="13">
 		{#if over}
 			<text transform="translate(0, 5)">Drop!</text>
 		{:else}
-			<text>Drop file(s) or</text>
-			<text transform="translate(0, 10)">click to browse</text>
+			<text>Drop file</text>
+			<text transform="translate(0, 18)">or browse</text>
 		{/if}
 	</g>
 </svg>

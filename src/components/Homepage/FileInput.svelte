@@ -56,7 +56,7 @@
 </script>
 
 <div
-	class="w-[26rem] h-full cursor-pointer"
+	class="w-40 h-20 cursor-pointer m-3"
 	on:drop={handleDrop}
 	on:dragover={handleDragOver}
 	on:dragenter={handleEnter}
@@ -65,10 +65,7 @@
 	on:keydown={onKeyDown}
 	tabIndex={0}
 >
-	<div
-		id="fallback"
-		class="flex items-center w-full h-[11rem] rounded-xl border border-dashed border-black m-auto max-w-full max-h-full"
-	>
+	<div id="fallback" class="flex rounded-xl w-40 h-20 border border-dashed border-black m-auto">
 		<FallbackSvg over={isOver} />
 	</div>
 </div>
