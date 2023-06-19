@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 
 	let documentsData = [];
+	let documentsLoaded = false;
 
 	export async function getDocuments() {
 		const res = await fetch('http://192.168.10.20:8000/api/doc', {
@@ -16,11 +17,17 @@
 
 	onMount(async () => {
 		await getDocuments();
+		if (documentsData.length > 0) {
+			documentsLoaded = true;
+		}
 	});
 </script>
 
 <p class="my-5">ili izaberite dokument:</p>
-<div class="flex flex-col items-center h-72 overflow-y-scroll">
+<div
+	id="popis"
+	class="flex flex-col items-center h-72 {documentsLoaded ? 'overflow-y-scroll' : ''}"
+>
 	{#if documentsData.length > 0}
 		{#each documentsData as document}
 			<div

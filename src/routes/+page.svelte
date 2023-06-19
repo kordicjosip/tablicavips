@@ -18,7 +18,6 @@
 		enctype="multipart/form-data"
 		use:enhance={({ formElement, formData, action, cancel, submitter }) => {
 			return async ({ result, update }) => {
-				console.log(result);
 				if (result.type === 'error') {
 				}
 				if (result.type === 'success') {
