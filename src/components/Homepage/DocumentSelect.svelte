@@ -19,9 +19,8 @@
 	});
 </script>
 
-<div class="flex flex-col items-center">
-	<p class="my-5">ili izaberite dokument:</p>
-
+<p class="my-5">ili izaberite dokument:</p>
+<div class="flex flex-col items-center h-72 overflow-y-scroll">
 	{#if documentsData.length > 0}
 		{#each documentsData as document}
 			<div
