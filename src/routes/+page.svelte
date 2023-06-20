@@ -1,9 +1,9 @@
 <script lang="ts">
 	import DocumentSelect from '../components/Homepage/DocumentSelect.svelte';
 
-	let documents;
+	export let data;
 </script>
 
 <div class="bg-white flex flex-col items-center text-center min-h-screen">
-	<DocumentSelect bind:this={documents} />
+	<DocumentSelect bind:data />
 </div>
