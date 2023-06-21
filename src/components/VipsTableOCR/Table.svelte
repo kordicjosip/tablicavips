@@ -249,8 +249,17 @@
 		<g transform="translate({X} {Y}) scale({scale})">
 			{#each data.ocr as ocr}
 				<g transform="translate({ocr.x1 - data.tableCrop.x1} {ocr.y1 - data.tableCrop.y1})">
-					<rect x='0' y='0' width={(ocr.x2 - ocr.x1)} height={(ocr.y2 - ocr.y1)} fill="rgba(240,240,240,80%)">
-					</rect>
+					{#if data.columns.filter((column) => {
+						return column.x1 <= ocr.x1 - data.tableCrop.x1 && column.x2 >= ocr.x2 - data.tableCrop.x1
+					}).length > 0 && data.rows.filter((row) => {
+						return row.y1 <= ocr.y1 - data.tableCrop.y1 && row.y2 >= ocr.y2 - data.tableCrop.y1
+					}).length > 0}
+						<rect width={(ocr.x2 - ocr.x1)} height={(ocr.y2 - ocr.y1)} fill="rgba(0,255,0,80%)">
+						</rect>
+					{:else}
+						<rect width={(ocr.x2 - ocr.x1)} height={(ocr.y2 - ocr.y1)} fill="rgba(255,0,0,80%)">
+						</rect>
+					{/if}
 					<text
 						class="fill-black"
 						dominant-baseline="central"
