@@ -246,6 +246,23 @@
 			{/each}
 		</g>
 
+		<g transform="translate({X} {Y}) scale({scale})">
+			{#each data.ocr as ocr}
+				<g transform="translate({ocr.x1 - data.tableCrop.x1} {ocr.y1 - data.tableCrop.y1})">
+					<rect x='0' y='0' width={(ocr.x2 - ocr.x1)} height={(ocr.y2 - ocr.y1)} fill="rgba(240,240,240,80%)">
+					</rect>
+					<text
+						class="fill-black"
+						dominant-baseline="central"
+						font-size="10pt"
+						text-anchor="start"
+						x={(ocr.x2 - ocr.x1) / 2}
+						y={(ocr.y2 - ocr.y1) / 2}>{ocr.text}</text
+					>
+				</g>
+			{/each}
+		</g>
+
 		<g transform="translate(0 {Y})">
 			<RowHeaderBackground
 				onRightClick={showContextMenuRowsBg}

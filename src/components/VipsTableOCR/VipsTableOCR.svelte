@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { TableData, TablesData } from './index';
+	import { type OCRInterface, TableData, TablesData } from './index';
 	import Table from './Table.svelte';
 	import Sidebar from './Sidebar.svelte';
 	import Navbar from './Navbar.svelte';
@@ -125,13 +125,30 @@
 					y2: row[1]
 				};
 			});
+			const ocr: OCRInterface[] = documentData['stranice'][i]['ocr'].map((row, index) => {
+				return {
+					text: row.ocr.text,
+					x1: row.ocr.x1,
+					x2: row.ocr.x2,
+					y1: row.ocr.y1,
+					y2: row.ocr.y2
+				};
+			});
+			const crop = {
+				x1: Number(documentData['stranice'][i]['tablica']['definicija'].crop[0]),
+				x2: Number(documentData['stranice'][i]['tablica']['definicija'].crop[2]),
+				y1: Number(documentData['stranice'][i]['tablica']['definicija'].crop[1]),
+				y2: Number(documentData['stranice'][i]['tablica']['definicija'].crop[3])
+			}
 
 			data.addTable(
 				new TableData({
 					columns: columns,
 					rows: rows,
 					resolution: documentData['stranice'][i]['tablica']['definicija'].resolution,
-					image: documentData['stranice'][i]['tablica']['definicija'].image
+					image: documentData['stranice'][i]['tablica']['definicija'].image,
+					ocr: ocr,
+					tableCrop: crop
 				})
 			);
 		}

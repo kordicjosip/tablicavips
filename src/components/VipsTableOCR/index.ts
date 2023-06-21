@@ -17,11 +17,21 @@ export interface TableRowInterface {
 	y2: number;
 }
 
+export interface OCRInterface {
+	text: string;
+	x1: number;
+	x2: number;
+	y1: number;
+	y2: number;
+}
+
 export interface TableDataInterface {
 	columns: TableColumnInterface[];
 	rows: TableRowInterface[];
 	resolution: number[];
 	image: string;
+	ocr: OCRInterface[];
+	tableCrop: {x1: number, x2: number, y1: number, y2: number};
 }
 
 export class TableColumn {
@@ -79,12 +89,29 @@ export class TableRow {
 	}
 }
 
+export class OCR {
+	text: string;
+	x1: number;
+	x2: number;
+	y1: number;
+	y2: number;
+	constructor( ocr: OCRInterface) {
+		this.text = ocr.text;
+		this.x1 = ocr.x1;
+		this.x2 = ocr.x2;
+		this.y1 = ocr.y1;
+		this.y2 = ocr.y2;
+	}
+}
+
 export class TableData {
 	columns: TableColumn[] = [];
 	rows: TableRow[] = [];
 	resolution: number[] = [];
 	image: string = '';
 	private _isUnlinked: boolean = false;
+	ocr: OCR[] = [];
+	tableCrop: {x1: number, x2: number, y1: number, y2: number};
 
 	get isUnlinked(): boolean {
 		return this._isUnlinked;
@@ -99,11 +126,15 @@ export class TableData {
 	constructor(data: TableDataInterface) {
 		this.image = data.image;
 		this.resolution = data.resolution;
+		this.tableCrop = data.tableCrop;
 		data.columns.forEach((column) => {
 			this.addColumn(column);
 		});
 		data.rows.forEach((row) => {
 			this.addRow(row);
+		});
+		data.ocr.forEach((ocr) => {
+			this.ocr.push(new OCR(ocr));
 		});
 	}
 
@@ -204,8 +235,8 @@ export class TablesData {
 		}
 	}
 
-	addTable(table: TableDataInterface) {
-		this.tables.push(new TableData(table));
+	addTable(table: TableData) {
+		this.tables.push(table);
 		if (this.tables.length === 1) {
 			this.currentPage = 0;
 		}
