@@ -249,7 +249,12 @@
 
 		<g transform="translate({X} {Y}) scale({scale})">
 			{#each data.ocr as ocr}
-				<OCRElement bind:ocr={ocr} offsetX={data.tableCrop.x1} offsetY={data.tableCrop.y1} selected={data.isOCRSelected(ocr)}></OCRElement>
+				<OCRElement
+					bind:ocr
+					offsetX={data.tableCrop.x1}
+					offsetY={data.tableCrop.y1}
+					selected={data.isOCRSelected(ocr)}
+				/>
 			{/each}
 		</g>
 

@@ -31,7 +31,7 @@ export interface TableDataInterface {
 	resolution: number[];
 	image: string;
 	ocr: OCRInterface[];
-	tableCrop: {x1: number, x2: number, y1: number, y2: number};
+	tableCrop: { x1: number; x2: number; y1: number; y2: number };
 }
 
 export class TableColumn {
@@ -96,7 +96,7 @@ export class OCR {
 	y1: number;
 	y2: number;
 
-	constructor( ocr: OCRInterface) {
+	constructor(ocr: OCRInterface) {
 		this.text = ocr.text;
 		this.x1 = ocr.x1;
 		this.x2 = ocr.x2;
@@ -112,7 +112,7 @@ export class TableData {
 	image: string = '';
 	private _isUnlinked: boolean = false;
 	ocr: OCR[] = [];
-	tableCrop: {x1: number, x2: number, y1: number, y2: number};
+	tableCrop: { x1: number; x2: number; y1: number; y2: number };
 
 	get isUnlinked(): boolean {
 		return this._isUnlinked;
@@ -188,11 +188,14 @@ export class TableData {
 	}
 
 	isOCRSelected(ocr: OCR) {
-		return this.columns.filter((column) => {
-			return column.x1 <= ocr.x1 - this.tableCrop.x1 && column.x2 >= ocr.x2 - this.tableCrop.x1
-		}).length > 0 && this.rows.filter((row) => {
-			return row.y1 <= ocr.y1 - this.tableCrop.y1 && row.y2 >= ocr.y2 - this.tableCrop.y1
-		}).length > 0
+		return (
+			this.columns.filter((column) => {
+				return column.x1 <= ocr.x1 - this.tableCrop.x1 && column.x2 >= ocr.x2 - this.tableCrop.x1;
+			}).length > 0 &&
+			this.rows.filter((row) => {
+				return row.y1 <= ocr.y1 - this.tableCrop.y1 && row.y2 >= ocr.y2 - this.tableCrop.y1;
+			}).length > 0
+		);
 	}
 }
 
