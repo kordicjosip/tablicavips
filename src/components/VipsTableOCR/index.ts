@@ -95,6 +95,7 @@ export class OCR {
 	x2: number;
 	y1: number;
 	y2: number;
+
 	constructor( ocr: OCRInterface) {
 		this.text = ocr.text;
 		this.x1 = ocr.x1;
@@ -184,6 +185,14 @@ export class TableData {
 
 	removeRow(row: TableRowInterface) {
 		this.rows = this.rows.filter((r) => r.id !== row.id);
+	}
+
+	isOCRSelected(ocr: OCR) {
+		return this.columns.filter((column) => {
+			return column.x1 <= ocr.x1 - this.tableCrop.x1 && column.x2 >= ocr.x2 - this.tableCrop.x1
+		}).length > 0 && this.rows.filter((row) => {
+			return row.y1 <= ocr.y1 - this.tableCrop.y1 && row.y2 >= ocr.y2 - this.tableCrop.y1
+		}).length > 0
 	}
 }
 

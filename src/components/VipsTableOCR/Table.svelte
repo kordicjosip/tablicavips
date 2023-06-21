@@ -23,6 +23,7 @@
 	import RowHeaderBackground from './RowHeaderBackground.svelte';
 	import RowHeaderDividerLine from './RowHeaderDividerLine.svelte';
 	import ColumnHeaderDividerLine from './ColumnHeaderDividerLine.svelte';
+	import OCRElement from './OCRElement.svelte';
 	const dispatch = new createEventDispatcher();
 	export let show_column_header = true;
 	export let show_row_header = true;
@@ -248,27 +249,7 @@
 
 		<g transform="translate({X} {Y}) scale({scale})">
 			{#each data.ocr as ocr}
-				<g transform="translate({ocr.x1 - data.tableCrop.x1} {ocr.y1 - data.tableCrop.y1})">
-					{#if data.columns.filter((column) => {
-						return column.x1 <= ocr.x1 - data.tableCrop.x1 && column.x2 >= ocr.x2 - data.tableCrop.x1
-					}).length > 0 && data.rows.filter((row) => {
-						return row.y1 <= ocr.y1 - data.tableCrop.y1 && row.y2 >= ocr.y2 - data.tableCrop.y1
-					}).length > 0}
-						<rect width={(ocr.x2 - ocr.x1)} height={(ocr.y2 - ocr.y1)} fill="rgba(0,255,0,80%)">
-						</rect>
-					{:else}
-						<rect width={(ocr.x2 - ocr.x1)} height={(ocr.y2 - ocr.y1)} fill="rgba(255,0,0,80%)">
-						</rect>
-					{/if}
-					<text
-						class="fill-black"
-						dominant-baseline="central"
-						font-size="10pt"
-						text-anchor="middle"
-						x={(ocr.x2 - ocr.x1) / 2}
-						y={(ocr.y2 - ocr.y1) / 2}>{ocr.text}</text
-					>
-				</g>
+				<OCRElement bind:ocr={ocr} offsetX={data.tableCrop.x1} offsetY={data.tableCrop.y1} selected={data.isOCRSelected(ocr)}></OCRElement>
 			{/each}
 		</g>
 
