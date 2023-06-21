@@ -255,7 +255,7 @@
 						class="fill-black"
 						dominant-baseline="central"
 						font-size="10pt"
-						text-anchor="start"
+						text-anchor="middle"
 						x={(ocr.x2 - ocr.x1) / 2}
 						y={(ocr.y2 - ocr.y1) / 2}>{ocr.text}</text
 					>
