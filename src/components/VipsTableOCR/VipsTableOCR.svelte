@@ -141,7 +141,7 @@
 </script>
 
 <div class="h-full w-full flex flex-col">
-	<div class="h-[2.5rem]">
+	<div>
 		<Navbar
 			bind:columnTemplatesData
 			bind:currentPage={data.currentPage}

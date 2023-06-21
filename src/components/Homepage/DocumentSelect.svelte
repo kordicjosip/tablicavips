@@ -64,7 +64,8 @@
 	on:drop|preventDefault={drop}
 >
 	<div
-		class="z-50 absolute top-0 left-0 h-full w-full bg-cyan-800 outline-white outline-dashed outline-8 -outline-offset-[20px] flex flex-col items-center justify-center"
+		id="dropzone"
+		class="z-50 absolute top-0 left-0 h-full w-full bg-cyan-800/90 outline-white outline-dashed outline-8 -outline-offset-[20px] flex flex-col items-center justify-center"
 		class:hidden={dragoverDropCount === 0}
 	>
 		<svg
