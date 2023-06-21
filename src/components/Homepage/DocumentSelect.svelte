@@ -125,7 +125,7 @@
 		<h1 class="text-white text-4xl">Drop files here!</h1>
 	</div>
 
-	<div class="flex justify-center gap-2 p-4">
+	<div class="flex justify-center gap-2 p-4 mb-6">
 		<button on:click={() => (listView = true)}>
 			<svg
 				fill="#000000"
@@ -189,15 +189,17 @@
 		{#if listView}
 			<table class="w-fit">
 				<tr>
-					<th class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5">
+					<th class="w-[50rem] mb-2 border-b border-neutral-300 py-2 text-start pl-5 select-none">
 						Naziv dokumenta
 					</th>
-					<th class="w-fit mb-2 border-y border-neutral-300 py-2 text-end pr-9"> Datum</th>
+					<th class="w-fit mb-2 border-b border-neutral-300 py-2 text-end pr-9 select-none">
+						Datum</th
+					>
 				</tr>
 				{#each documentsData as document}
 					{#if document.obrada_u_toku}
-						<tr>
-							<td colspan="2">Loading...</td>
+						<tr class="w-[50rem] mb-2 border-y border-neutral-300">
+							<td colspan="2" class="py-2 mb-2">Dokument se obrađuje...</td>
 						</tr>
 					{:else}
 						<tr
@@ -215,28 +217,31 @@
 				{/each}
 			</table>
 		{:else}
-			<div class="grid grid-cols-4 gap-1 max-w-5xl">
+			<div class="grid grid-cols-4 gap-2 max-w-5xl">
 				{#each documentsData as document}
 					{#if document.obrada_u_toku}
 						<div
 							class="flex items-center justify-center w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-xl break-all shadow hover:shadow-md"
-							on:click={goto(`/${document.id}`)}
 						>
-							<p class="mb-2 p-2">Dokument se obrađuje...</p>
+							<h1 class="mb-2 p-2">Dokument se obrađuje...</h1>
 						</div>
 					{:else}
 						<div
-							class="flex flex-col justify-around w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-xl px-3 shadow hover:shadow-md"
+							class="flex flex-col justify-between w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-md shadow hover:shadow-md"
 							on:click={goto(`/${document.id}`)}
 						>
-							<img src="https://placehold.co/400x600" class="h-36" />
+							<img
+								src={document.thumbnail}
+								class="h-40 object-cover object-top"
+								alt="pregled dokumenta"
+							/>
 							<div class="">
-								<p class="truncate" title={document.naziv}>
+								<h1 class="truncate px-1" title={document.naziv}>
 									{document.naziv}
-								</p>
-								<p class="">
+								</h1>
+								<h2 class="">
 									{document.datum}
-								</p>
+								</h2>
 							</div>
 						</div>
 					{/if}
