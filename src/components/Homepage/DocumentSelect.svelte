@@ -218,22 +218,25 @@
 				{#each documentsData as document}
 					{#if document.obrada_u_toku}
 						<div
-							class="hover:cursor-pointer hover:bg-neutral-100 rounded-xl w-52 h-52 break-all shadow hover:shadow-md"
+							class="flex items-center justify-center w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-xl break-all shadow hover:shadow-md"
 							on:click={goto(`/${document.id}`)}
 						>
-							<p class="mb-2 p-2">Loading...</p>
+							<p class="mb-2 p-2">Dokument se obrađuje...</p>
 						</div>
 					{:else}
 						<div
-							class="hover:cursor-pointer hover:bg-neutral-100 rounded-xl w-52 h-52 break-all shadow hover:shadow-md"
+							class="flex flex-col justify-around w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-xl px-3 shadow hover:shadow-md"
 							on:click={goto(`/${document.id}`)}
 						>
-							<p class="mb-2 p-2">
-								{document.naziv}
-							</p>
-							<p class="mb-2 py-2">
-								{document.datum}
-							</p>
+							<img src="https://placehold.co/400x600" class="h-36" />
+							<div class="">
+								<p class="truncate" title={document.naziv}>
+									{document.naziv}
+								</p>
+								<p class="">
+									{document.datum}
+								</p>
+							</div>
 						</div>
 					{/if}
 				{/each}
