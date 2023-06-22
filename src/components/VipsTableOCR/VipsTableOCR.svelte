@@ -139,10 +139,11 @@
 				x2: Number(documentData['stranice'][i]['tablica']['definicija'].crop[2]),
 				y1: Number(documentData['stranice'][i]['tablica']['definicija'].crop[1]),
 				y2: Number(documentData['stranice'][i]['tablica']['definicija'].crop[3])
-			}
+			};
 
 			data.addTable(
 				new TableData({
+					id: documentData['stranice'][i].id,
 					columns: columns,
 					rows: rows,
 					resolution: documentData['stranice'][i]['tablica']['definicija'].resolution,
@@ -177,7 +178,7 @@
 				<Sidebar bind:currentPage={data.currentPage} data={data.tables} />
 			</div>
 			<div class="basis-auto w-full flex-grow flex-shrink overflow-clip">
-				{#key data.tables}
+				{#key data.currentPageTable.id}
 					<Table
 						on:addRow={addRow}
 						on:removeRow={removeRow}

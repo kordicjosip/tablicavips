@@ -26,6 +26,7 @@ export interface OCRInterface {
 }
 
 export interface TableDataInterface {
+	id: string;
 	columns: TableColumnInterface[];
 	rows: TableRowInterface[];
 	resolution: number[];
@@ -106,6 +107,7 @@ export class OCR {
 }
 
 export class TableData {
+	id: string;
 	columns: TableColumn[] = [];
 	rows: TableRow[] = [];
 	resolution: number[] = [];
@@ -125,6 +127,7 @@ export class TableData {
 	}
 
 	constructor(data: TableDataInterface) {
+		this.id = data.id;
 		this.image = data.image;
 		this.resolution = data.resolution;
 		this.tableCrop = data.tableCrop;
