@@ -64,24 +64,27 @@
 	on:drop|preventDefault={drop}
 >
 	<div
-		id="dropzone"
 		class="z-50 absolute top-0 left-0 h-full w-full bg-cyan-800/90 outline-white outline-dashed outline-8 -outline-offset-[20px] flex flex-col items-center justify-center"
 		class:hidden={dragoverDropCount === 0}
+		id="dropzone"
 	>
 		<svg
-			width="200px"
-			height="200px"
-			viewBox="0 0 24 24"
-			xmlns="http://www.w3.org/2000/svg"
 			fill="#ffffff"
+			height="200px"
 			stroke="#ffffff"
-			><g id="SVGRepo_bgCarrier" stroke-width="0" /><g
+			viewBox="0 0 24 24"
+			width="200px"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<g id="SVGRepo_bgCarrier" stroke-width="0" />
+			<g
 				id="SVGRepo_tracerCarrier"
+				stroke="#CCCCCC"
 				stroke-linecap="round"
 				stroke-linejoin="round"
-				stroke="#CCCCCC"
 				stroke-width="0.9600000000000002"
-			/><g id="SVGRepo_iconCarrier">
+			/>
+			<g id="SVGRepo_iconCarrier">
 				<title />
 				<g id="Complete">
 					<g id="upload">
@@ -120,8 +123,8 @@
 						</g>
 					</g>
 				</g>
-			</g></svg
-		>
+			</g>
+		</svg>
 		<h1 class="text-white text-4xl">Drop files here!</h1>
 	</div>
 
@@ -138,7 +141,9 @@
 				<g id="SVGRepo_bgCarrier" stroke-width="0" />
 				<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
 				<g id="SVGRepo_iconCarrier">
-					<title>list</title> <desc>Created with Sketch.</desc> <defs />
+					<title>list</title>
+					<desc>Created with Sketch.</desc>
+					<defs />
 					<g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
 						<g
 							fill={svgListColor}
@@ -193,13 +198,34 @@
 						Naziv dokumenta
 					</th>
 					<th class="w-fit mb-2 border-b border-neutral-300 py-2 text-end pr-9 select-none">
-						Datum</th
-					>
+						Datum
+					</th>
 				</tr>
 				{#each documentsData as document}
 					{#if document.obrada_u_toku}
-						<tr class="w-[50rem] mb-2 border-y border-neutral-300">
-							<td colspan="2" class="py-2 mb-2">Dokument se obrađuje...</td>
+						<tr class="hover:cursor-pointer hover:bg-neutral-100 rounded-xl">
+							<td class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5">
+								Dokument se obrađuje...
+							</td>
+							<td class="w-fit mb-2 border-y border-neutral-300 py-2 text-end pr-5">
+								<span class="flex justify-center">
+									<svg
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+											opacity=".25"
+										/>
+										<path
+											d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"
+											class="loading"
+										/>
+									</svg>
+								</span>
+							</td>
 						</tr>
 					{:else}
 						<tr
@@ -221,9 +247,27 @@
 				{#each documentsData as document}
 					{#if document.obrada_u_toku}
 						<div
-							class="flex items-center justify-center w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-xl break-all shadow hover:shadow-md"
+							class="flex flex-col justify-between w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-md shadow hover:shadow-md"
 						>
-							<h1 class="mb-2 p-2">Dokument se obrađuje...</h1>
+							<svg
+								class="mx-auto mt-[4.2rem]"
+								width="40"
+								height="40"
+								viewBox="0 0 24 24"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+									opacity=".25"
+								/>
+								<path
+									d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"
+									class="loading"
+								/>
+							</svg>
+							<div class="">
+								<h1 class="truncate p-3">Dokument se obrađuje...</h1>
+							</div>
 						</div>
 					{:else}
 						<div

@@ -11,7 +11,6 @@
 		select(`#drag-col-${column.id}-1`).call(
 			drag().on('drag', function (event: any) {
 				column._x1 += event.dx / scale;
-				console.log(column._x1, column.x1, column._x2, column.x2);
 				if (column.width < 1) {
 					column.x2 = column.x1 - column.offset + 1;
 				}
