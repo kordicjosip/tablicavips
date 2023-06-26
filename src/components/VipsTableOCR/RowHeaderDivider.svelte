@@ -6,6 +6,7 @@
 	export let row: TableRow;
 	export let width: number;
 	export let scale: number;
+	export let tableHeight: number;
 
 	onMount(async () => {
 		select(`#drag-row-${row.id}-1`).call(
@@ -17,6 +18,11 @@
 				}
 				if (row.y1 < 0) {
 					row.y1 = 0;
+				}
+				if (row.y2 > tableHeight) {
+					let visina = row.height;
+					row.y1 = tableHeight - visina - 30;
+					row.y2 = tableHeight;
 				}
 			})
 		);
@@ -30,6 +36,9 @@
 				if (row.y1 < 0) {
 					row.y1 = 0;
 					row.y2 = 30;
+				}
+				if (row.y2 > tableHeight) {
+					row.y2 = tableHeight;
 				}
 			})
 		);

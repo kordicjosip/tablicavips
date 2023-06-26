@@ -284,13 +284,13 @@
 				<RowHeader
 					bind:row
 					bind:scale
-					height={data.resolution[1]}
+					tableHeight={data.resolution[1]}
 					onRightClick={showContextMenuRows}
 				/>
 			{/each}
 
 			{#each data.rows as row}
-				<RowHeaderDivider bind:row bind:scale width={X0} />
+				<RowHeaderDivider bind:row bind:scale width={X0} tableHeight={data.resolution[1]} />
 			{/each}
 		</g>
 
