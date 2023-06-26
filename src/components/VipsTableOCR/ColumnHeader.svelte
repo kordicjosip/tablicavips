@@ -7,13 +7,13 @@
 
 	export let column: TableColumn;
 	export let scale: number;
-	export let data: TableData;
+	export let isUnlinked: boolean;
 	export let onRightClick: (event: PointerEvent, column: TableColumnInterface) => void;
 
 	onMount(async () => {
 		select(`#column-header-${column.id}`).call(
 			drag().on('drag', function (event: any) {
-				if (data.isUnlinked) {
+				if (isUnlinked) {
 					if (column.selected) {
 						dispatch('setOffset', event.dx / scale);
 					} else {

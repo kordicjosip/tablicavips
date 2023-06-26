@@ -6,14 +6,14 @@
 	export let column: TableColumn;
 	export let height: number;
 	export let scale: number;
-	export let data: TableData;
+	export let isUnlinked: boolean;
 
 	const dispatch = createEventDispatcher();
 
 	onMount(async () => {
 		select(`#drag-col-${column.id}-1`).call(
 			drag().on('drag', function (event: any) {
-				if (data.isUnlinked) {
+				if (isUnlinked) {
 					column._x1 += event.dx / scale;
 					if (column.width < 1) {
 						column.x2 = column.x1 - column.offset + 1;
@@ -31,7 +31,7 @@
 		);
 		select(`#drag-col-${column.id}-2`).call(
 			drag().on('drag', function (event: any) {
-				if (data.isUnlinked) {
+				if (isUnlinked) {
 					column._x2 += event.dx / scale;
 					if (column.width < 1) {
 						column.x1 = column.x2 - column.offset - 1;

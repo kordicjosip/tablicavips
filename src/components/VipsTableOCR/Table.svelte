@@ -304,7 +304,7 @@
 				<ColumnHeader
 					bind:column
 					bind:scale
-					bind:data
+					isUnlinked={data.isUnlinked}
 					onRightClick={showContextMenuCols}
 					on:dblclick={toggleSelectAllColumnHeaders}
 					on:setOffset={setOffset}
@@ -316,7 +316,7 @@
 				<ColumnHeaderDivider
 					bind:column
 					bind:scale
-					bind:data
+					isUnlinked={data.isUnlinked}
 					height={Y0}
 					on:dragX1AllTables={dragX1AllTables}
 					on:dragX2AllTables={dragX2AllTables}
