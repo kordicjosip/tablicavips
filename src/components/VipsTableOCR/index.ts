@@ -67,6 +67,10 @@ export class TableColumn {
 		if (this.offset + this._x1 < 0) {
 			this.x1 = -this.offset;
 		}
+		if (this.offset + this._x2 > this.tableWidth) {
+			this.offset = this.tableWidth - this._x2;
+			this.x1 = this.x2 - this.offset - 20;
+		}
 	}
 
 	dragX2(offset: number) {
@@ -77,7 +81,10 @@ export class TableColumn {
 		}
 		if (this.offset + this._x1 < 0) {
 			this.x1 = -this.offset;
-			this.x2 = -this.offset + 40;
+			this.x2 = -this.offset + 20;
+		}
+		if (this.offset + this._x2 > this.tableWidth) {
+			this.x2 = this.tableWidth - this.offset;
 		}
 	}
 
