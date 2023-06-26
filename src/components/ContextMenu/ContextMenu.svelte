@@ -10,7 +10,7 @@
 	let ScrollPositionVertical = 0;
 	let ScrollPositionHorizontal = 0;
 	onMount(async () => {
-		document.addEventListener('scroll', (event) => {
+		document.addEventListener('scroll', () => {
 			ScrollPositionHorizontal = window.scrollX;
 			ScrollPositionVertical = window.scrollY;
 		});
@@ -19,7 +19,7 @@
 
 <div
 	id="context-menu"
-	class="bg-neutral-700 border border-gray-400 text-white"
+	class="absolute bg-neutral-700 border border-gray-400 text-white h-auto w-auto"
 	class:invisible={visible === false}
 	style="left: {x + ScrollPositionHorizontal + 1}px; top: {y + ScrollPositionVertical}px;"
 >
@@ -36,14 +36,3 @@
 		</ul>
 	{/each}
 </div>
-
-<style>
-	#context-menu {
-		position: absolute;
-		width: auto;
-		height: auto;
-	}
-	ul li {
-		width: auto;
-	}
-</style>

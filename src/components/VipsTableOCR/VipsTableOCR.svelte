@@ -11,6 +11,10 @@
 	let columnTemplateData = null;
 	let columnTemplatesData = [];
 
+	function sendAllData() {
+		console.log(data);
+	}
+
 	function addRow(event) {
 		data.addRow(event.detail);
 		data = data;
@@ -42,6 +46,14 @@
 
 	function setOffsetColumnsAllTables(event) {
 		data.setOffsetColumnsAllTables(event.detail);
+	}
+
+	function dragX1AllTables(event) {
+		data.dragX1AllTables(event.detail.id, event.detail.offset);
+	}
+
+	function dragX2AllTables(event) {
+		data.dragX2AllTables(event.detail.id, event.detail.offset);
 	}
 
 	async function getColumnTemplates() {
@@ -125,7 +137,7 @@
 					y2: row[1]
 				};
 			});
-			const ocr: OCRInterface[] = documentData['stranice'][i]['ocr'].map((row, index) => {
+			const ocr: OCRInterface[] = documentData['stranice'][i]['ocr'].map((row) => {
 				return {
 					text: row.ocr.text,
 					x1: row.ocr.x1,
@@ -170,6 +182,7 @@
 			on:postColumnTemplate={postColumnTemplate}
 			on:getColumnTemplates={getColumnTemplates}
 			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)}
+			on:sendAllData={sendAllData}
 		/>
 	</div>
 	<div class="basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]">
@@ -187,6 +200,8 @@
 						on:renameColumn={renameColumn}
 						on:setOffsetColumnAllTables={setOffsetColumnAllTables}
 						on:setOffsetColumnsAllTables={setOffsetColumnsAllTables}
+						on:dragX1AllTables={dragX1AllTables}
+						on:dragX2AllTables={dragX2AllTables}
 						data={data.currentPageTable}
 						bind:scale
 					/>

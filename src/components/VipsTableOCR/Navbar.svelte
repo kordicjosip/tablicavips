@@ -35,13 +35,7 @@
 		}}
 		title="Početna"
 	>
-		<svg
-			fill="#ffffff"
-			version="1.1"
-			viewBox="-4.2 -4.2 29.40 29.40"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink"
-		>
+		<svg fill="#ffffff" viewBox="-4.2 -4.2 29.40 29.40" xmlns="http://www.w3.org/2000/svg">
 			<g id="SVGRepo_bgCarrier" stroke-width="0" />
 			<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
 			<g id="SVGRepo_iconCarrier">
@@ -143,17 +137,11 @@
 	<div
 		class="flex items-center justify-center w-7 h-7 rounded-full hover:bg-neutral-600 hover:cursor-pointer"
 		on:click={() => {
-			goto('/');
+			dispatch('sendAllData');
 		}}
 		title="Pošalji podatke"
 	>
-		<svg
-			fill="#ffffff"
-			version="1.1"
-			viewBox="-6.8 -6.8 33.60 33.60"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink"
-		>
+		<svg fill="#ffffff" viewBox="-6.8 -6.8 33.60 33.60" xmlns="http://www.w3.org/2000/svg">
 			<g id="SVGRepo_bgCarrier" stroke-width="0" />
 			<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
 			<g id="SVGRepo_iconCarrier"

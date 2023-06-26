@@ -228,6 +228,22 @@
 		data = data;
 	}
 
+	function dragX1AllTables(event) {
+		dispatch('dragX1AllTables', {
+			id: event.detail.id,
+			offset: event.detail.offset
+		});
+		data = data;
+	}
+
+	function dragX2AllTables(event) {
+		dispatch('dragX2AllTables', {
+			id: event.detail.id,
+			offset: event.detail.offset
+		});
+		data = data;
+	}
+
 	onMount(async () => {
 		scale = (scaleW - X0) / data.resolution[0];
 	});
@@ -297,7 +313,13 @@
 			{/each}
 
 			{#each data.columns as column}
-				<ColumnHeaderDivider bind:column bind:scale height={Y0} />
+				<ColumnHeaderDivider
+					bind:column
+					bind:scale
+					height={Y0}
+					on:dragX1AllTables={dragX1AllTables}
+					on:dragX2AllTables={dragX2AllTables}
+				/>
 			{/each}
 		</g>
 

@@ -58,6 +58,29 @@ export class TableColumn {
 		}
 	}
 
+	dragX1(offset: number) {
+		this._x1 += offset;
+
+		if (this.width < 1) {
+			this.x2 = this.x1 - this.offset + 1;
+		}
+		if (this.offset + this._x1 < 0) {
+			this.x1 = -this.offset;
+		}
+	}
+
+	dragX2(offset: number) {
+		this._x2 += offset;
+
+		if (this.width < 1) {
+			this.x1 = this.x2 - this.offset + 1;
+		}
+		if (this.offset + this._x1 < 0) {
+			this.x1 = -this.offset;
+			this.x2 = -this.offset + 40;
+		}
+	}
+
 	get x1(): number {
 		return this._x1 + this.offset;
 	}
@@ -274,6 +297,24 @@ export class TablesData {
 			const col = table.columns.find((c) => c.id === id);
 			if (col && !table.isUnlinked) {
 				col.setOffset(offset);
+			}
+		});
+	}
+
+	dragX1AllTables(id: number, offset: number) {
+		this.tables.forEach((table) => {
+			const col = table.columns.find((c) => c.id === id);
+			if (col && !table.isUnlinked) {
+				col.dragX1(offset);
+			}
+		});
+	}
+
+	dragX2AllTables(id: number, offset: number) {
+		this.tables.forEach((table) => {
+			const col = table.columns.find((c) => c.id === id);
+			if (col && !table.isUnlinked) {
+				col.dragX2(offset);
 			}
 		});
 	}
