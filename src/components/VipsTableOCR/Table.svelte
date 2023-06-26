@@ -316,6 +316,7 @@
 				<ColumnHeaderDivider
 					bind:column
 					bind:scale
+					bind:data
 					height={Y0}
 					on:dragX1AllTables={dragX1AllTables}
 					on:dragX2AllTables={dragX2AllTables}

@@ -301,6 +301,14 @@ export class TablesData {
 		});
 	}
 
+	setOffsetColumnsAllTables(offset: number) {
+		this.tables.forEach((table) => {
+			if (!table.isUnlinked) {
+				table.setOffset(offset);
+			}
+		});
+	}
+
 	dragX1AllTables(id: number, offset: number) {
 		this.tables.forEach((table) => {
 			const col = table.columns.find((c) => c.id === id);
@@ -315,14 +323,6 @@ export class TablesData {
 			const col = table.columns.find((c) => c.id === id);
 			if (col && !table.isUnlinked) {
 				col.dragX2(offset);
-			}
-		});
-	}
-
-	setOffsetColumnsAllTables(offset: number) {
-		this.tables.forEach((table) => {
-			if (!table.isUnlinked) {
-				table.setOffset(offset);
 			}
 		});
 	}
