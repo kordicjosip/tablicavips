@@ -137,16 +137,10 @@
 		cmY = event.y;
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
-			new ContextMenuEntry('Naziv', 'ico', () => {
+			new ContextMenuEntry('Redni broj', 'ico', () => {
 				dispatch('renameColumn', {
 					id: column.id,
-					newName: 'Naziv'
-				});
-			}),
-			new ContextMenuEntry('Barcode', 'ico', () => {
-				dispatch('renameColumn', {
-					id: column.id,
-					newName: 'Barcode'
+					newName: 'Rbr'
 				});
 			}),
 			new ContextMenuEntry('Šifra', 'ico', () => {
@@ -155,10 +149,46 @@
 					newName: 'Šifra'
 				});
 			}),
+			new ContextMenuEntry('Naziv', 'ico', () => {
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'Naziv artikla'
+				});
+			}),
 			new ContextMenuEntry('Količina', 'ico', () => {
 				dispatch('renameColumn', {
 					id: column.id,
 					newName: 'Količina'
+				});
+			}),
+			new ContextMenuEntry('JMJ', 'ico', () => {
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'JMJ'
+				});
+			}),
+			new ContextMenuEntry('Barkod', 'ico', () => {
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'Barkod'
+				});
+			}),
+			new ContextMenuEntry('Cijena', 'ico', () => {
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'Cijena'
+				});
+			}),
+			new ContextMenuEntry('Rabat', 'ico', () => {
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'Rabat'
+				});
+			}),
+			new ContextMenuEntry('PDV', 'ico', () => {
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'PDV'
 				});
 			})
 		);
