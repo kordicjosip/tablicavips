@@ -230,7 +230,7 @@
 					{:else}
 						<tr
 							class="hover:cursor-pointer hover:bg-neutral-100 rounded-xl"
-							on:click={goto(`/${document.id}`)}
+							on:click={goto(`/${document.id}/stupci`)}
 						>
 							<td class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5">
 								{document.naziv}
@@ -272,7 +272,7 @@
 					{:else}
 						<div
 							class="flex flex-col justify-between w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-md shadow hover:shadow-md"
-							on:click={goto(`/${document.id}`)}
+							on:click={goto(`/${document.id}/stupci`)}
 						>
 							<img
 								src={document.thumbnail}

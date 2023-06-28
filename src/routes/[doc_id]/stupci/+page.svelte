@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { VipsTableOCR } from '../../components/VipsTableOCR';
+	import { VipsTableOCR } from '$components/VipsTableOCR';
 
 	export let data;
 </script>

@@ -4,6 +4,7 @@
 	import Table from './Table.svelte';
 	import Sidebar from './Sidebar.svelte';
 	import Navbar from './Navbar.svelte';
+	import { goto } from '$app/navigation';
 
 	export let documentData;
 	let data: TablesData = new TablesData();
@@ -12,7 +13,56 @@
 	let columnTemplatesData = [];
 
 	function sendAllData() {
-		console.log(data);
+		let mergedCells = [];
+		for (const table of data.tables) {
+			const columns = table.columns.filter((column) => column.name !== null);
+			const rows = table.rows.sort((a, b) => a.y1 - b.y1);
+			const cells = [];
+			for (const column of columns) {
+				for (const rowNumber in rows) {
+					const row = rows[rowNumber];
+					cells.push({
+						colname: column.name,
+						rowNumber,
+						x1: column.x1,
+						x2: column.x2,
+						y1: row.y1,
+						y2: row.y2,
+						text: []
+					});
+				}
+			}
+			for (const cell of cells) {
+				cell.text = table.ocr.filter((ocr) => {
+					return (
+						ocr.x1 - table.tableCrop.x1 >= cell.x1 &&
+						ocr.x2 - table.tableCrop.x1 <= cell.x2 &&
+						ocr.y1 - table.tableCrop.y1 >= cell.y1 &&
+						ocr.y2 - table.tableCrop.y1 <= cell.y2
+					);
+				});
+				cell.text.sort((a, b) => a.x1 - b.x1);
+				cell.text.sort((a, b) => a.y1 - b.y1);
+			}
+			localStorage.setItem(table.id + 'columns', JSON.stringify(table.columns));
+			localStorage.setItem(table.id + 'rows', JSON.stringify(table.rows));
+			mergedCells = mergedCells.concat(cells);
+		}
+
+		localStorage.setItem(
+			documentData.id,
+			JSON.stringify(
+				mergedCells.map((cell) => {
+					return {
+						colname: cell.colname,
+						rowNumber: cell.rowNumber,
+						text: cell.text.map((text) => text.text).join(' ')
+					};
+				})
+			)
+		);
+
+		goto('/' + documentData.id + '/dokument');
 	}
 
 	function addRow(event) {
@@ -120,7 +170,7 @@
 				(column, index) => {
 					return {
 						id: index,
-						name: 'column',
+						name: null,
 						x1: column[0],
 						x2: column[1],
 						get width() {
