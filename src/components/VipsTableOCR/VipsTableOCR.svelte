@@ -15,14 +15,16 @@
 	function sendAllData() {
 		let mergedCells = [];
 		for (const table of data.tables) {
-			const columns = table.columns.filter((column) => column.name !== null);
+			const columns = table.columns
+				.filter((column) => column.name !== null)
+				.sort((a, b) => a.x1 - b.x1);
 			const rows = table.rows.sort((a, b) => a.y1 - b.y1);
 			const cells = [];
 			for (const column of columns) {
 				for (const rowNumber in rows) {
 					const row = rows[rowNumber];
 					cells.push({
-						colname: column.name,
+						colName: column.name,
 						rowNumber,
 						x1: column.x1,
 						x2: column.x2,
@@ -54,9 +56,13 @@
 			JSON.stringify(
 				mergedCells.map((cell) => {
 					return {
-						colname: cell.colname,
+						colName: cell.colName,
 						rowNumber: cell.rowNumber,
-						text: cell.text.map((text) => text.text).join(' ')
+						text: cell.text.map((text) => text.text).join(' '),
+						x1: cell.x1,
+						x2: cell.x2,
+						y1: cell.y1,
+						y2: cell.y2
 					};
 				})
 			)
