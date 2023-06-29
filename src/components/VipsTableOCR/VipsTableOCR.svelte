@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { type OCRInterface, TableData, TablesData } from './index';
+	import { OCR, type OCRInterface, TableData, TablesData } from './index';
 	import Table from './Table.svelte';
 	import Sidebar from './Sidebar.svelte';
 	import Navbar from './Navbar.svelte';
@@ -44,7 +44,22 @@
 					);
 				});
 				cell.text.sort((a, b) => a.x1 - b.x1);
-				cell.text.sort((a, b) => a.y1 - b.y1);
+				cell.text.sort((a, b) => {
+					if (a.y1 > b.y2) return 1;
+					if (a.y2 < b.y1) return -1;
+					return 0;
+				});
+				let previousY2: number | null = null;
+				for (let textIndex = 0; textIndex < cell.text.length; textIndex++) {
+					if (previousY2 !== null && cell.text[textIndex].y1 > previousY2) {
+						cell.text = [
+							...cell.text.slice(0, textIndex),
+							new OCR({x1: cell.text[textIndex].x1, x2: cell.text[textIndex].x2, y1: cell.text[textIndex].y1, y2: cell.text[textIndex].y2, text: '\n'}),
+							...cell.text.slice(textIndex)
+						]
+					}
+					previousY2 = cell.text[textIndex].y2;
+				}
 			}
 			localStorage.setItem(table.id + 'columns', JSON.stringify(table.columns));
 			localStorage.setItem(table.id + 'rows', JSON.stringify(table.rows));

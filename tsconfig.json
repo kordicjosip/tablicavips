@@ -10,7 +10,7 @@
 		"sourceMap": true,
 		"strict": true,
 		"paths": {
-			"$components/*": ["src/components/*"]
+			"$components/*": ["/src/components/*"]
 		}
 	}
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
