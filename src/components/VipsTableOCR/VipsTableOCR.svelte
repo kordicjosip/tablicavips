@@ -19,6 +19,7 @@
 				.filter((column) => column.name !== null)
 				.sort((a, b) => a.x1 - b.x1);
 			const rows = table.rows.sort((a, b) => a.y1 - b.y1);
+
 			const cells = [];
 			for (const column of columns) {
 				for (const rowNumber in rows) {
@@ -54,9 +55,15 @@
 					if (previousY2 !== null && cell.text[textIndex].y1 > previousY2) {
 						cell.text = [
 							...cell.text.slice(0, textIndex),
-							new OCR({x1: cell.text[textIndex].x1, x2: cell.text[textIndex].x2, y1: cell.text[textIndex].y1, y2: cell.text[textIndex].y2, text: '\n'}),
+							new OCR({
+								x1: cell.text[textIndex].x1,
+								x2: cell.text[textIndex].x2,
+								y1: cell.text[textIndex].y1,
+								y2: cell.text[textIndex].y2,
+								text: '\n'
+							}),
 							...cell.text.slice(textIndex)
-						]
+						];
 					}
 					previousY2 = cell.text[textIndex].y2;
 				}
@@ -66,22 +73,18 @@
 			mergedCells = mergedCells.concat(cells);
 		}
 
-		localStorage.setItem(
-			documentData.id,
-			JSON.stringify(
-				mergedCells.map((cell) => {
-					return {
-						colName: cell.colName,
-						rowNumber: cell.rowNumber,
-						text: cell.text.map((text) => text.text).join(' '),
-						x1: cell.x1,
-						x2: cell.x2,
-						y1: cell.y1,
-						y2: cell.y2
-					};
-				})
-			)
-		);
+		const table = {};
+		for (const cell of mergedCells) {
+			cell.text = cell.text.map((text) => text.text).join(' ');
+			if (table[cell.colName] === undefined) {
+				table[cell.colName] = [cell];
+			} else {
+				table[cell.colName].push(cell);
+			}
+		}
+		console.log(table);
+
+		localStorage.setItem(documentData.id, JSON.stringify(table));
 
 		goto('/' + documentData.id + '/dokument');
 	}
