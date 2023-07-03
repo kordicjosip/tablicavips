@@ -2,12 +2,15 @@
 	export let data;
 
 	console.log(data.table);
+	let rowData = [];
 
 	function sendRowData(i) {
+		rowData = [];
 		let j = Object.keys(data.table);
 		for (j in data.table) {
-			console.log(data.table[j][i].text);
+			rowData.push(data.table[j].slice(i, i + 1));
 		}
+		console.log(rowData.flat(1));
 	}
 </script>
 
@@ -24,7 +27,7 @@
 			{#each Object.values(data.table)[0] as row, i}
 				<tr>
 					{#each Object.keys(data.table) as header}
-						<td contenteditable="true" bind:innerHTML={data.table[header][i].text}
+						<td contenteditable="true" bind:textContent={data.table[header][i].text}
 							>{data.table[header][i].text}</td
 						>
 					{/each}
@@ -62,7 +65,7 @@
 		border-collapse: collapse;
 	}
 
-	tr:nth-of-type(even) {
+	tr:nth-of-type(odd) {
 		background-color: #f3f3f3;
 	}
 
@@ -73,6 +76,6 @@
 	}
 
 	th {
-		background-color: #d2d2d2;
+		background-color: #ffffff;
 	}
 </style>
