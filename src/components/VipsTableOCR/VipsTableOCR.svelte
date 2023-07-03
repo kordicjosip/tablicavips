@@ -82,7 +82,6 @@
 				table[cell.colName].push(cell);
 			}
 		}
-		console.log(table);
 
 		localStorage.setItem(documentData.id, JSON.stringify(table));
 

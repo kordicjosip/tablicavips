@@ -173,10 +173,22 @@
 					newName: 'Barkod'
 				});
 			}),
-			new ContextMenuEntry('Cijena', 'ico', () => {
+			new ContextMenuEntry('Cijena dobavljača', 'ico', () => {
 				dispatch('renameColumn', {
 					id: column.id,
-					newName: 'Cijena'
+					newName: 'Cijena dobavljača'
+				});
+			}),
+			new ContextMenuEntry('Fakturna cijena', 'ico', () => {
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'Fakturna cijena'
+				});
+			}),
+			new ContextMenuEntry('Iznos', 'ico', () => {
+				dispatch('renameColumn', {
+					id: column.id,
+					newName: 'Iznos'
 				});
 			}),
 			new ContextMenuEntry('Rabat', 'ico', () => {
