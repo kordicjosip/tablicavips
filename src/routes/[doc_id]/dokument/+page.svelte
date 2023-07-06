@@ -1,10 +1,21 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	export let data;
 
 	let rowData = [];
 	let sendButton = [];
-	for (let i = 0; i < data.table[Object.keys(data.table)[0]].length; i++) {
-		sendButton.push({ disabled: false });
+
+	let testData;
+	async function testbb() {
+		const res = await fetch('/api', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		testData = await res.json();
+		console.log(testData);
 	}
 
 	function sendRowData(i) {
@@ -16,10 +27,13 @@
 		rowData = rowData.flat(1);
 		sendButton[i].disabled = true;
 		console.log(rowData);
+		testbb();
 	}
+
+	onMount(() => {});
 </script>
 
-{#if data.table}
+{#if data.table.length > 0}
 	<table>
 		<thead>
 			<tr>
@@ -37,7 +51,7 @@
 						>
 					{/each}
 					<td>
-						{#if sendButton[i].disabled}
+						{#if data.table[i].disabled}
 							<button class="block m-auto" disabled>
 								<svg
 									class="sent"

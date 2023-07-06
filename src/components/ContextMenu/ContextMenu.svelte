@@ -28,7 +28,7 @@
 			{#each group.entries as entry}
 				<li
 					on:click={entry.action}
-					class="text-white hover:bg-neutral-600 m-0.5 px-2 py-0.5 cursor-pointer"
+					class="text-white hover:bg-neutral-600 px-2.5 py-1 cursor-pointer"
 				>
 					{entry.title}
 				</li>
