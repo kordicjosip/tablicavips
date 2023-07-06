@@ -1,6 +1,6 @@
-<script lang='ts'>
+<script lang="ts">
 	import { onMount } from 'svelte';
-	import { DokumentRed, OCR, type OCRInterface, TableData, TablesData } from './index';
+	import { type DokumentRed, OCR, type OCRInterface, TableData, TablesData } from './index';
 	import Table from './Table.svelte';
 	import Sidebar from './Sidebar.svelte';
 	import Navbar from './Navbar.svelte';
@@ -13,7 +13,7 @@
 	let columnTemplatesData = [];
 
 	function sendAllData() {
-		const tablica: {columns: any[], tablica: DokumentRed[]} = {
+		const tablica: { columns: any[]; tablica: DokumentRed[] } = {
 			columns: [],
 			tablica: []
 		};
@@ -33,7 +33,10 @@
 				});
 				for (const columnNumber in tableColumns) {
 					const column = tableColumns[columnNumber];
-					if (tablica.columns.find((column) => column.name === tableColumns[columnNumber].name) === undefined) {
+					if (
+						tablica.columns.find((column) => column.name === tableColumns[columnNumber].name) ===
+						undefined
+					) {
 						tablica.columns.push({
 							name: column.name
 						});
@@ -255,7 +258,7 @@
 	});
 </script>
 
-<div class='h-full w-full flex flex-col'>
+<div class="h-full w-full flex flex-col">
 	<div>
 		<Navbar
 			bind:columnTemplatesData
@@ -270,12 +273,12 @@
 			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)}
 		/>
 	</div>
-	<div class='basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]'>
+	<div class="basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]">
 		{#if data.tables.length > 0}
-			<div class='basis-auto flex-grow flex-shrink overflow-y-auto w-[10rem]'>
+			<div class="basis-auto flex-grow flex-shrink overflow-y-auto w-[10rem]">
 				<Sidebar bind:currentPage={data.currentPage} data={data.tables} />
 			</div>
-			<div class='basis-auto w-full flex-grow flex-shrink overflow-clip'>
+			<div class="basis-auto w-full flex-grow flex-shrink overflow-clip">
 				{#key data.currentPageTable.id}
 					<Table
 						on:addRow={addRow}
