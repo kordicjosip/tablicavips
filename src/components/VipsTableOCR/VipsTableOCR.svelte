@@ -1,6 +1,6 @@
-<script lang="ts">
+<script lang='ts'>
 	import { onMount } from 'svelte';
-	import { OCR, type OCRInterface, TableData, TablesData } from './index';
+	import { DokumentRed, OCR, type OCRInterface, TableData, TablesData } from './index';
 	import Table from './Table.svelte';
 	import Sidebar from './Sidebar.svelte';
 	import Navbar from './Navbar.svelte';
@@ -13,18 +13,32 @@
 	let columnTemplatesData = [];
 
 	function sendAllData() {
-		let mergedCells = [];
+		const tablica: {columns: any[], tablica: DokumentRed[]} = {
+			columns: [],
+			tablica: []
+		};
+		let mergedRows: DokumentRed[] = [];
 		for (const table of data.tables) {
-			const columns = table.columns
+			const tableColumns = table.columns
 				.filter((column) => column.name !== null)
 				.sort((a, b) => a.x1 - b.x1);
-			const rows = table.rows.sort((a, b) => a.y1 - b.y1);
+			const tableRows = table.rows.sort((a, b) => a.y1 - b.y1);
 
-			const cells = [];
-			for (const column of columns) {
-				for (const rowNumber in rows) {
-					const row = rows[rowNumber];
-					cells.push({
+			const rows: DokumentRed[] = [];
+			for (const rowNumber in tableRows) {
+				const row = tableRows[rowNumber];
+				rows.push({
+					cells: [],
+					disabled: false
+				});
+				for (const columnNumber in tableColumns) {
+					const column = tableColumns[columnNumber];
+					if (tablica.columns.find((column) => column.name === tableColumns[columnNumber].name) === undefined) {
+						tablica.columns.push({
+							name: column.name
+						});
+					}
+					rows[rowNumber].cells.push({
 						colName: column.name,
 						rowNumber,
 						x1: column.x1,
@@ -35,55 +49,53 @@
 					});
 				}
 			}
-			for (const cell of cells) {
-				cell.text = table.ocr.filter((ocr) => {
-					return (
-						ocr.x1 - table.tableCrop.x1 >= cell.x1 &&
-						ocr.x2 - table.tableCrop.x1 <= cell.x2 &&
-						ocr.y1 - table.tableCrop.y1 >= cell.y1 &&
-						ocr.y2 - table.tableCrop.y1 <= cell.y2
-					);
-				});
-				cell.text.sort((a, b) => a.x1 - b.x1);
-				cell.text.sort((a, b) => {
-					if (a.y1 > b.y2) return 1;
-					if (a.y2 < b.y1) return -1;
-					return 0;
-				});
-				let previousY2: number | null = null;
-				for (let textIndex = 0; textIndex < cell.text.length; textIndex++) {
-					if (previousY2 !== null && cell.text[textIndex].y1 > previousY2) {
-						cell.text = [
-							...cell.text.slice(0, textIndex),
-							new OCR({
-								x1: cell.text[textIndex].x1,
-								x2: cell.text[textIndex].x2,
-								y1: cell.text[textIndex].y1,
-								y2: cell.text[textIndex].y2,
-								text: '\n'
-							}),
-							...cell.text.slice(textIndex)
-						];
+			for (const row of rows) {
+				for (const cell of row.cells) {
+					cell.text = table.ocr.filter((ocr) => {
+						return (
+							ocr.x1 - table.tableCrop.x1 >= cell.x1 &&
+							ocr.x2 - table.tableCrop.x1 <= cell.x2 &&
+							ocr.y1 - table.tableCrop.y1 >= cell.y1 &&
+							ocr.y2 - table.tableCrop.y1 <= cell.y2
+						);
+					});
+					cell.text.sort((a, b) => a.x1 - b.x1);
+					cell.text.sort((a, b) => {
+						if (a.y1 > b.y2) return 1;
+						if (a.y2 < b.y1) return -1;
+						return 0;
+					});
+					let previousY2: number | null = null;
+					for (let textIndex = 0; textIndex < cell.text.length; textIndex++) {
+						if (previousY2 !== null && cell.text[textIndex].y1 > previousY2) {
+							cell.text = [
+								...cell.text.slice(0, textIndex),
+								new OCR({
+									x1: cell.text[textIndex].x1,
+									x2: cell.text[textIndex].x2,
+									y1: cell.text[textIndex].y1,
+									y2: cell.text[textIndex].y2,
+									text: '\n'
+								}),
+								...cell.text.slice(textIndex)
+							];
+						}
+						previousY2 = cell.text[textIndex].y2;
 					}
-					previousY2 = cell.text[textIndex].y2;
 				}
 			}
-			localStorage.setItem(table.id + 'columns', JSON.stringify(table.columns));
-			localStorage.setItem(table.id + 'rows', JSON.stringify(table.rows));
-			mergedCells = mergedCells.concat(cells);
+			mergedRows = mergedRows.concat(rows);
 		}
 
-		const table = {};
-		for (const cell of mergedCells) {
-			cell.text = cell.text.map((text) => text.text).join(' ');
-			if (table[cell.colName] === undefined) {
-				table[cell.colName] = [cell];
-			} else {
-				table[cell.colName].push(cell);
+		for (const row of mergedRows) {
+			for (const cell of row.cells) {
+				cell.text = cell.text.map((text) => text.text).join(' ');
 			}
 		}
 
-		localStorage.setItem(documentData.id, JSON.stringify(table));
+		tablica.tablica = mergedRows;
+
+		localStorage.setItem(documentData.id, JSON.stringify(tablica));
 
 		goto('/' + documentData.id + '/dokument');
 	}
@@ -243,7 +255,7 @@
 	});
 </script>
 
-<div class="h-full w-full flex flex-col">
+<div class='h-full w-full flex flex-col'>
 	<div>
 		<Navbar
 			bind:columnTemplatesData
@@ -252,18 +264,18 @@
 			bind:scale
 			isUnlinked={data.currentPageTable?.isUnlinked}
 			on:changeColumnTemplate={changeColumnTemplate}
-			on:postColumnTemplate={postColumnTemplate}
 			on:getColumnTemplates={getColumnTemplates}
-			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)}
+			on:postColumnTemplate={postColumnTemplate}
 			on:sendAllData={sendAllData}
+			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)}
 		/>
 	</div>
-	<div class="basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]">
+	<div class='basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]'>
 		{#if data.tables.length > 0}
-			<div class="basis-auto flex-grow flex-shrink overflow-y-auto w-[10rem]">
+			<div class='basis-auto flex-grow flex-shrink overflow-y-auto w-[10rem]'>
 				<Sidebar bind:currentPage={data.currentPage} data={data.tables} />
 			</div>
-			<div class="basis-auto w-full flex-grow flex-shrink overflow-clip">
+			<div class='basis-auto w-full flex-grow flex-shrink overflow-clip'>
 				{#key data.currentPageTable.id}
 					<Table
 						on:addRow={addRow}

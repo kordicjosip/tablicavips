@@ -109,6 +109,11 @@ export class TableColumn {
 	}
 }
 
+export interface DokumentRed {
+	cells: any[];
+	disabled: boolean;
+}
+
 export class TableRow {
 	id: number = -1;
 	name: string | null = null;
