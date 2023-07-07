@@ -1,6 +1,9 @@
 // @ts-ignore
-import { testaaa } from '$components/db';
+import { sendDataToVips } from '$components/db';
+import { json } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
-export async function GET() {
-	return new Response(await testaaa());
-}
+export const GET = (async () => {
+	const result = await sendDataToVips();
+	return json(result);
+}) satisfies RequestHandler;

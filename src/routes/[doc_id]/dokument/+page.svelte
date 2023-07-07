@@ -4,7 +4,7 @@
 	export let data;
 
 	let testData;
-	async function testbb() {
+	async function writeToVips() {
 		const res = await fetch('/api', {
 			method: 'GET',
 			headers: {
@@ -19,7 +19,8 @@
 		row.disabled = true;
 		data = data;
 
-		testbb();
+		console.log(row.cells);
+		writeToVips();
 	}
 </script>
 
@@ -35,11 +36,15 @@
 		{#each data.table.tablica as row}
 			<tr>
 				{#each row.cells as cell}
-					<td contenteditable="true" bind:textContent={cell.text}
-						>{cell.text}</td
-					>
+					{#if !row.disabled}
+						<td contenteditable class:bg-green-300={row.disabled} bind:textContent={cell.text}
+							>{cell.text}</td
+						>
+					{:else}
+						<td class:bg-green-300={row.disabled}>{cell.text}</td>
+					{/if}
 				{/each}
-				<td>
+				<td class:bg-green-300={row.disabled}>
 					{#if row.disabled}
 						<button class="block m-auto" disabled>
 							<svg
@@ -63,7 +68,13 @@
 							</svg>
 						</button>
 					{:else}
-						<button class="block m-auto" on:click={() => sendRowData(row)}>
+						<button
+							class="block m-auto"
+							on:click={() => {
+								sendRowData(row);
+								row.cells.removeAttribute('contenteditable');
+							}}
+						>
 							<svg
 								class="send"
 								width="24px"
