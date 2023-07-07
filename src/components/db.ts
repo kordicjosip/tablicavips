@@ -64,7 +64,7 @@ SET @pmPjID = 1 -- ID Poslovne jedinice na kojoj se radi
 
 -- Ako je bilo koji dokument
 SELECT
-		@pmNC = [NC],
+	@pmNC = [NC],
     @pmVPC = [VPC],
     @pmMPC = [MPC],
     @pmPorezID = [PrzID]

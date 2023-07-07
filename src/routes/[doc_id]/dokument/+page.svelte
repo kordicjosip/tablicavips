@@ -16,15 +16,17 @@
 	}
 
 	function sendRowData(row: DokumentRed) {
-		row.disabled = true;
-		data = data;
-
-		console.log(row.cells);
-		writeToVips();
+		if (row.cells.map((cell) => cell.text === '').some((isEmpty) => isEmpty)) {
+			alert('Popunite sva polja!');
+		} else {
+			console.log(row);
+			row.disabled = true;
+			data = data;
+		}
 	}
 </script>
 
-<table>
+<table class="mx-auto">
 	<thead>
 		<tr>
 			{#each data.table.columns as header}
@@ -37,8 +39,11 @@
 			<tr>
 				{#each row.cells as cell}
 					{#if !row.disabled}
-						<td contenteditable class:bg-green-300={row.disabled} bind:textContent={cell.text}
-							>{cell.text}</td
+						<td
+							class:bg-green-300={row.disabled}
+							class:bg-red-300={cell.text === ''}
+							contenteditable
+							bind:textContent={cell.text}>{cell.text}</td
 						>
 					{:else}
 						<td class:bg-green-300={row.disabled}>{cell.text}</td>
@@ -68,13 +73,7 @@
 							</svg>
 						</button>
 					{:else}
-						<button
-							class="block m-auto"
-							on:click={() => {
-								sendRowData(row);
-								row.cells.removeAttribute('contenteditable');
-							}}
-						>
+						<button class="block m-auto" on:click={() => sendRowData(row)}>
 							<svg
 								class="send"
 								width="24px"
