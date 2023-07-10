@@ -39,13 +39,13 @@
 					const column = tableColumns[columnNumber];
 					if (
 						tablica.columns.find(
-							(column) => column.name === tableColumns[columnNumber].type.name
+							(column) => column.name === tableColumns[columnNumber].type?.name
 						) === undefined
 					) {
 						tablica.columns.push(column.type!);
 					}
 					rows[rowNumber].cells.push({
-						colName: column.name,
+						colName: column.type,
 						rowNumber,
 						x1: column.x1,
 						x2: column.x2,
@@ -169,7 +169,7 @@
 					return {
 						x1: column.x1,
 						x2: column.x2,
-						naziv: column.name
+						naziv: column.type?.name
 					};
 				})
 			})
