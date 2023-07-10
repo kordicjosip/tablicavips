@@ -61,7 +61,8 @@
 			font-size="10pt"
 			text-anchor="middle"
 			x={(column.width * scale) / 2}
-			y={COLUMN_HEADER_HEIGHT / 2}>{column.name ? column.name : 'column'}</text
+			y={COLUMN_HEADER_HEIGHT / 2}
+			>{column.type ? column.type.name : column.name ? column.name : 'column'}</text
 		>
 	</svg>
 </g>

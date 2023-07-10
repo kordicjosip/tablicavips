@@ -24,6 +24,8 @@
 	import RowHeaderDividerLine from './RowHeaderDividerLine.svelte';
 	import ColumnHeaderDividerLine from './ColumnHeaderDividerLine.svelte';
 	import OCRElement from './OCRElement.svelte';
+	import { Field } from '$components/VipsTableOCR/field';
+	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
 	const dispatch = new createEventDispatcher();
 	export let show_column_header = true;
 	export let show_row_header = true;
@@ -137,10 +139,22 @@
 		cmY = event.y;
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
+			...columnTypes.map((columnType) => {
+				return new ContextMenuEntry(columnType.name, 'ico', () => {
+					dispatch('setColumnType', {
+						id: column.id,
+						column: columnType
+					});
+				});
+			}),
 			new ContextMenuEntry('Redni broj', 'ico', () => {
-				dispatch('renameColumn', {
+				dispatch('setColumnType', {
 					id: column.id,
-					newName: 'Rbr'
+					column: {
+						name: 'Redni broj',
+						field: Field.numeric,
+						parameter: 'rbr'
+					}
 				});
 			}),
 			new ContextMenuEntry('Šifra', 'ico', () => {

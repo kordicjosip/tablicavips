@@ -22,6 +22,7 @@
 			console.log(row);
 			row.disabled = true;
 			data = data;
+			writeToVips();
 		}
 	}
 </script>

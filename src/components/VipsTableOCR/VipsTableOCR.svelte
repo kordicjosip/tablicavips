@@ -5,6 +5,7 @@
 	import Sidebar from './Sidebar.svelte';
 	import Navbar from './Navbar.svelte';
 	import { goto } from '$app/navigation';
+	import { Field } from '$components/VipsTableOCR/field';
 
 	export let documentData;
 	let data: TablesData = new TablesData();
@@ -13,14 +14,17 @@
 	let columnTemplatesData = [];
 
 	function sendAllData() {
-		const tablica: { columns: any[]; tablica: DokumentRed[] } = {
+		const tablica: {
+			columns: { name: string; field: Field; parameter: string }[];
+			tablica: DokumentRed[];
+		} = {
 			columns: [],
 			tablica: []
 		};
 		let mergedRows: DokumentRed[] = [];
 		for (const table of data.tables) {
 			const tableColumns = table.columns
-				.filter((column) => column.name !== null)
+				.filter((column) => column.type !== null)
 				.sort((a, b) => a.x1 - b.x1);
 			const tableRows = table.rows.sort((a, b) => a.y1 - b.y1);
 
@@ -34,12 +38,11 @@
 				for (const columnNumber in tableColumns) {
 					const column = tableColumns[columnNumber];
 					if (
-						tablica.columns.find((column) => column.name === tableColumns[columnNumber].name) ===
-						undefined
+						tablica.columns.find(
+							(column) => column.name === tableColumns[columnNumber].type.name
+						) === undefined
 					) {
-						tablica.columns.push({
-							name: column.name
-						});
+						tablica.columns.push(column.type!);
 					}
 					rows[rowNumber].cells.push({
 						colName: column.name,
@@ -123,8 +126,8 @@
 		data = data;
 	}
 
-	function renameColumn(event) {
-		data.renameColumn(event.detail.id, event.detail.newName);
+	function setColumnType(event) {
+		data.setColumnType(event.detail.id, event.detail.column);
 		data = data;
 	}
 
@@ -285,7 +288,7 @@
 						on:removeRow={removeRow}
 						on:addColumn={addColumn}
 						on:removeColumn={removeColumn}
-						on:renameColumn={renameColumn}
+						on:setColumnType={setColumnType}
 						on:setOffsetColumnAllTables={setOffsetColumnAllTables}
 						on:setOffsetColumnsAllTables={setOffsetColumnsAllTables}
 						on:dragX1AllTables={dragX1AllTables}

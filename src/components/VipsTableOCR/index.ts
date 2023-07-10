@@ -1,3 +1,5 @@
+import type { Field } from './field';
+
 export { default as VipsTableOCR } from './VipsTableOCR.svelte';
 
 export const ROW_HEADER_WIDTH = 25;
@@ -46,6 +48,7 @@ export class TableColumn {
 	_x2: number = -1;
 
 	tableWidth: number = 0;
+	type: { name: string; field: Field; parameter: string } | null = null;
 
 	setOffset(offset: number) {
 		this.offset += offset;
@@ -203,10 +206,10 @@ export class TableData {
 		this.columns = [];
 	}
 
-	renameColumn(id: number, newName: string) {
+	setColumnType(id: number, type: { name: string; field: Field; parameter: string }) {
 		const col = this.columns.find((c) => c.id === id);
 		if (col) {
-			col.name = newName;
+			col.type = type;
 		}
 	}
 
@@ -292,9 +295,9 @@ export class TablesData {
 		}
 	}
 
-	renameColumn(id: number, newName: string) {
+	setColumnType(id: number, type: { name: string; field: Field; parameter: string }) {
 		if (this.currentPageTable) {
-			this.currentPageTable.renameColumn(id, newName);
+			this.currentPageTable.setColumnType(id, type);
 		}
 	}
 
