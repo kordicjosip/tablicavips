@@ -50,7 +50,7 @@
 		cmY = event.y;
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
-			new ContextMenuEntry('Dodaj red', 'ico', () => {
+			new ContextMenuEntry('Dodaj red', () => {
 				dispatch('addRow', {
 					id: Number(data.rows.length),
 					name: 'row',
@@ -58,7 +58,7 @@
 					y2: (event.offsetY - Y + 15) / scale
 				});
 			}),
-			new ContextMenuEntry('Obriši red', 'ico', () => {
+			new ContextMenuEntry('Obriši red', () => {
 				dispatch('removeRow', row);
 			})
 		);
@@ -72,10 +72,10 @@
 		cmY = event.y;
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
-			new ContextMenuEntry('Obriši stupac', 'ico', () => {
+			new ContextMenuEntry('Obriši stupac', () => {
 				dispatch('removeColumn', column);
 			}),
-			new ContextMenuEntry('Preimenuj', 'ico', () => {
+			new ContextMenuEntry('Preimenuj', () => {
 				setTimeout(() => {
 					showContextMenuColsRename(event, column);
 				}, 1);
@@ -92,7 +92,7 @@
 		cmY = event.y;
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
-			new ContextMenuEntry('Dodaj red', 'ico', () => {
+			new ContextMenuEntry('Dodaj red', () => {
 				dispatch('addRow', {
 					id: Number(data.rows.length),
 					name: 'row',
@@ -111,7 +111,7 @@
 		cmY = event.y;
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
-			new ContextMenuEntry('Dodaj stupac', 'ico', () => {
+			new ContextMenuEntry('Dodaj stupac', () => {
 				dispatch('addColumn', {
 					id: Number(data.rows.length),
 					name: 'column',
@@ -128,10 +128,11 @@
 	function showContextMenuColsRename(event: PointerEvent, column: TableColumnInterface) {
 		cmX = event.x;
 		cmY = event.y;
+		console.log(data.columns);
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			...columnTypes.map((columnType) => {
-				return new ContextMenuEntry(columnType.name, 'ico', () => {
+				return new ContextMenuEntry(columnType.name, () => {
 					dispatch('setColumnType', {
 						id: column.id,
 						column: columnType

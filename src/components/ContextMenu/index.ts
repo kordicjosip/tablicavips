@@ -2,12 +2,10 @@ export { default as ContextMenu } from '../../components/ContextMenu/ContextMenu
 
 export class ContextMenuEntry {
 	title: string;
-	icon: string;
 	action: Function;
 
-	constructor(title: string, icon: string, action: Function) {
+	constructor(title: string, action: Function) {
 		this.title = title;
-		this.icon = icon;
 		this.action = action;
 	}
 }
