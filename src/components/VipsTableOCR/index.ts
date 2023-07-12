@@ -7,6 +7,7 @@ export const COLUMN_HEADER_HEIGHT = 20;
 
 export interface TableColumnInterface {
 	id: number;
+	type: { name: string; field: Field; parameter: string } | null;
 	name: string | null;
 	x1: number;
 	x2: number;
@@ -40,6 +41,7 @@ export interface TableDataInterface {
 export class TableColumn {
 	id: number = -1;
 	name: string | null = null;
+	type: { name: string; field: Field; parameter: string } | null = null;
 
 	selected = false;
 
@@ -48,7 +50,6 @@ export class TableColumn {
 	_x2: number = -1;
 
 	tableWidth: number = 0;
-	type: { name: string; field: Field; parameter: string } | null = null;
 
 	setOffset(offset: number) {
 		this.offset += offset;
@@ -192,6 +193,7 @@ export class TableData {
 		new_column.id = this.columns.reduce((max, col) => (col.id > max ? col.id : max), -1) + 1;
 		new_column.x1 = column.x1;
 		new_column.x2 = column.x2;
+		new_column.type = column.type;
 		new_column.name = column.name;
 		new_column.tableWidth = this.resolution[0];
 

@@ -45,7 +45,6 @@
 						tablica.columns.push(column.type!);
 					}
 					rows[rowNumber].cells.push({
-						colName: column.type,
 						rowNumber,
 						x1: column.x1,
 						x2: column.x2,
@@ -169,7 +168,7 @@
 					return {
 						x1: column.x1,
 						x2: column.x2,
-						naziv: column.type?.name
+						type: column.type
 					};
 				})
 			})
@@ -185,7 +184,8 @@
 			for (let i = 0; i < event.detail.length; i++) {
 				data.AddColumnsAllTables({
 					id: event.detail[i].id,
-					name: event.detail[i].naziv,
+					name: event.detail[i].type.name,
+					type: event.detail[i].type,
 					x1: event.detail[i].x1,
 					x2: event.detail[i].x2
 				});
@@ -195,7 +195,8 @@
 			for (let i = 0; i < event.detail.length; i++) {
 				data.currentPageTable.addColumn({
 					id: event.detail[i].id,
-					name: event.detail[i].naziv,
+					name: event.detail[i].type.name,
+					type: event.detail[i].type,
 					x1: event.detail[i].x1,
 					x2: event.detail[i].x2
 				});
@@ -212,6 +213,7 @@
 					return {
 						id: index,
 						name: null,
+						type: null,
 						x1: column[0],
 						x2: column[1],
 						get width() {

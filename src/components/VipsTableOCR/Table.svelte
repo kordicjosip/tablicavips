@@ -24,7 +24,6 @@
 	import RowHeaderDividerLine from './RowHeaderDividerLine.svelte';
 	import ColumnHeaderDividerLine from './ColumnHeaderDividerLine.svelte';
 	import OCRElement from './OCRElement.svelte';
-	import { Field } from '$components/VipsTableOCR/field';
 	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
 	const dispatch = new createEventDispatcher();
 	export let show_column_header = true;
@@ -73,14 +72,6 @@
 		cmY = event.y;
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
-			new ContextMenuEntry('Dodaj stupac', 'ico', () => {
-				dispatch('addColumn', {
-					id: Number(data?.rows.length),
-					name: 'column',
-					x1: (event.offsetX - X - 25) / scale,
-					x2: (event.offsetX - X + 25) / scale
-				});
-			}),
 			new ContextMenuEntry('Obriši stupac', 'ico', () => {
 				dispatch('removeColumn', column);
 			}),
@@ -145,76 +136,6 @@
 						id: column.id,
 						column: columnType
 					});
-				});
-			}),
-			new ContextMenuEntry('Redni broj', 'ico', () => {
-				dispatch('setColumnType', {
-					id: column.id,
-					column: {
-						name: 'Redni broj',
-						field: Field.numeric,
-						parameter: 'rbr'
-					}
-				});
-			}),
-			new ContextMenuEntry('Šifra', 'ico', () => {
-				dispatch('renameColumn', {
-					id: column.id,
-					newName: 'Šifra'
-				});
-			}),
-			new ContextMenuEntry('Naziv', 'ico', () => {
-				dispatch('renameColumn', {
-					id: column.id,
-					newName: 'Naziv artikla'
-				});
-			}),
-			new ContextMenuEntry('Količina', 'ico', () => {
-				dispatch('renameColumn', {
-					id: column.id,
-					newName: 'Količina'
-				});
-			}),
-			new ContextMenuEntry('JMJ', 'ico', () => {
-				dispatch('renameColumn', {
-					id: column.id,
-					newName: 'JMJ'
-				});
-			}),
-			new ContextMenuEntry('Barkod', 'ico', () => {
-				dispatch('renameColumn', {
-					id: column.id,
-					newName: 'Barkod'
-				});
-			}),
-			new ContextMenuEntry('Cijena dobavljača', 'ico', () => {
-				dispatch('renameColumn', {
-					id: column.id,
-					newName: 'Cijena dobavljača'
-				});
-			}),
-			new ContextMenuEntry('Fakturna cijena', 'ico', () => {
-				dispatch('renameColumn', {
-					id: column.id,
-					newName: 'Fakturna cijena'
-				});
-			}),
-			new ContextMenuEntry('Iznos', 'ico', () => {
-				dispatch('renameColumn', {
-					id: column.id,
-					newName: 'Iznos'
-				});
-			}),
-			new ContextMenuEntry('Rabat', 'ico', () => {
-				dispatch('renameColumn', {
-					id: column.id,
-					newName: 'Rabat'
-				});
-			}),
-			new ContextMenuEntry('PDV', 'ico', () => {
-				dispatch('renameColumn', {
-					id: column.id,
-					newName: 'PDV'
 				});
 			})
 		);
