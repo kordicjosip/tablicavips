@@ -182,7 +182,7 @@
 		if (!data.currentPageTable?.isUnlinked) {
 			data.deleteColumnsAllTables();
 			for (let i = 0; i < event.detail.length; i++) {
-				data.AddColumnsAllTables({
+				data.addColumnsAllTables({
 					id: event.detail[i].id,
 					name: event.detail[i].type.name,
 					type: event.detail[i].type,

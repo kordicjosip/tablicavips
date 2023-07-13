@@ -1,4 +1,5 @@
 import type { Field } from './field';
+import { data } from 'autoprefixer';
 
 export { default as VipsTableOCR } from './VipsTableOCR.svelte';
 
@@ -251,9 +252,15 @@ export class TablesData {
 	}
 
 	addColumn(column: TableColumnInterface) {
-		if (this.currentPageTable) {
-			this.currentPageTable.addColumn(column);
-		}
+		this.tables.forEach((table) => {
+			if (this.currentPageTable?.isUnlinked) {
+				this.currentPageTable.addColumn(column);
+			} else {
+				if (!table.isUnlinked) {
+					table.addColumn(column);
+				}
+			}
+		});
 	}
 
 	removeColumn(column: TableColumnInterface) {
@@ -270,7 +277,7 @@ export class TablesData {
 		});
 	}
 
-	AddColumnsAllTables(column: TableColumnInterface) {
+	addColumnsAllTables(column: TableColumnInterface) {
 		this.tables.forEach((table) => {
 			if (!table.isUnlinked) {
 				table.addColumn(column);
