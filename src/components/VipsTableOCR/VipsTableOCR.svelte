@@ -46,6 +46,7 @@
 					}
 					rows[rowNumber].cells.push({
 						rowNumber,
+						colParam: column.type?.parameter,
 						x1: column.x1,
 						x2: column.x2,
 						y1: row.y1,

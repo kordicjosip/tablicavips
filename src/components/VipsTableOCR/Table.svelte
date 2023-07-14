@@ -50,14 +50,6 @@
 		cmY = event.y;
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
-			new ContextMenuEntry('Dodaj red', () => {
-				dispatch('addRow', {
-					id: Number(data.rows.length),
-					name: 'row',
-					y1: (event.offsetY - Y - 15) / scale,
-					y2: (event.offsetY - Y + 15) / scale
-				});
-			}),
 			new ContextMenuEntry('Obriši red', () => {
 				dispatch('removeRow', row);
 			})

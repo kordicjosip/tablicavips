@@ -1,5 +1,4 @@
 import type { Field } from './field';
-import { data } from 'autoprefixer';
 
 export { default as VipsTableOCR } from './VipsTableOCR.svelte';
 
@@ -211,6 +210,13 @@ export class TableData {
 
 	setColumnType(id: number, type: { name: string; field: Field; parameter: string }) {
 		const col = this.columns.find((c) => c.id === id);
+		for (const existingCol of this.columns) {
+			if (existingCol.type === type) {
+				alert('Već postoji kolona sa ovim tipom');
+				return;
+			}
+		}
+
 		if (col) {
 			col.type = type;
 		}

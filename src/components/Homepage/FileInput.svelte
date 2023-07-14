@@ -12,12 +12,17 @@
 </script>
 
 <input
-	class="w-52 h-fit cursor-pointer m-3"
-	type="file"
 	accept=".pdf"
+	bind:this={input}
+	class="w-60 h-fit file:cursor-pointer m-3
+		file:mr-4 file:py-2 file:px-4
+    	file:rounded-full file:border-0
+    	file:text-sm file:font-semibold
+    	file:bg-blue-50 file:text-blue-700
+    	hover:file:bg-blue-100"
+	{disabled}
+	{multiple}
 	name="file"
 	on:change={handleDrop}
-	bind:this={input}
-	{multiple}
-	{disabled}
+	type="file"
 />
