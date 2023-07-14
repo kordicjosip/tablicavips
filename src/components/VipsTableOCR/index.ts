@@ -212,11 +212,9 @@ export class TableData {
 		const col = this.columns.find((c) => c.id === id);
 		for (const existingCol of this.columns) {
 			if (existingCol.type === type) {
-				alert('Već postoji kolona sa ovim tipom');
 				return;
 			}
 		}
-
 		if (col) {
 			col.type = type;
 		}
@@ -311,9 +309,15 @@ export class TablesData {
 	}
 
 	setColumnType(id: number, type: { name: string; field: Field; parameter: string }) {
-		if (this.currentPageTable) {
-			this.currentPageTable.setColumnType(id, type);
-		}
+		this.tables.forEach((table) => {
+			if (this.currentPageTable?.isUnlinked) {
+				this.currentPageTable.setColumnType(id, type);
+			} else {
+				if (!table.isUnlinked) {
+					table.setColumnType(id, type);
+				}
+			}
+		});
 	}
 
 	setOffset(offset: number) {
