@@ -268,9 +268,15 @@ export class TablesData {
 	}
 
 	removeColumn(column: TableColumnInterface) {
-		if (this.currentPageTable) {
-			this.currentPageTable.removeColumn(column);
-		}
+		this.tables.forEach((table) => {
+			if (this.currentPageTable?.isUnlinked) {
+				this.currentPageTable.removeColumn(column);
+			} else {
+				if (!table.isUnlinked) {
+					table.removeColumn(column);
+				}
+			}
+		});
 	}
 
 	deleteColumnsAllTables() {
