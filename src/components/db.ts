@@ -21,6 +21,20 @@ const sqlConfig = {
 	}
 };
 
+export let pool: sql.ConnectionPool;
+
+export async function init() {
+	pool = await sql.connect(sqlConfig);
+}
+
+export async function getArtiklPoSifri(sifra: string): Promise<number | undefined> {
+	const result = await pool
+		.request()
+		.input('sifra', sifra)
+		.query(`SELECT TOP 1 [ID] FROM [Test].[dbo].[tbArt] WHERE [Sifra] = @sifra`);
+	return result.recordset[0]?.ID;
+}
+
 export async function sendDataToVips() {
 	try {
 		await sql.connect(sqlConfig);

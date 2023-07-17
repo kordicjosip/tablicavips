@@ -1,9 +1,11 @@
 <script lang="ts">
 	import type { DokumentRed } from '$components/VipsTableOCR';
+	import { Field } from '$components/VipsTableOCR/field';
 
 	export let data;
 
 	let testData;
+
 	async function writeToVips() {
 		const res = await fetch('/api', {
 			method: 'GET',
@@ -31,21 +33,30 @@
 	<thead>
 		<tr>
 			{#each data.table.columns as header}
-				<th>{header.name}</th>
+				{#if header.field === Field.artiklPoSifri}
+					<th colspan="2" />
+				{:else}
+					<th>{header.name}</th>
+				{/if}
 			{/each}
 		</tr>
 	</thead>
 	<tbody>
 		{#each data.table.tablica as row}
 			<tr>
-				{#each row.cells as cell}
+				{#each row.cells as cell, i (cell.colParam + cell.rowNumber)}
 					{#if !row.disabled}
-						<td
-							class:bg-green-300={row.disabled}
-							class:bg-red-300={cell.text === ''}
-							contenteditable
-							bind:textContent={cell.text}>{cell.text}</td
-						>
+						{#if data.table.columns[i].field === Field.artiklPoSifri}
+							<td>{cell.text} </td>
+							<td>{cell.data ? 'Postoji' : 'Ne postoji'}</td>
+						{:else}
+							<td
+								class:bg-green-300={row.disabled}
+								class:bg-red-300={cell.text === ''}
+								contenteditable
+								bind:textContent={cell.text}>{cell.text}</td
+							>
+						{/if}
 					{:else}
 						<td class:bg-green-300={row.disabled}>{cell.text}</td>
 					{/if}
