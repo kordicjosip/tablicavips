@@ -18,7 +18,15 @@
 	}
 
 	function sendRowData(row: DokumentRed) {
-		if (row.cells.map((cell) => cell.text === '').some((isEmpty) => isEmpty)) {
+		for (const columnIndex in data.table.columns) {
+			if (data.table.columns[columnIndex].field === Field.artiklPoSifri) {
+				if (row.cells[columnIndex].data === undefined) {
+					alert('Artikl ne postoji!');
+					return;
+				}
+			}
+		}
+		if (row.cells.find((cell) => cell.text === '')) {
 			alert('Popunite sva polja!');
 		} else {
 			console.log(row);
@@ -34,7 +42,7 @@
 		<tr>
 			{#each data.table.columns as header}
 				{#if header.field === Field.artiklPoSifri}
-					<th colspan="2" />
+					<th colspan="2">Šifra</th>
 				{:else}
 					<th>{header.name}</th>
 				{/if}
@@ -47,8 +55,12 @@
 				{#each row.cells as cell, i (cell.colParam + cell.rowNumber)}
 					{#if !row.disabled}
 						{#if data.table.columns[i].field === Field.artiklPoSifri}
-							<td>{cell.text} </td>
-							<td>{cell.data ? 'Postoji' : 'Ne postoji'}</td>
+							<td contenteditable class:bg-red-300={cell.text === ''} bind:textContent={cell.text}
+								>{cell.text}
+							</td>
+							<td class:bg-red-300={!cell.data} class:bg-green-300={cell.data}
+								>{cell.data ? 'Postoji' : 'Ne postoji'}</td
+							>
 						{:else}
 							<td
 								class:bg-green-300={row.disabled}
@@ -57,6 +69,9 @@
 								bind:textContent={cell.text}>{cell.text}</td
 							>
 						{/if}
+					{:else if data.table.columns[i].field === Field.artiklPoSifri}
+						<td class:bg-green-300={row.disabled}>{cell.text}</td>
+						<td class:bg-green-300={row.disabled}>{cell.data ? 'Postoji' : 'Ne postoji'}</td>
 					{:else}
 						<td class:bg-green-300={row.disabled}>{cell.text}</td>
 					{/if}

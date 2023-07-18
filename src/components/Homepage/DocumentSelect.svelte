@@ -203,7 +203,7 @@
 				</tr>
 				{#each documentsData as document}
 					{#if document.obrada_u_toku}
-						<tr class="hover:cursor-pointer hover:bg-neutral-100 rounded-xl">
+						<tr class="rounded-xl hover:cursor-wait">
 							<td class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5">
 								Dokument se obrađuje...
 							</td>
@@ -247,7 +247,7 @@
 				{#each documentsData as document}
 					{#if document.obrada_u_toku}
 						<div
-							class="flex flex-col justify-between w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-md shadow hover:shadow-md"
+							class="hover:cursor-wait flex flex-col justify-between w-52 h-52 rounded-md shadow hover:shadow-md"
 						>
 							<svg
 								class="mx-auto mt-[4.2rem]"
