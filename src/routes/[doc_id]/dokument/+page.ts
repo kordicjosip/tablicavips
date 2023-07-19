@@ -14,12 +14,13 @@ export const load: PageLoad = async ({ params, fetch }) => {
 		for (const columnIndex in table.columns) {
 			if (table.columns[columnIndex].field === Field.artiklPoSifri) {
 				for (const row of table.tablica) {
-					console.log(row);
-					row.cells[columnIndex].data = await getArtiklPoSifri(
-						row.cells[columnIndex]?.text | '',
-						fetch
-					);
+					row.cells[columnIndex].data = getArtiklPoSifri(row.cells[columnIndex]?.text | '', fetch);
 				}
+				await Promise.all(
+					table.tablica.map(
+						async (row) => (row.cells[columnIndex].data = await row.cells[columnIndex].data)
+					)
+				);
 			}
 		}
 		console.log(table);
