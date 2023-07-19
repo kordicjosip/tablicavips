@@ -57,13 +57,14 @@
 					{#if !row.disabled}
 						{#if data.table.columns[i].field === Field.artiklPoSifri}
 							<td
-								contenteditable
-								class:bg-red-300={cell.text === ''}
-								bind:textContent={cell.text}
-								on:input={async () => {
-									cell.data = await getArtiklPoSifri(cell.text, fetch);
-								}}
-								>{cell.text}
+								><input
+									class:bg-red-300={cell.text === ''}
+									type="text"
+									bind:value={cell.text}
+									on:input={async () => {
+										cell.data = await getArtiklPoSifri(cell.text, fetch);
+									}}
+								/>
 							</td>
 							<td class:bg-red-300={!cell.data} class:bg-green-300={cell.data}
 								>{cell.data ? 'Postoji' : 'Ne postoji'}</td
