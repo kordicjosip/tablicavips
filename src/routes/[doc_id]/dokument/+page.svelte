@@ -31,7 +31,8 @@
 
 	function sendRowData(row: DokumentRed) {
 		for (const columnIndex in data.table.columns) {
-			if (!row.cells[columnIndex].data) {
+			console.log(row.cells[columnIndex].data);
+			if (row.cells[columnIndex].data == undefined || row.cells[columnIndex].data == null) {
 				alert('Podaci nisu ispravni!');
 				return;
 			}
@@ -135,7 +136,9 @@
 						{/if}
 					{:else if data.table.columns[i].field === Field.artiklPoSifri}
 						<td class:bg-green-300={row.disabled}>{cell.text}</td>
-						<td class:bg-green-300={row.disabled}>{cell.data ? 'Postoji' : 'Ne postoji'}</td>
+						<td class="text-gray-700 select-none" class:bg-green-300={row.disabled}
+							>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
+						>
 					{:else}
 						<td class:bg-green-300={row.disabled}>{cell.text}</td>
 					{/if}
