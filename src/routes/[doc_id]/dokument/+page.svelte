@@ -67,7 +67,7 @@
 								/>
 							</td>
 							<td class:bg-red-300={!cell.data} class:bg-green-300={cell.data}
-								>{cell.data ? 'Postoji' : 'Ne postoji'}</td
+								>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
 							>
 						{:else}
 							<td

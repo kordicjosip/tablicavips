@@ -2,7 +2,6 @@ import { Field } from './field';
 
 export const columnTypes: { name: string; field: Field; parameter: string }[] = [
 	{ name: 'ID artikla', field: Field.artiklPoSifri, parameter: 'pmArtiklID' },
-	{ name: 'Naziv artikla', field: Field.text, parameter: 'pmArtiklNaziv' },
 	{ name: 'Količina', field: Field.numeric, parameter: 'pmKolicina' },
 	{ name: 'Ulazna cijena', field: Field.numeric, parameter: 'pmUC' },
 	{ name: 'Fakturna cijena', field: Field.numeric, parameter: 'pmFC' },

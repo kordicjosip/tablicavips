@@ -27,12 +27,18 @@ export async function init() {
 	pool = await sql.connect(sqlConfig);
 }
 
-export async function getArtiklPoSifri(sifra: string): Promise<number | undefined> {
+export async function getArtiklPoSifri(
+	sifra: string
+): Promise<{ ID: number; Naziv: string } | undefined> {
 	const result = await pool
 		.request()
 		.input('sifra', sifra)
-		.query(`SELECT TOP 1 [ID] FROM [Test].[dbo].[tbArt] WHERE [Sifra] = @sifra`);
-	return result.recordset[0]?.ID;
+		.query(`SELECT TOP 1 [ID], [Naziv] FROM [Test].[dbo].[tbArt] WHERE [Sifra] = @sifra`);
+	if (result.recordset.length === 0) return undefined;
+	return {
+		ID: result.recordset[0]?.ID,
+		Naziv: result.recordset[0]?.Naziv
+	};
 }
 
 export async function sendDataToVips() {
