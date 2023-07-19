@@ -66,7 +66,9 @@
 									}}
 								/>
 							</td>
-							<td class:bg-red-300={!cell.data}>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
+							<td class="text-gray-700 select-none" class:bg-red-300={!cell.data}
+								>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
+							>
 						{:else if data.table.columns[i].field === Field.numeric}
 							<td
 								class:bg-red-300={cell.data === null}
