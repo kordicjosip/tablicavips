@@ -6,6 +6,7 @@
 	import Navbar from './Navbar.svelte';
 	import { goto } from '$app/navigation';
 	import { Field } from '$components/VipsTableOCR/field';
+	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
 
 	export let documentData;
 	let data: TablesData = new TablesData();
@@ -150,13 +151,25 @@
 	}
 
 	async function getColumnTemplates() {
-		const res = await fetch('http://192.168.10.20:8000/api/column_templates', {
+		columnTemplatesData = await fetch('http://192.168.10.20:8000/api/column_templates', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
 			}
-		});
-		columnTemplatesData = await res.json();
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				data.forEach((predlozak) => {
+					predlozak.definicija.stupci = predlozak.definicija.stupci.map((stupac) => {
+						return {
+							x1: stupac.x1,
+							x2: stupac.x2,
+							type: columnTypes.find((columnType) => columnType.name === stupac.type)!
+						};
+					});
+				});
+				return data;
+			});
 	}
 
 	async function postColumnTemplate(event) {
@@ -167,13 +180,15 @@
 			},
 			body: JSON.stringify({
 				naziv: event.detail,
-				stupci: data.currentPageTable?.columns.map((column) => {
-					return {
-						x1: column.x1,
-						x2: column.x2,
-						type: column.type
-					};
-				})
+				stupci: data.currentPageTable
+					?.columns!.filter((column) => column.type !== null)
+					.map((column) => {
+						return {
+							x1: column.x1,
+							x2: column.x2,
+							type: column.type?.name
+						};
+					})
 			})
 		});
 
