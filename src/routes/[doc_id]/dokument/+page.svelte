@@ -36,6 +36,14 @@
 			writeToVips();
 		}
 	}
+
+	function validateInputNumeric(text: string) {
+		text = text.replace(',', '.');
+		if (!/^\d+(.\d+)?/.test(text)) {
+			return null;
+		}
+		return Number.parseFloat(text);
+	}
 </script>
 
 <table class="mx-auto">
@@ -58,6 +66,7 @@
 						{#if data.table.columns[i].field === Field.artiklPoSifri}
 							<td
 								><input
+									class="bg-transparent"
 									class:bg-red-300={cell.text === ''}
 									type="text"
 									bind:value={cell.text}
@@ -69,6 +78,20 @@
 							<td class:bg-red-300={!cell.data} class:bg-green-300={cell.data}
 								>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
 							>
+						{:else if data.table.columns[i].field === Field.numeric}
+							<td
+								class:bg-red-300={cell.data === null}
+								class:bg-yellow-300={cell.text === '' &&
+									data.table.columns[i].defaultValue !== null}
+								><input
+									class="bg-transparent"
+									type="text"
+									bind:value={cell.text}
+									on:input={async () => {
+										cell.data = validateInputNumeric(cell.text);
+									}}
+								/>
+							</td>
 						{:else}
 							<td
 								class:bg-green-300={row.disabled}
