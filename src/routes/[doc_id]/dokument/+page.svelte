@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { DokumentRed } from '$components/VipsTableOCR';
 	import { Field } from '$components/VipsTableOCR/field';
+	import { getArtiklPoSifri } from '$components/api';
 
 	export let data;
 
@@ -55,7 +56,13 @@
 				{#each row.cells as cell, i (cell.colParam + cell.rowNumber)}
 					{#if !row.disabled}
 						{#if data.table.columns[i].field === Field.artiklPoSifri}
-							<td contenteditable class:bg-red-300={cell.text === ''} bind:textContent={cell.text}
+							<td
+								contenteditable
+								class:bg-red-300={cell.text === ''}
+								bind:textContent={cell.text}
+								on:input={async () => {
+									cell.data = await getArtiklPoSifri(cell.text, fetch);
+								}}
 								>{cell.text}
 							</td>
 							<td class:bg-red-300={!cell.data} class:bg-green-300={cell.data}

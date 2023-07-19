@@ -1,20 +1,8 @@
 import type { PageLoad } from './$types';
 import { browser } from '$app/environment';
+import { getArtiklPoSifri } from '$components/api';
 // @ts-ignore
 import { Field } from '$components/VipsTableOCR/field';
-
-async function getArtiklPoSifri(text: string, fetch: any) {
-	const urlSearchParams = new URLSearchParams({ sifra: text });
-	const artiklID = await fetch('/api/artiklPoSifri?' + urlSearchParams.toString(), {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	})
-		.then((res) => res.json())
-		.then((res) => res.artiklID);
-	return artiklID;
-}
 
 export const load: PageLoad = async ({ params, fetch }) => {
 	let table = {
