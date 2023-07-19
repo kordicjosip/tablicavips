@@ -22,6 +22,7 @@
 			tablica: []
 		};
 		let mergedRows: DokumentRed[] = [];
+		let lastTableRowNumber = 0;
 		for (const table of data.tables) {
 			const tableColumns = table.columns
 				.filter((column) => column.type !== null)
@@ -45,7 +46,7 @@
 						tablica.columns.push(column.type!);
 					}
 					rows[rowNumber].cells.push({
-						rowNumber,
+						rowNumber: Number.parseInt(rowNumber) + lastTableRowNumber,
 						colParam: column.type?.parameter,
 						x1: column.x1,
 						x2: column.x2,
@@ -55,6 +56,7 @@
 					});
 				}
 			}
+			lastTableRowNumber += tableRows.length;
 			for (const row of rows) {
 				for (const cell of row.cells) {
 					cell.text = table.ocr.filter((ocr) => {
