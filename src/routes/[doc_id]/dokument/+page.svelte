@@ -21,11 +21,9 @@
 
 	function sendRowData(row: DokumentRed) {
 		for (const columnIndex in data.table.columns) {
-			if (data.table.columns[columnIndex].field === Field.artiklPoSifri) {
-				if (!row.cells[columnIndex].data) {
-					alert('Artikl ne postoji!');
-					return;
-				}
+			if (!row.cells[columnIndex].data) {
+				alert('Podaci nisu ispravni!');
+				return;
 			}
 		}
 		if (row.cells.find((cell) => cell.text === '')) {
