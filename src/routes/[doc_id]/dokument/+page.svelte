@@ -2,6 +2,7 @@
 	import type { DokumentRed } from '$components/VipsTableOCR';
 	import { Field } from '$components/VipsTableOCR/field';
 	import { getArtiklPoSifri } from '$components/api';
+	import { validateInputNumeric } from '$components/validators';
 
 	export let data;
 
@@ -35,14 +36,6 @@
 			data = data;
 			writeToVips();
 		}
-	}
-
-	function validateInputNumeric(text: string) {
-		text = text.replace(',', '.');
-		if (!/^\d+(.\d+)?/.test(text)) {
-			return null;
-		}
-		return Number.parseFloat(text);
 	}
 </script>
 

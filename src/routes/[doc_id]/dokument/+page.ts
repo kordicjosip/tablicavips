@@ -3,6 +3,7 @@ import { browser } from '$app/environment';
 import { getArtiklPoSifri } from '$components/api';
 // @ts-ignore
 import { Field } from '$components/VipsTableOCR/field';
+import { validateInputNumeric } from '$components/validators';
 
 export const load: PageLoad = async ({ params, fetch }) => {
 	let table = {
@@ -21,6 +22,11 @@ export const load: PageLoad = async ({ params, fetch }) => {
 						async (row) => (row.cells[columnIndex].data = await row.cells[columnIndex].data)
 					)
 				);
+			}
+			if (table.columns[columnIndex].field === Field.numeric) {
+				for (const row of table.tablica) {
+					row.cells[columnIndex].data = validateInputNumeric(row.cells[columnIndex]?.text);
+				}
 			}
 		}
 		console.log(table);
