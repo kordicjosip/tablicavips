@@ -22,7 +22,7 @@
 	function sendRowData(row: DokumentRed) {
 		for (const columnIndex in data.table.columns) {
 			if (data.table.columns[columnIndex].field === Field.artiklPoSifri) {
-				if (row.cells[columnIndex].data === undefined) {
+				if (!row.cells[columnIndex].data) {
 					alert('Artikl ne postoji!');
 					return;
 				}
@@ -68,9 +68,7 @@
 									}}
 								/>
 							</td>
-							<td class:bg-red-300={!cell.data} class:bg-green-300={cell.data}
-								>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
-							>
+							<td class:bg-red-300={!cell.data}>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 						{:else if data.table.columns[i].field === Field.numeric}
 							<td
 								class:bg-red-300={cell.data === null}
