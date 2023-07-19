@@ -26,7 +26,7 @@
 		let lastTableRowNumber = 0;
 		for (const table of data.tables) {
 			const tableColumns = table.columns
-				.filter((column) => column.type !== null)
+				.filter((column) => column.type !== undefined)
 				.sort((a, b) => a.x1 - b.x1);
 			const tableRows = table.rows.sort((a, b) => a.y1 - b.y1);
 

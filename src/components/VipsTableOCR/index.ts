@@ -41,7 +41,7 @@ export interface TableDataInterface {
 export class TableColumn {
 	id: number = -1;
 	name: string | null = null;
-	type: { name: string; field: Field; parameter: string } | null = null;
+	type: { name: string; field: Field; parameter: string } | undefined;
 
 	selected = false;
 
