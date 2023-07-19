@@ -41,6 +41,17 @@ export async function getArtiklPoSifri(
 	};
 }
 
+export async function getVipsDocument(dokUID: string): Promise<{ ID: number } | undefined> {
+	const result = await pool
+		.request()
+		.input('dokUID', dokUID)
+		.query(`SELECT TOP 1 [ID] FROM [Test].[dbo].[tbRbnZgl] WHERE [DokUID] = @dokUID`);
+	if (result.recordset.length === 0) return undefined;
+	return {
+		ID: result.recordset[0]?.ID
+	};
+}
+
 export async function sendDataToVips() {
 	try {
 		await sql.connect(sqlConfig);

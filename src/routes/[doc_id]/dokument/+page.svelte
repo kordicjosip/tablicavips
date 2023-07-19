@@ -7,6 +7,14 @@
 	export let data;
 
 	let testData;
+	let vipsDocument = null;
+
+	async function selectVipsDocument(event: InputEvent) {
+		vipsDocument = await fetch(`/api/document/${encodeURIComponent(event.target.value)}`, {
+			method: 'GET'
+		}).then((res) => res.json());
+		console.log(vipsDocument);
+	}
 
 	async function writeToVips() {
 		const res = await fetch('/api', {
@@ -36,6 +44,17 @@
 		}
 	}
 </script>
+
+<div class="grid grid-cols-4 bg-yellow-200 h-32">
+	<div>
+		<input type="text" on:input={selectVipsDocument} />
+	</div>
+	<div class="col-span-3">
+		{#if vipsDocument}
+			<div>naziv komitenta:</div>
+		{/if}
+	</div>
+</div>
 
 <table class="mx-auto">
 	<thead>
