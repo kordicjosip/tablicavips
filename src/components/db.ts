@@ -41,15 +41,22 @@ export async function getArtiklPoSifri(
 	};
 }
 
-export async function getVipsDocument(dokUID: string): Promise<{ ID: number } | undefined> {
-	const result = await pool
+export async function getVipsDocument(dokUID: string): Promise<any | undefined> {
+	let dokID = await pool
 		.request()
 		.input('dokUID', dokUID)
 		.query(`SELECT TOP 1 [ID] FROM [Test].[dbo].[tbRbnZgl] WHERE [DokUID] = @dokUID`);
-	if (result.recordset.length === 0) return undefined;
-	return {
-		ID: result.recordset[0]?.ID
-	};
+	if (dokID.recordset.length === 0) return undefined;
+	dokID = dokID.recordset[0]?.ID;
+
+	const result = await pool
+		.request()
+		.input('pmDltID', 1)
+		.input('pmRbnZglID', dokID)
+		.input('pmDatumKreiranja', null)
+		.execute('spRbnZglCntBarSel2');
+
+	return result.recordset[0];
 }
 
 export async function sendDataToVips() {
