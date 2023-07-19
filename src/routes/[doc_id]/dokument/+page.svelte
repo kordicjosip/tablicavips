@@ -72,6 +72,8 @@
 						{:else}
 							<td
 								class:bg-green-300={row.disabled}
+								class:bg-yellow-300={cell.text === '' &&
+									data.table.columns[i].defaultValue !== null}
 								class:bg-red-300={cell.text === ''}
 								contenteditable
 								bind:textContent={cell.text}>{cell.text}</td
