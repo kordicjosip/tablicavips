@@ -256,15 +256,15 @@ export class TablesData {
 	}
 
 	addColumn(column: TableColumnInterface) {
-		this.tables.forEach((table) => {
-			if (this.currentPageTable?.isUnlinked) {
-				this.currentPageTable.addColumn(column);
-			} else {
+		if (this.currentPageTable?.isUnlinked) {
+			this.currentPageTable.addColumn(column);
+		} else {
+			this.tables.forEach((table) => {
 				if (!table.isUnlinked) {
 					table.addColumn(column);
 				}
-			}
-		});
+			});
+		}
 	}
 
 	removeColumn(column: TableColumnInterface) {

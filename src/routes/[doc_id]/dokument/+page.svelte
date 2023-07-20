@@ -31,7 +31,6 @@
 
 	function sendRowData(row: DokumentRed) {
 		for (const columnIndex in data.table.columns) {
-			console.log(row.cells[columnIndex].data);
 			if (row.cells[columnIndex].data == undefined || row.cells[columnIndex].data == null) {
 				alert('Podaci nisu ispravni!');
 				return;
@@ -40,40 +39,55 @@
 		if (row.cells.find((cell) => cell.text === '')) {
 			alert('Popunite sva polja!');
 		} else {
-			console.log(row);
 			row.disabled = true;
 			data = data;
+			console.log(row.cells);
 			writeToVips();
 		}
 	}
 </script>
 
 <div class="grid grid-cols-4 bg-emerald-700 h-20 items-center justify-items-center text-white">
-	<div class="">
-		<input
-			type="text"
-			class="bg-transparent border-b-2 border-white text-white placeholder-white placeholder-opacity-50"
-			placeholder="Unesite broj dokumenta:"
-			on:input={selectVipsDocument}
-		/>
-	</div>
+	<input
+		class="bg-transparent border-b-2 border-white text-white placeholder-white placeholder-opacity-50"
+		on:input={selectVipsDocument}
+		placeholder="Unesite broj dokumenta:"
+		type="text"
+	/>
 	{#if vipsDocument}
 		<div>
-			<div>Naziv komitenta: {vipsDocument['Naziv komitenta']}</div>
 			<div>
-				Datum dokumenta: {datumDokumenta.getUTCDate()}.{datumDokumenta.getUTCMonth()}.{datumDokumenta.getUTCFullYear()}.
+				<span class="font-semibold">Naziv komitenta:</span>{vipsDocument['Naziv komitenta']}
 			</div>
-			<div>Komercijalist: {vipsDocument['Komercijalist']}</div>
+			<div>
+				<span class="font-semibold">Datum dokumenta:</span
+				>{datumDokumenta.getUTCDate()}.{datumDokumenta.getUTCMonth()}.{datumDokumenta.getUTCFullYear()}.
+			</div>
+			<div>
+				<span class="font-semibold">Komercijalist: </span>{vipsDocument['Komercijalist']}
+			</div>
 		</div>
 		<div>
-			<div>Tip dokumenta: {vipsDocument['Tip dokumenta']}</div>
-			<div>Podtip dokumenta: {vipsDocument['Podtip dokumenta']}</div>
-			<div>Valuta: {vipsDocument['Valuta']}</div>
+			<div>
+				<span class="font-semibold">Tip dokumenta: </span>{vipsDocument['Tip dokumenta']}
+			</div>
+			<div>
+				<span class="font-semibold">Podtip dokumenta: </span>{vipsDocument['Podtip dokumenta']}
+			</div>
+			<div>
+				<span class="font-semibold">Valuta: </span>{vipsDocument['Valuta']}
+			</div>
 		</div>
 		<div>
-			<div>Ulaz VPV: {vipsDocument['UlazVPV']}</div>
-			<div>Dug: {vipsDocument['Dug']}</div>
-			<div>Komentar: {vipsDocument['Komentar']}</div>
+			<div>
+				<span class="font-semibold">Ulaz VPV: </span>{vipsDocument['UlazVPV']}
+			</div>
+			<div>
+				<span class="font-semibold">Dug: </span>{vipsDocument['Dug']}
+			</div>
+			<div>
+				<span class="font-semibold">Tip dokumenta: </span>{vipsDocument['Tip dokumenta']}
+			</div>
 		</div>
 	{/if}
 </div>

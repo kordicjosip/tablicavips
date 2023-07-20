@@ -120,7 +120,6 @@
 	function showContextMenuColsRename(event: PointerEvent, column: TableColumnInterface) {
 		cmX = event.x;
 		cmY = event.y;
-		console.log(data.columns);
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
 			...columnTypes.map((columnType) => {
