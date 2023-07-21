@@ -3,6 +3,8 @@
 	import { Field } from '$components/VipsTableOCR/field';
 	import { getArtiklPoSifri } from '$components/api';
 	import { validateInputNumeric } from '$components/validators';
+	import { dokumenti } from '$components/VipsTableOCR/dokumenti';
+	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
 
 	export let data;
 
@@ -17,7 +19,24 @@
 		if (vipsDocument) {
 			datumDokumenta = new Date(vipsDocument['Datum dokumenta']);
 		}
-		console.log(vipsDocument);
+		const potrebniParametri = dokumenti[vipsDocument['Tip ID']].potrebniParametri;
+		for (const potrebniParametar of potrebniParametri) {
+			const column = data.table.columns.find((column) => column.parameter === potrebniParametar);
+			if (column == undefined) {
+				data.table.columns.push(
+					columnTypes.find((column) => column.parameter === potrebniParametar)
+				);
+				data.table.tablica.forEach((row) => {
+					row.cells.push({
+						text: '',
+						data: null,
+						colParam: potrebniParametar,
+						rowNumber: row.rowNumber
+					});
+				});
+			}
+		}
+		data.table = data.table;
 	}
 
 	async function writeToVips() {
@@ -59,11 +78,12 @@
 	{#if vipsDocument}
 		<div>
 			<div>
-				<span class="font-semibold">Naziv komitenta:</span>{vipsDocument['Naziv komitenta']}
+				<span class="font-semibold">Naziv komitenta: </span>{vipsDocument['Naziv komitenta']}
 			</div>
 			<div>
-				<span class="font-semibold">Datum dokumenta:</span
-				>{datumDokumenta.getUTCDate()}.{datumDokumenta.getUTCMonth()}.{datumDokumenta.getUTCFullYear()}.
+				<span class="font-semibold"
+					>Datum dokumenta:
+				</span>{datumDokumenta.getUTCDate()}.{datumDokumenta.getUTCMonth()}.{datumDokumenta.getUTCFullYear()}.
 			</div>
 			<div>
 				<span class="font-semibold">Komercijalist: </span>{vipsDocument['Komercijalist']}
@@ -95,7 +115,7 @@
 </div>
 
 <table class="mx-auto">
-	<thead class="select-none">
+	<thead class="select-none sticky -top-[1px]">
 		<tr>
 			{#each data.table.columns as header}
 				{#if header.field === Field.artiklPoSifri}
@@ -214,7 +234,8 @@
 
 <style>
 	table {
-		border-collapse: collapse;
+		border-collapse: separate;
+		border-spacing: 0;
 	}
 
 	tr:nth-of-type(odd) {
@@ -223,12 +244,13 @@
 
 	th,
 	td {
-		border: 2px solid #d5d5d5;
+		border: 1px solid #d5d5d5;
 		padding: 6px;
 	}
 
 	th {
 		background-color: #ffffff;
+		border-bottom: 2px solid #d5d5d5;
 	}
 
 	button > svg {

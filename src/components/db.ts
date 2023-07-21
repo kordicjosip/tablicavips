@@ -114,12 +114,13 @@ SET @pmVPC = 0  -- Veleprodajna cijena
 SET @pmMPC = 0  -- Maloprodajna cijena
 SET @pmPorezID = 0
 
+SELECT @pmArtiklNaziv = [Naziv] FROM [Test].[dbo].[tbArt] WHERE ID = @pmArtiklID
+
 
 SET @pmDltID = 1 -- 1 = Servisni Korisnik
 SET @pmAkcID = 0 -- 0 = Dodavanje
 SET @pmID = 0 -- ID Stavke (ako je uređivanje ili brisanje)
 SET @pmZaglavljeID = 432363 -- ID Dokumenta
-SET @pmArtiklNaziv = N'Roba po dokumentu' -- Naziv odabranog artikla (može biti drugačiji od pravog naziva)
 SET @pmKolicina = 1 -- Količina artikla
 SET @pmDevUC = 0
 SET @pmFC = 0
