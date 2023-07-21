@@ -1,7 +1,17 @@
 import { Field } from './field';
 
 export enum Parametar {
-	artikl = 'pmArtiklID'
+	artikl = 'pmArtiklID',
+	kolicina = 'pmKolicina',
+	ulaznaCijena = 'pmUC',
+	fakturnaCijena = 'pmFC',
+	rabat1 = 'pmRabat1',
+	rabat2 = 'pmRabat2',
+	rabat3 = 'pmRabat3',
+	nabavnaCijena = 'pmNC',
+	vpc = 'pmVPC',
+	mpc = 'pmMPC',
+	pdv = 'pmPDV'
 }
 
 export const columnTypes: {
@@ -12,14 +22,14 @@ export const columnTypes: {
 	emptyValue: Number
 }[] = [
 	{ name: 'ID artikla', field: Field.artiklPoSifri, parameter: Parametar.artikl, defaultValue: null, emptyValue: 0 },
-	{ name: 'Količina', field: Field.numeric, parameter: 'pmKolicina', defaultValue: null, emptyValue: 0 },
-	{ name: 'Ulazna cijena', field: Field.numeric, parameter: 'pmUC', defaultValue: null, emptyValue: 0 },
-	{ name: 'Fakturna cijena', field: Field.numeric, parameter: 'pmFC', defaultValue: null, emptyValue: 0 },
-	{ name: 'Rabat 1', field: Field.numeric, parameter: 'pmRabat1', defaultValue: 0, emptyValue: 0 },
-	{ name: 'Rabat 2', field: Field.numeric, parameter: 'pmRabat2', defaultValue: 0, emptyValue: 0 },
-	{ name: 'Rabat 3', field: Field.numeric, parameter: 'pmRabat3', defaultValue: 0, emptyValue: 0 },
-	{ name: 'Nabavna cijena', field: Field.numeric, parameter: 'pmNC', defaultValue: null, emptyValue: 0 },
-	{ name: 'VPC', field: Field.numeric, parameter: 'pmVPC', defaultValue: null, emptyValue: 0 },
-	{ name: 'MPC', field: Field.numeric, parameter: 'pmMPC', defaultValue: null, emptyValue: 0 },
-	{ name: 'PDV', field: Field.numeric, parameter: 'pmPDV', defaultValue: null, emptyValue: 0 }
+	{ name: 'Količina', field: Field.numeric, parameter: Parametar.kolicina, defaultValue: null, emptyValue: 0 },
+	{ name: 'Ulazna cijena', field: Field.numeric, parameter: Parametar.ulaznaCijena, defaultValue: null, emptyValue: 0 },
+	{ name: 'Fakturna cijena', field: Field.numeric, parameter: Parametar.fakturnaCijena, defaultValue: null, emptyValue: 0 },
+	{ name: 'Rabat 1', field: Field.numeric, parameter: Parametar.rabat1, defaultValue: 0, emptyValue: 0 },
+	{ name: 'Rabat 2', field: Field.numeric, parameter: Parametar.rabat2, defaultValue: 0, emptyValue: 0 },
+	{ name: 'Rabat 3', field: Field.numeric, parameter: Parametar.rabat3, defaultValue: 0, emptyValue: 0 },
+	{ name: 'Nabavna cijena', field: Field.numeric, parameter: Parametar.nabavnaCijena, defaultValue: null, emptyValue: 0 },
+	{ name: 'VPC', field: Field.numeric, parameter: Parametar.vpc, defaultValue: null, emptyValue: 0 },
+	{ name: 'MPC', field: Field.numeric, parameter: Parametar.mpc, defaultValue: null, emptyValue: 0 },
+	{ name: 'PDV', field: Field.numeric, parameter: Parametar.pdv, defaultValue: null, emptyValue: 0 }
 ];
