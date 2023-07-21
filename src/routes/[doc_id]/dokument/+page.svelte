@@ -5,6 +5,7 @@
 	import { validateInputNumeric } from '$components/validators';
 	import { dokumenti } from '$components/VipsTableOCR/dokumenti';
 	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data;
 
@@ -19,7 +20,20 @@
 		if (vipsDocument) {
 			datumDokumenta = new Date(vipsDocument['Datum dokumenta']);
 		}
-		const potrebniParametri = dokumenti[vipsDocument['Tip ID']].potrebniParametri;
+		await invalidateAll();
+		const potrebniParametri: string[] = dokumenti[vipsDocument['Tip ID']].potrebniParametri;
+		const columnsToRemove = data.table.columns.filter(
+			(column) => potrebniParametri.indexOf(column.parameter) === -1
+		);
+		for (const column of columnsToRemove) {
+			data.table.columns.splice(data.table.columns.indexOf(column), 1);
+			data.table.tablica.forEach((row) => {
+				row.cells.splice(
+					row.cells.indexOf(row.cells.find((cell) => cell.colParam === column.parameter)),
+					1
+				);
+			});
+		}
 		for (const potrebniParametar of potrebniParametri) {
 			const column = data.table.columns.find((column) => column.parameter === potrebniParametar);
 			if (column == undefined) {
@@ -134,6 +148,7 @@
 						{#if data.table.columns[i].field === Field.artiklPoSifri}
 							<td
 								><input
+									size="14"
 									class="bg-transparent"
 									class:bg-red-300={cell.text === ''}
 									type="text"
@@ -152,6 +167,7 @@
 								class:bg-yellow-300={cell.text === '' &&
 									data.table.columns[i].defaultValue !== null}
 								><input
+									size="14"
 									class="bg-transparent"
 									type="text"
 									bind:value={cell.text}
