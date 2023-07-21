@@ -1,9 +1,11 @@
-import type { PageLoad } from './$types';
-import { browser } from '$app/environment';
+// @ts-ignore
 import { getArtiklPoSifri } from '$components/api';
 // @ts-ignore
 import { Field } from '$components/VipsTableOCR/field';
+// @ts-ignore
 import { validateInputNumeric } from '$components/validators';
+import type { PageLoad } from './$types';
+import { browser } from '$app/environment';
 
 export const load: PageLoad = async ({ params, fetch }) => {
 	let table = {

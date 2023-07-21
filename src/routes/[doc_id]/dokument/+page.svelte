@@ -14,7 +14,9 @@
 		vipsDocument = await fetch(`/api/document/${encodeURIComponent(event.target.value)}`, {
 			method: 'GET'
 		}).then((res) => res.json());
-		datumDokumenta = new Date(vipsDocument['Datum dokumenta']);
+		if (vipsDocument) {
+			datumDokumenta = new Date(vipsDocument['Datum dokumenta']);
+		}
 		console.log(vipsDocument);
 	}
 

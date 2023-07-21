@@ -193,7 +193,7 @@ export class TableData {
 		new_column.id = this.columns.reduce((max, col) => (col.id > max ? col.id : max), -1) + 1;
 		new_column.x1 = column.x1;
 		new_column.x2 = column.x2;
-		new_column.type = column.type;
+		new_column.type = column.type!;
 		new_column.name = column.name;
 		new_column.tableWidth = this.resolution[0];
 
