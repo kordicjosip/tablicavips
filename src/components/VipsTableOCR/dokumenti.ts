@@ -30,9 +30,33 @@ export const dokumenti = {
 	13: {
 		potrebniParametri: [Parametar.artikl, Parametar.kolicina, Parametar.rabat1, Parametar.rabat2, Parametar.rabat3, Parametar.mpc]
 	},
+	//14 Interna izdatnica | primjer: 00105019-000001/22
+	14: {
+		potrebniParametri: [Parametar.artikl, Parametar.kolicina]
+	},
+	//15 Interna povratnica | primjer: 00104020-000001/21
+	15: {
+		potrebniParametri: [Parametar.artikl, Parametar.kolicina]
+	},
 	//16 Reklamirani račun | primjer: 00104021-000001/21
 	16: {
 		potrebniParametri: [Parametar.artikl, Parametar.kolicina, Parametar.vpc, Parametar.rabat1, Parametar.rabat2, Parametar.rabat3, Parametar.mpc]
+	},
+	//21 Revers izlaz | primjer:
+	21: {
+		potrebniParametri: [Parametar.artikl, Parametar.kolicina]
+	},
+	//22 Revers ulaz | primjer:
+	22: {
+		potrebniParametri: [Parametar.artikl, Parametar.kolicina]
+	},
+	//23 Rezervacija | primjer:
+	23: {
+		potrebniParametri: [Parametar.artikl, Parametar.kolicina]
+	},
+	//24 Otpis | primjer:
+	24: {
+		potrebniParametri: [Parametar.artikl, Parametar.kolicina]
 	},
 	//28 Trebovnica | primjer: nema na TestDB
 	28: {
