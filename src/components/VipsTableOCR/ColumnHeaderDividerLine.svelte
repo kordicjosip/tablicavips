@@ -7,14 +7,14 @@
 </script>
 
 <rect
-	class="fill-red-400"
+	class="fill-red-300"
 	height={height * scale}
 	transform="translate({column.x1 * scale} 0)"
-	width={3}
+	width={2}
 />
 <rect
-	class="fill-red-400"
+	class="fill-red-300"
 	height={height * scale}
 	transform="translate({column.x2 * scale} 0)"
-	width={3}
+	width={2}
 />

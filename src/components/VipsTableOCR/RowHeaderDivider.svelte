@@ -46,14 +46,14 @@
 </script>
 
 <rect
-	class="cursor-row-resize fill-blue-500 hover:h-1.5"
+	class="cursor-row-resize fill-blue-400 hover:h-1.5"
 	height={3}
 	id="drag-row-{row.id}-1"
 	transform="translate(0 {row.y1 * scale})"
 	{width}
 />
 <rect
-	class="cursor-row-resize fill-blue-500 hover:h-1.5"
+	class="cursor-row-resize fill-blue-400 hover:h-1.5"
 	height={3}
 	id="drag-row-{row.id}-2"
 	transform="translate(0 {row.y2 * scale})"

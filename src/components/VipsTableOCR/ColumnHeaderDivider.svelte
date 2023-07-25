@@ -52,14 +52,14 @@
 </script>
 
 <rect
-	class="cursor-col-resize fill-red-500 hover:w-1.5"
+	class="cursor-col-resize fill-red-400 hover:w-1.5"
 	{height}
 	id="drag-col-{column.id}-1"
 	transform="translate({column.x1 * scale} 0)"
 	width={3}
 />
 <rect
-	class="cursor-col-resize fill-red-500 hover:w-1.5"
+	class="cursor-col-resize fill-red-400 hover:w-1.5"
 	{height}
 	id="drag-col-{column.id}-2"
 	transform="translate({column.x2 * scale} 0)"
