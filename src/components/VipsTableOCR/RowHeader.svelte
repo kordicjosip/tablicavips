@@ -37,7 +37,7 @@
 	}}
 >
 	<svg
-		class="cursor-grab fill-teal-400 hover:fill-teal-500"
+		class="cursor-grab fill-emerald-400 hover:fill-emerald-500"
 		height={row.height * scale}
 		width={ROW_HEADER_WIDTH}
 	>

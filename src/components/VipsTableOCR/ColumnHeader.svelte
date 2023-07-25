@@ -48,9 +48,12 @@
 	transform="translate({column.x1 * scale} 0)"
 >
 	<svg
-		class="cursor-grab {column.selected
+		class="cursor-grab
+			{column.selected
 			? 'fill-blue-400 hover:fill-blue-500'
-			: 'fill-teal-400 hover:fill-teal-500'}"
+			: column.type
+			? 'fill-emerald-400 hover:fill-emerald-500'
+			: 'fill-red-200 hover:fill-red-300'}"
 		height={COLUMN_HEADER_HEIGHT}
 		width={column.width * scale}
 	>

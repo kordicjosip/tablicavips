@@ -9,16 +9,24 @@
 
 <g transform="translate({ocr.x1 - offsetX} {ocr.y1 - offsetY})">
 	{#if selected}
-		<rect width={ocr.x2 - ocr.x1} height={ocr.y2 - ocr.y1 + 2} fill="rgba(0,150,0,90%)" />
+		<rect width={ocr.x2 - ocr.x1} height={ocr.y2 - ocr.y1 + 2} fill="rgba(144, 238, 144,90%)" />
+		<text
+			class="fill-black"
+			dominant-baseline="central"
+			font-size="10pt"
+			text-anchor="middle"
+			x={(ocr.x2 - ocr.x1) / 2}
+			y={(ocr.y2 - ocr.y1) / 2}>{ocr.text}</text
+		>
 	{:else}
 		<rect width={ocr.x2 - ocr.x1} height={ocr.y2 - ocr.y1 + 2} fill="rgba(255,0,0,85%)" />
+		<text
+			class="fill-white"
+			dominant-baseline="central"
+			font-size="10pt"
+			text-anchor="middle"
+			x={(ocr.x2 - ocr.x1) / 2}
+			y={(ocr.y2 - ocr.y1) / 2}>{ocr.text}</text
+		>
 	{/if}
-	<text
-		class="fill-white"
-		dominant-baseline="central"
-		font-size="10pt"
-		text-anchor="middle"
-		x={(ocr.x2 - ocr.x1) / 2}
-		y={(ocr.y2 - ocr.y1) / 2}>{ocr.text}</text
-	>
 </g>
