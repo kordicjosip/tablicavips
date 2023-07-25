@@ -7,6 +7,7 @@ node_modules
 .env.*
 !.env.example
 /src/components/VipsTableOCR/columnTypes.ts
+/src/components/VipsTableOCR/dokumenti.ts
 
 # Ignore files for PNPM, NPM and YARN
 pnpm-lock.yaml

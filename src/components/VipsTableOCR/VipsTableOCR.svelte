@@ -106,7 +106,11 @@
 
 		localStorage.setItem(documentData.id, JSON.stringify(tablica));
 
-		goto('/' + documentData.id + '/dokument');
+		if (tablica.columns.length === 0) {
+			alert('Niste imenovali nijedan stupac!');
+		} else {
+			goto('/' + documentData.id + '/dokument');
+		}
 	}
 
 	function addRow(event) {
@@ -231,7 +235,7 @@
 					return {
 						id: index,
 						name: null,
-						type: null,
+						type: undefined,
 						x1: column[0],
 						x2: column[1],
 						get width() {

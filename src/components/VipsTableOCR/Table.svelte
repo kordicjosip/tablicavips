@@ -34,7 +34,7 @@
 	let X = show_row_header ? ROW_HEADER_WIDTH : 0;
 	let Y = show_column_header ? COLUMN_HEADER_HEIGHT : 0;
 	export let data: TableData;
-	export let scale;
+	export let scale: number;
 
 	let scaleW = 0;
 	let scaleH = 0;
