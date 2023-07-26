@@ -39,7 +39,6 @@
 			<g id="SVGRepo_bgCarrier" stroke-width="0" />
 			<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
 			<g id="SVGRepo_iconCarrier">
-				<desc>Created with Sketch.</desc>
 				<defs />
 				<g fill="none" fill-rule="evenodd" id="Page-1" stroke-width="0.00021000000000000004">
 					<g

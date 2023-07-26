@@ -5,7 +5,7 @@
 	import { validateInputNumeric } from '$components/validators';
 	import { dokumenti } from '$components/VipsTableOCR/dokumenti';
 	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
-	import { invalidateAll } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 
 	export let data;
 
@@ -14,9 +14,13 @@
 	let datumDokumenta = null;
 
 	async function selectVipsDocument(event: InputEvent) {
-		vipsDocument = await fetch(`/api/document/${encodeURIComponent(event.target.value)}`, {
-			method: 'GET'
-		}).then((res) => res.json());
+		vipsDocument = await fetch(
+			`/api/document/${encodeURIComponent((event.target as HTMLInputElement).value)}`,
+			{
+				method: 'GET'
+			}
+		).then((res) => res.json());
+		console.log(vipsDocument);
 		if (vipsDocument) {
 			datumDokumenta = new Date(vipsDocument['Datum dokumenta']);
 		}
@@ -83,12 +87,44 @@
 </script>
 
 <div class="grid grid-cols-4 bg-emerald-700 h-20 items-center justify-items-center text-white">
-	<input
-		class="bg-transparent border-b-2 border-white text-white placeholder-white placeholder-opacity-50"
-		on:input={selectVipsDocument}
-		placeholder="Unesite broj dokumenta:"
-		type="text"
-	/>
+	<div class="flex justify-around w-full">
+		<div
+			class="w-8 h-8 p-0.5 rounded-full hover:bg-emerald-800 hover:cursor-pointer"
+			on:click={() => {
+				goto('/');
+			}}
+			title="Početna"
+		>
+			<svg fill="#ffffff" viewBox="-4.2 -4.2 29.40 29.40" xmlns="http://www.w3.org/2000/svg">
+				<g id="SVGRepo_bgCarrier" stroke-width="0" />
+				<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+				<g id="SVGRepo_iconCarrier">
+					<defs />
+					<g fill="none" fill-rule="evenodd" id="Page-1" stroke-width="0.00021000000000000004">
+						<g
+							fill="#ffffff"
+							id="Dribbble-Light-Preview"
+							transform="translate(-419.000000, -720.000000)"
+						>
+							<g id="icons" transform="translate(56.000000, 160.000000)">
+								<path
+									d="M379.79996,578 L376.649968,578 L376.649968,574 L370.349983,574 L370.349983,578 L367.19999,578 L367.19999,568.813 L373.489475,562.823 L379.79996,568.832 L379.79996,578 Z M381.899955,568.004 L381.899955,568 L381.899955,568 L373.502075,560 L363,569.992 L364.481546,571.406 L365.099995,570.813 L365.099995,580 L372.449978,580 L372.449978,576 L374.549973,576 L374.549973,580 L381.899955,580 L381.899955,579.997 L381.899955,570.832 L382.514204,571.416 L384.001,570.002 L381.899955,568.004 Z"
+									id="home"
+								/>
+							</g>
+						</g>
+					</g>
+				</g>
+			</svg>
+		</div>
+		<input
+			class="bg-transparent border-b-2 border-white text-white text-center placeholder-white placeholder-opacity-50"
+			on:input={selectVipsDocument}
+			placeholder="Unesi broj dokumenta:"
+			type="text"
+			size="17"
+		/>
+	</div>
 	{#if vipsDocument}
 		<div>
 			<div>
@@ -105,13 +141,13 @@
 		</div>
 		<div>
 			<div>
+				<span class="font-semibold">Broj računa: </span>{vipsDocument['Broj računa']}
+			</div>
+			<div>
 				<span class="font-semibold">Tip dokumenta: </span>{vipsDocument['Tip dokumenta']}
 			</div>
 			<div>
 				<span class="font-semibold">Podtip dokumenta: </span>{vipsDocument['Podtip dokumenta']}
-			</div>
-			<div>
-				<span class="font-semibold">Valuta: </span>{vipsDocument['Valuta']}
 			</div>
 		</div>
 		<div>
@@ -119,11 +155,27 @@
 				<span class="font-semibold">Ulaz VPV: </span>{vipsDocument['UlazVPV']}
 			</div>
 			<div>
-				<span class="font-semibold">Dug: </span>{vipsDocument['Dug']}
+				<span class="font-semibold">Valuta: </span>{vipsDocument['Valuta']}
 			</div>
 			<div>
-				<span class="font-semibold">Tip dokumenta: </span>{vipsDocument['Tip dokumenta']}
+				<span class="font-semibold">Dug: </span>{vipsDocument['Dug']}
 			</div>
+		</div>
+	{:else}
+		<div class="w-full flex flex-col items-center">
+			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
+		</div>
+		<div class="w-full flex flex-col items-center">
+			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
+		</div>
+		<div class="w-full flex flex-col items-center">
+			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
 		</div>
 	{/if}
 </div>
