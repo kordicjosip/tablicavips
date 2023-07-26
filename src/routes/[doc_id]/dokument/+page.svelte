@@ -101,6 +101,18 @@
 			writeToVips(request);
 		}
 	}
+
+	function sendAllRowsData() {
+		data.table.tablica.forEach((row) => {
+			for (const columnIndex in row.cells) {
+				if (row.cells[columnIndex].data == undefined || row.cells[columnIndex].data == null) {
+					return;
+				} else {
+					sendRowData(row);
+				}
+			}
+		});
+	}
 </script>
 
 <div class="grid grid-cols-4 bg-emerald-700 h-20 items-center justify-items-center text-white">
@@ -180,19 +192,19 @@
 		</div>
 	{:else}
 		<div class="w-full flex flex-col items-center">
-			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
-			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
-			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 rounded-md h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 rounded-md h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 rounded-md h-3 m-1 animate-pulse bg-emerald-600" />
 		</div>
 		<div class="w-full flex flex-col items-center">
-			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
-			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
-			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 rounded-md h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 rounded-md h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 rounded-md h-3 m-1 animate-pulse bg-emerald-600" />
 		</div>
 		<div class="w-full flex flex-col items-center">
-			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
-			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
-			<div class="w-3/4 h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 rounded-md h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 rounded-md h-3 m-1 animate-pulse bg-emerald-600" />
+			<div class="w-3/4 rounded-md h-3 m-1 animate-pulse bg-emerald-600" />
 		</div>
 	{/if}
 </div>
@@ -209,6 +221,51 @@
 					<th>{header.name}</th>
 				{/if}
 			{/each}
+			{#if vipsDocument}
+				<th>
+					<button class="block m-auto" title="Upiši sve moguće redove" on:click={sendAllRowsData}>
+						<svg
+							class="send"
+							height="22px"
+							viewBox="0 0 24 24"
+							width="22px"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<g id="SVGRepo_bgCarrier" stroke-width="0" />
+							<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+							<g id="SVGRepo_iconCarrier">
+								<defs>
+									<style>
+										.cls-1 {
+											fill: none;
+											stroke: #020202;
+											stroke-miterlimit: 10;
+											stroke-width: 1.91px;
+										}
+									</style>
+								</defs>
+								<path
+									class="cls-1"
+									d="M1.5,18.68H8.18A3.82,3.82,0,0,1,12,22.5v0a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V18.68A0,0,0,0,1,1.5,18.68Z"
+								/>
+								<path
+									class="cls-1"
+									d="M15.82,18.68H22.5a0,0,0,0,1,0,0V22.5a0,0,0,0,1,0,0H12a0,0,0,0,1,0,0v0A3.82,3.82,0,0,1,15.82,18.68Z"
+								/>
+								<path
+									class="cls-1"
+									d="M1.5,6.27H8.18A3.82,3.82,0,0,1,12,10.09V22.5a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V6.27A0,0,0,0,1,1.5,6.27Z"
+								/>
+								<path class="cls-1" d="M19.64,6.27H22.5V22.5H12V10.09a3.82,3.82,0,0,1,3.82-3.82" />
+								<path
+									class="cls-1"
+									d="M19.64,13l-1.91,1.91L15.82,13V3.41A1.9,1.9,0,0,1,17.73,1.5h0a1.91,1.91,0,0,1,1.91,1.91Z"
+								/>
+							</g>
+						</svg>
+					</button>
+				</th>
+			{/if}
 		</tr>
 	</thead>
 	<tbody>
