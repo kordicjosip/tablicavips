@@ -27,9 +27,9 @@
 	}
 </script>
 
-<div class="flex justify-between items-center px-10 h-10 bg-neutral-700 w-full">
+<div class="flex justify-between items-center px-10 h-10 bg-emerald-700 w-full">
 	<div
-		class="flex items-center justify-center w-8 h-8 p-0.5 rounded-full hover:bg-neutral-600 hover:cursor-pointer"
+		class="flex items-center justify-center w-8 h-8 p-0.5 rounded-full hover:bg-emerald-800 hover:cursor-pointer"
 		on:click={() => {
 			goto('/');
 		}}
@@ -62,7 +62,7 @@
 		{#if numberOfPages > 0}
 			<div>
 				<input
-					class={isUnlinked ? 'cursor-default' : 'cursor-pointer'}
+					class="{isUnlinked ? 'cursor-default' : 'cursor-pointer'} accent-white"
 					type="checkbox"
 					id="otkači stranicu"
 					bind:checked={isUnlinked}
@@ -77,13 +77,13 @@
 			</div>
 			<div class="flex items-center">
 				<button
-					class="w-7 h-7 hover:bg-neutral-600 rounded-full m-1"
+					class="w-7 h-7 hover:bg-emerald-800 rounded-full m-1"
 					on:click={() => (currentPage = Math.max(currentPage - 1, 0))}
 					>&lt;
 				</button>
 				<div>{currentPage + 1}/{numberOfPages}</div>
 				<button
-					class="w-7 h-7 hover:bg-neutral-600 rounded-full m-1"
+					class="w-7 h-7 hover:bg-emerald-800 rounded-full m-1"
 					on:click={() => (currentPage = Math.min(currentPage + 1, numberOfPages - 1))}
 					>&gt;
 				</button>
@@ -91,13 +91,13 @@
 
 			<div class="flex items-center">
 				<button
-					class="w-7 h-7 hover:bg-neutral-600 rounded-full m-1"
+					class="w-7 h-7 hover:bg-emerald-800 rounded-full m-1"
 					on:click={() => (scale = Math.max(scale - 0.05, 0.01))}
 					>-
 				</button>
 				<div class="select-none">{scalePercent}%</div>
 				<button
-					class="w-7 h-7 hover:bg-neutral-600 rounded-full m-1"
+					class="w-7 h-7 hover:bg-emerald-800 rounded-full m-1"
 					on:click={() => (scale = Math.min(scale + 0.05, 2.5))}
 					>+
 				</button>
@@ -105,7 +105,7 @@
 
 			<div
 				title="Predlošci stupaca"
-				class="flex items-center justify-center w-7 h-7 rounded-full hover:bg-neutral-600 hover:cursor-pointer"
+				class="flex items-center justify-center w-7 h-7 rounded-full hover:bg-emerald-800 hover:cursor-pointer"
 				on:click={dialog.show}
 			>
 				<svg
@@ -134,7 +134,7 @@
 	</div>
 
 	<div
-		class="flex items-center justify-center w-7 h-7 rounded-full hover:bg-neutral-600 hover:cursor-pointer"
+		class="flex items-center justify-center w-7 h-7 rounded-full hover:bg-emerald-800 hover:cursor-pointer"
 		on:click={() => {
 			dispatch('sendAllData');
 		}}

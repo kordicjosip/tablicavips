@@ -1,6 +1,7 @@
 // @ts-ignore
 import { getArtiklPoId, getVipsDocument, pool } from '$components/db';
 import type { RequestHandler } from '@sveltejs/kit';
+// @ts-ignore
 import { Parametar } from '$components/VipsTableOCR/columnTypes';
 import sql from 'mssql';
 
