@@ -8,3 +8,14 @@ export async function getArtiklPoSifri(text: string, fetch: any) {
 	}).then((res) => res.json());
 	return artikl;
 }
+
+export async function getArtiklPoKataloskomBroju(text: string, fetch: any) {
+	const urlSearchParams = new URLSearchParams({ katBroj: text });
+	const artikl = await fetch('/api/artiklPoKatBroju?' + urlSearchParams.toString(), {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}).then((res) => res.json());
+	return artikl;
+}

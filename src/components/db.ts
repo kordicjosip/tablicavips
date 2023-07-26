@@ -41,6 +41,39 @@ export async function getArtiklPoSifri(
 	};
 }
 
+export async function getArtiklPoKataloskomBroju(
+	katBroj: string
+): Promise<{ ID: number; Naziv: string } | undefined> {
+	const result = await pool
+		.request()
+		.input('katBroj', katBroj)
+		.query(`SELECT TOP 1 [ID], [Naziv] FROM [Test].[dbo].[tbArt] WHERE [KataloskiBroj] = @katBroj`);
+	if (result.recordset.length === 0) return undefined;
+	return {
+		ID: result.recordset[0]?.ID,
+		Naziv: result.recordset[0]?.Naziv
+	};
+}
+
+export async function getArtiklPoId(id: number, pjID: number) {
+	const result = await pool
+		.request()
+		.input('artiklId', id)
+		.input('pjID', pjID)
+		.query(
+			`SELECT TOP 1 * FROM [Test].[dbo].[tbArt] INNER JOIN [Test].[dbo].[tbArtStnSkl] ON tbArt.ID = tbArtStnSkl.ArtiklID WHERE [ArtiklID] = @artiklId AND PjID = @pjID`
+		);
+	if (result.recordset.length === 0) return undefined;
+	return {
+		ID: result.recordset[0]?.ID,
+		Naziv: result.recordset[0]?.Naziv,
+		NC: result.recordset[0]?.NC,
+		VPC: result.recordset[0]?.VPC,
+		MPC: result.recordset[0]?.MPC,
+		PrzID: result.recordset[0]?.PrzID
+	};
+}
+
 export async function getVipsDocument(dokUID: string): Promise<any | undefined> {
 	let dokID = await pool
 		.request()
@@ -59,15 +92,8 @@ export async function getVipsDocument(dokUID: string): Promise<any | undefined> 
 	return result.recordset[0];
 }
 
-export async function sendDataToVips() {
-	try {
-		await sql.connect(sqlConfig);
-	} catch (err) {
-		throw error(500, { message: 'greška' });
-	}
-
-	const result = await sql.query`USE [Test]
-
+export async function sendDataToVips(pjID: number, artID: number) {
+	const result = await pool.query(`
 DECLARE @pmPjID int
 DECLARE @RC int
 DECLARE @pmDltID int
@@ -96,23 +122,6 @@ DECLARE @pmRabatTip bit
 DECLARE @pmBrziUnos bit
 DECLARE @pmErr int
 DECLARE @pmErrMsg nvarchar(max)
-
-SET @pmArtiklID = 7 -- ID Odabranog artikla
-SET @pmPjID = 1 -- ID Poslovne jedinice na kojoj se radi
-
--- Ako je bilo koji dokument
-SELECT
-	@pmNC = [NC],
-    @pmVPC = [VPC],
-    @pmMPC = [MPC],
-    @pmPorezID = [PrzID]
-  FROM [Test].[dbo].[tbArtStnSkl]
-  WHERE ArtiklID = @pmArtiklID AND PjID = @pmPjID
--- Ako je kalkulacija vrijednosti treba unijeti
-SET @pmNC = 0  -- Nabavna cijena
-SET @pmVPC = 0  -- Veleprodajna cijena
-SET @pmMPC = 0  -- Maloprodajna cijena
-SET @pmPorezID = 0
 
 SELECT @pmArtiklNaziv = [Naziv] FROM [Test].[dbo].[tbArt] WHERE ID = @pmArtiklID
 
@@ -166,6 +175,6 @@ EXECUTE @RC = [dbo].[spRbnStvMod]
 
 SELECT @pmErr, @pmErrMsg
 GO
-`;
+`);
 	return result;
 }

@@ -1,5 +1,5 @@
 // @ts-ignore
-import { getArtiklPoSifri } from '$components/api';
+import { getArtiklPoKataloskomBroju, getArtiklPoSifri } from '$components/api';
 // @ts-ignore
 import { Field } from '$components/VipsTableOCR/field';
 // @ts-ignore
@@ -29,6 +29,19 @@ export const load: PageLoad = async ({ params, fetch }) => {
 						)
 					);
 					break;
+				case Field.artiklPoKataloskomBroju:
+					for (const row of table.tablica) {
+						row.cells[columnIndex].data = getArtiklPoKataloskomBroju(
+							row.cells[columnIndex]?.text | '',
+							fetch
+						);
+					}
+					await Promise.all(
+						table.tablica.map(
+							async (row) => (row.cells[columnIndex].data = await row.cells[columnIndex].data)
+						)
+					);
+					break;
 				case Field.numeric:
 					for (const row of table.tablica) {
 						row.cells[columnIndex].data = validateInputNumeric(row.cells[columnIndex]?.text);
@@ -40,7 +53,6 @@ export const load: PageLoad = async ({ params, fetch }) => {
 					}
 			}
 		}
-		console.log(table);
 	}
 	return {
 		table

@@ -29,7 +29,7 @@
 
 <div class="flex justify-between items-center px-10 h-10 bg-neutral-700 w-full">
 	<div
-		class="flex items-center justify-center w-7 h-7 rounded-full hover:bg-neutral-600 hover:cursor-pointer"
+		class="flex items-center justify-center w-8 h-8 p-0.5 rounded-full hover:bg-neutral-600 hover:cursor-pointer"
 		on:click={() => {
 			goto('/');
 		}}

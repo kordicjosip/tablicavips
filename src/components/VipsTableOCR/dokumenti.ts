@@ -18,6 +18,10 @@ export const dokumenti = {
 	4: {
 		potrebniParametri: [Parametar.artikl, Parametar.kolicina, Parametar.vpc, Parametar.rabat1, Parametar.rabat2, Parametar.rabat3, Parametar.mpc]
 	},
+	//5 Naruđbenica | primjer: 00106010-000003/23
+	5: {
+		potrebniParametri: [Parametar.artikl, Parametar.kolicina]
+	},
 	//6 Primka | primjer: 00201011-000001/21
 	6: {
 		potrebniParametri: [Parametar.artikl, Parametar.kolicina]

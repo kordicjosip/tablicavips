@@ -1,5 +1,6 @@
 export enum Field {
 	numeric,
 	artiklPoSifri,
-	text
+	text,
+	artiklPoKataloskomBroju
 }

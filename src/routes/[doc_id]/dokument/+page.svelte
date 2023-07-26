@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { DokumentRed } from '$components/VipsTableOCR';
 	import { Field } from '$components/VipsTableOCR/field';
-	import { getArtiklPoSifri } from '$components/api';
+	import { getArtiklPoKataloskomBroju, getArtiklPoSifri } from '$components/api';
 	import { validateInputNumeric } from '$components/validators';
 	import { dokumenti } from '$components/VipsTableOCR/dokumenti';
 	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
@@ -57,12 +57,13 @@
 		data.table = data.table;
 	}
 
-	async function writeToVips() {
-		const res = await fetch('/api', {
-			method: 'GET',
+	async function writeToVips(request: object) {
+		const res = await fetch(`/api/document/${encodeURIComponent(vipsDocument['JMB Dokumenta'])}`, {
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
-			}
+			},
+			body: JSON.stringify(request)
 		});
 		testData = await res.json();
 		console.log(testData);
@@ -81,7 +82,23 @@
 			row.disabled = true;
 			data = data;
 			console.log(row.cells);
-			writeToVips();
+
+			const request = {};
+			for (const cellId in row.cells) {
+				switch (data.table.columns[cellId].field) {
+					case Field.artiklPoSifri:
+						request[row.cells[cellId].colParam] = row.cells[cellId].data.ID;
+						break;
+					case Field.artiklPoKataloskomBroju:
+						request[row.cells[cellId].colParam] = row.cells[cellId].data.ID;
+						break;
+					default:
+						request[row.cells[cellId].colParam] = row.cells[cellId].data;
+						break;
+				}
+			}
+
+			writeToVips(request);
 		}
 	}
 </script>
@@ -121,8 +138,8 @@
 			class="bg-transparent border-b-2 border-white text-white text-center placeholder-white placeholder-opacity-50"
 			on:input={selectVipsDocument}
 			placeholder="Unesi broj dokumenta:"
-			type="text"
 			size="17"
+			type="text"
 		/>
 	</div>
 	{#if vipsDocument}
@@ -186,6 +203,8 @@
 			{#each data.table.columns as header}
 				{#if header.field === Field.artiklPoSifri}
 					<th colspan="2">Šifra</th>
+				{:else if header.field === Field.artiklPoKataloskomBroju}
+					<th colspan="2">Šifra</th>
 				{:else}
 					<th>{header.name}</th>
 				{/if}
@@ -207,6 +226,22 @@
 									bind:value={cell.text}
 									on:input={async () => {
 										cell.data = await getArtiklPoSifri(cell.text, fetch);
+									}}
+								/>
+							</td>
+							<td class="text-gray-700 select-none" class:bg-red-300={!cell.data}
+								>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
+							>
+						{:else if data.table.columns[i].field === Field.artiklPoKataloskomBroju}
+							<td
+								><input
+									size="14"
+									class="bg-transparent"
+									class:bg-red-300={cell.text === ''}
+									type="text"
+									bind:value={cell.text}
+									on:input={async () => {
+										cell.data = await getArtiklPoKataloskomBroju(cell.text, fetch);
 									}}
 								/>
 							</td>
@@ -243,6 +278,13 @@
 						<td class="text-gray-700 select-none" class:bg-green-300={row.disabled}
 							>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
 						>
+					{:else if data.table.columns[i].field === Field.artiklPoKataloskomBroju}
+						<td class:bg-green-300={row.disabled}>{cell.text}</td>
+						<td class="text-gray-700 select-none" class:bg-green-300={row.disabled}
+							>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
+						>
+					{:else if data.table.columns[i].field === Field.numeric}
+						<td class:bg-green-300={row.disabled}>{cell.text}</td>
 					{:else}
 						<td class:bg-green-300={row.disabled}>{cell.text}</td>
 					{/if}
