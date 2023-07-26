@@ -105,7 +105,11 @@
 	function sendAllRowsData() {
 		data.table.tablica.forEach((row) => {
 			for (const columnIndex in row.cells) {
-				if (row.cells[columnIndex].data == undefined || row.cells[columnIndex].data == null) {
+				if (
+					row.cells[columnIndex].data == undefined ||
+					row.cells[columnIndex].data == null ||
+					row.disabled
+				) {
 					return;
 				} else {
 					sendRowData(row);
