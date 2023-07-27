@@ -235,7 +235,7 @@
 </div>
 
 <div class="flex">
-	<div class="flex justify-center w-3/4">
+	<div class="flex ml-20 w-3/4">
 		<table>
 			<thead class="select-none sticky -top-[1px]">
 				<tr>
