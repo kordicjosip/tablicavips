@@ -53,7 +53,8 @@
 						x2: column.x2,
 						y1: row.y1,
 						y2: row.y2,
-						text: []
+						text: [],
+						stranica: data.tables.indexOf(table)
 					});
 				}
 			}
