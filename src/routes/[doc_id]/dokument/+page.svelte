@@ -131,7 +131,7 @@
 			}
 		});
 	}
-	function setOCRPreviewData(cell, j) {
+	function setOCRPreviewData(cell) {
 		OCRPreviewData.x = cell.x1;
 		OCRPreviewData.y = cell.y1;
 		OCRPreviewData.width = cell.x2 - cell.x1;
@@ -443,7 +443,7 @@
 			</tbody>
 		</table>
 	</div>
-	{#if data.table.tablica[0]}
+	{#if data.table.tablica[0] && OCRPreviewData.stranica !== undefined}
 		<div class="mx-10 w-1/4 flex-initial justify-end">
 			<OCRPreview
 				image={data.documentData['stranice'][OCRPreviewData.stranica].tablica['definicija'].image}
