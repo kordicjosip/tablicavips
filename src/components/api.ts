@@ -19,3 +19,14 @@ export async function getArtiklPoKataloskomBroju(text: string, fetch: any) {
 	}).then((res) => res.json());
 	return artikl;
 }
+
+export async function getArtiklPoBarKodu(text: string, fetch: any) {
+	const urlSearchParams = new URLSearchParams({ barKod: text });
+	const artikl = await fetch('/api/artiklPoBarKodu?' + urlSearchParams.toString(), {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}).then((res) => res.json());
+	return artikl;
+}

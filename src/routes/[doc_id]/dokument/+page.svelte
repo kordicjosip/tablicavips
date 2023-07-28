@@ -1,7 +1,11 @@
 <script lang="ts">
 	import type { DokumentRed } from '$components/VipsTableOCR';
 	import { Field } from '$components/VipsTableOCR/field';
-	import { getArtiklPoKataloskomBroju, getArtiklPoSifri } from '$components/api';
+	import {
+		getArtiklPoKataloskomBroju,
+		getArtiklPoSifri,
+		getArtiklPoBarKodu
+	} from '$components/api';
 	import { validateInputNumeric } from '$components/validators';
 	import { dokumenti } from '$components/VipsTableOCR/dokumenti';
 	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
@@ -243,7 +247,9 @@
 						{#if header.field === Field.artiklPoSifri}
 							<th colspan="2">Šifra</th>
 						{:else if header.field === Field.artiklPoKataloskomBroju}
-							<th colspan="2">Šifra</th>
+							<th colspan="2">Kataloški broj</th>
+						{:else if header.field === Field.artiklPoBarKodu}
+							<th colspan="2">Barkod</th>
 						{:else}
 							<th>{header.name}</th>
 						{/if}
@@ -333,6 +339,22 @@
 											bind:value={cell.text}
 											on:input={async () => {
 												cell.data = await getArtiklPoKataloskomBroju(cell.text, fetch);
+											}}
+										/>
+									</td>
+									<td class="text-gray-700" class:bg-red-300={!cell.data}
+										>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
+									>
+								{:else if data.table.columns[i].field === Field.artiklPoBarKodu}
+									<td on:focusin={() => setOCRPreviewData(cell)}
+										><input
+											size="14"
+											class="bg-transparent"
+											class:bg-red-300={cell.text === ''}
+											type="text"
+											bind:value={cell.text}
+											on:input={async () => {
+												cell.data = await getArtiklPoBarKodu(cell.text, fetch);
 											}}
 										/>
 									</td>
