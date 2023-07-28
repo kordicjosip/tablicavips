@@ -239,7 +239,7 @@
 </div>
 
 <div class="flex">
-	<div class="flex justify-center w-3/4">
+	<div class="flex justify-center">
 		<table>
 			<thead class="select-none sticky -top-[1px]">
 				<tr>
@@ -466,7 +466,7 @@
 		</table>
 	</div>
 	{#if data.table.tablica[0] && OCRPreviewData.stranica !== undefined}
-		<div class="px-10 w-1/4 flex-initial justify-end">
+		<div class="flex-initial justify-end">
 			<OCRPreview
 				image={data.documentData['stranice'][OCRPreviewData.stranica].tablica['definicija'].image}
 				x={OCRPreviewData.x}

@@ -6,7 +6,10 @@
 	export let height: number;
 </script>
 
-<svg class="sticky top-[45%] max-h-14" viewBox="{x} {y} {width} {height}">
+<svg
+	class="fixed bottom-5 right-5 max-h-14 float-right border-2 border-emerald-600"
+	viewBox="{x} {y} {width} {height}"
+>
 	<image href={image} />
 </svg>
 
