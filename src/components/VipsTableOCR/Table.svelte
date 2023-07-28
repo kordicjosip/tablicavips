@@ -235,7 +235,7 @@
 
 		<g transform="translate({X} {Y}) scale({scale})">
 			{#each data.ocr as ocr}
-				{#if ocr.y1 * scale < data.tableCrop.y2 * scale}
+				{#if ocr.y1 < data.tableCrop.y2}
 					<OCRElement
 						bind:ocr
 						offsetX={data.tableCrop.x1}
