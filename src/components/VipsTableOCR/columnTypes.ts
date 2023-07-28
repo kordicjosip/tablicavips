@@ -26,6 +26,7 @@ export const columnTypes: {
 }[] = [
 	{ name: 'Šifra artikla', field: Field.artiklPoSifri, parameter: Parametar.artikl, defaultValue: null, emptyValue: 0 },
 	{ name: 'Kataloški broj', field: Field.artiklPoKataloskomBroju, parameter: Parametar.artikl, defaultValue: null, emptyValue: 0 },
+	{ name: 'Barkod', field: Field.artiklPoBarKodu, parameter: Parametar.artikl, defaultValue: null, emptyValue: 0 },
 	{ name: 'Količina', field: Field.numeric, parameter: Parametar.kolicina, defaultValue: null, emptyValue: 0 },
 	{ name: 'Ulazna cijena', field: Field.numeric, parameter: Parametar.ulaznaCijena, defaultValue: null, emptyValue: 0 },
 	{ name: 'Fakturna cijena', field: Field.numeric, parameter: Parametar.fakturnaCijena, defaultValue: null, emptyValue: 0 },
