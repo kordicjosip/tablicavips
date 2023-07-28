@@ -89,6 +89,10 @@
 	}
 
 	function sendRowData(row: DokumentRed) {
+		if (vipsDocument['DokZakljucen']) {
+			alert('Dokument je zaključen!');
+			return;
+		}
 		for (const columnIndex in data.table.columns) {
 			if (row.cells[columnIndex].data == undefined || row.cells[columnIndex].data == null) {
 				alert('Podaci nisu ispravni!');
@@ -176,13 +180,20 @@
 				</g>
 			</svg>
 		</div>
-		<input
-			class="bg-transparent border-b-2 border-white text-white text-center placeholder-white placeholder-opacity-50"
-			on:input={selectVipsDocument}
-			placeholder="Unesi broj dokumenta:"
-			size="17"
-			type="text"
-		/>
+		<div class="items-center">
+			<input
+				class="relative bg-transparent border-b-2 border-white text-white text-center focus:drop-shadow-none placeholder-white placeholder-opacity-50"
+				on:input={selectVipsDocument}
+				placeholder="Unesi broj dokumenta:"
+				size="17"
+				type="text"
+			/>
+			{#if vipsDocument}
+				<div class="flex justify-center">
+					<h1 class="absolute text-white font-bold">Dokument je zaključen!</h1>
+				</div>
+			{/if}
+		</div>
 	</div>
 	{#if vipsDocument}
 		<div>
