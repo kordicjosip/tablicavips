@@ -115,6 +115,9 @@
 					case Field.artiklPoKataloskomBroju:
 						request[row.cells[cellId].colParam] = row.cells[cellId].data.ID;
 						break;
+					case Field.artiklPoBarKodu:
+						request[row.cells[cellId].colParam] = row.cells[cellId].data.ID;
+						break;
 					default:
 						request[row.cells[cellId].colParam] = row.cells[cellId].data;
 						break;
@@ -424,6 +427,11 @@
 								>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
 							>
 						{:else if data.table.columns[i].field === Field.artiklPoKataloskomBroju}
+							<td class:bg-green-300={row.disabled}>{cell.text}</td>
+							<td class="text-gray-700 select-none" class:bg-green-300={row.disabled}
+								>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
+							>
+						{:else if data.table.columns[i].field === Field.artiklPoBarKodu}
 							<td class:bg-green-300={row.disabled}>{cell.text}</td>
 							<td class="text-gray-700 select-none" class:bg-green-300={row.disabled}
 								>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td

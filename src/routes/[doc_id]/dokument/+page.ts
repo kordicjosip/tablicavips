@@ -19,7 +19,7 @@ export const load: PageLoad = async ({ params, fetch }) => {
 				case Field.artiklPoSifri:
 					for (const row of table.tablica) {
 						row.cells[columnIndex].data = getArtiklPoSifri(
-							row.cells[columnIndex]?.text | '',
+							row.cells[columnIndex]?.text || '',
 							fetch
 						);
 					}
@@ -32,7 +32,7 @@ export const load: PageLoad = async ({ params, fetch }) => {
 				case Field.artiklPoKataloskomBroju:
 					for (const row of table.tablica) {
 						row.cells[columnIndex].data = getArtiklPoKataloskomBroju(
-							row.cells[columnIndex]?.text | '',
+							row.cells[columnIndex]?.text || '',
 							fetch
 						);
 					}
@@ -45,7 +45,7 @@ export const load: PageLoad = async ({ params, fetch }) => {
 				case Field.artiklPoBarKodu:
 					for (const row of table.tablica) {
 						row.cells[columnIndex].data = getArtiklPoBarKodu(
-							row.cells[columnIndex]?.text | '',
+							row.cells[columnIndex]?.text || '',
 							fetch
 						);
 					}
