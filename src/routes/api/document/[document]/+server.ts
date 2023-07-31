@@ -59,5 +59,9 @@ export const POST: RequestHandler = async ({ params, request }) => {
 	query.output('pmErr', sql.Int);
 	query.output('pmErrMsg', sql.VarChar(255));
 	const response = await query.execute('spRbnStvMod');
-	return new Response();
+	return new Response(JSON.stringify({ status: 'OK' }), {
+		headers: {
+			'content-type': 'text/json'
+		}
+	});
 };
