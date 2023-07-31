@@ -55,6 +55,22 @@ export async function getArtiklPoKataloskomBroju(
 	};
 }
 
+export async function getArtiklPoBarKodu(
+	Barcode: string
+): Promise<{ ID: number; Naziv: string } | undefined> {
+	const result = await pool
+		.request()
+		.input('Barcode', Barcode)
+		.query(
+			`SELECT TOP 1 [ID], [Naziv] FROM [Test].[dbo].[tbArtBcd] LEFT JOIN [tbArt] ON [tbArt].ID = [tbArtBcd].ArtiklID WHERE [Barcode] = @Barcode`
+		);
+	if (result.recordset.length === 0) return undefined;
+	return {
+		ID: result.recordset[0]?.ID,
+		Naziv: result.recordset[0]?.Naziv
+	};
+}
+
 export async function getArtiklPoId(id: number, pjID: number) {
 	const result = await pool
 		.request()

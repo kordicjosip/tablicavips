@@ -21,7 +21,7 @@ export async function getArtiklPoKataloskomBroju(text: string, fetch: any) {
 }
 
 export async function getArtiklPoBarKodu(text: string, fetch: any) {
-	const urlSearchParams = new URLSearchParams({ barKod: text });
+	const urlSearchParams = new URLSearchParams({ barcode: text });
 	const artikl = await fetch('/api/artiklPoBarKodu?' + urlSearchParams.toString(), {
 		method: 'GET',
 		headers: {
