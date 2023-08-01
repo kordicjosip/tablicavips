@@ -6,6 +6,8 @@ import { Field } from '$components/VipsTableOCR/field';
 import { validateInputNumeric } from '$components/validators';
 import type { PageLoad } from './$types';
 import { browser } from '$app/environment';
+import { get } from 'svelte/store';
+import { getPersisted } from '$components/store';
 
 export const load: PageLoad = async ({ params, fetch }) => {
 	let table = {
@@ -13,7 +15,8 @@ export const load: PageLoad = async ({ params, fetch }) => {
 		tablica: []
 	};
 	if (browser) {
-		table = JSON.parse(localStorage.getItem(params.doc_id)!);
+		const store = getPersisted(params.doc_id);
+		table = get<any>(store);
 		for (const columnIndex in table.columns) {
 			switch (table.columns[columnIndex].field) {
 				case Field.artiklPoSifri:

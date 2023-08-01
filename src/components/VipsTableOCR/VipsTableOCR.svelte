@@ -7,6 +7,7 @@
 	import { goto } from '$app/navigation';
 	import { Field } from '$components/VipsTableOCR/field';
 	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
+	import { getPersisted } from '$components/store';
 
 	export let documentData;
 	let data: TablesData = new TablesData();
@@ -104,8 +105,7 @@
 		}
 
 		tablica.tablica = mergedRows;
-
-		localStorage.setItem(documentData.id, JSON.stringify(tablica));
+		getPersisted(documentData.id).set(tablica);
 
 		if (tablica.columns.length === 0) {
 			alert('Niste imenovali nijedan stupac!');
