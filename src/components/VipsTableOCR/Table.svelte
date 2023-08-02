@@ -25,6 +25,7 @@
 	import ColumnHeaderDividerLine from './ColumnHeaderDividerLine.svelte';
 	import OCRElement from './OCRElement.svelte';
 	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
+	import ColumnSettingsDialog from '$components/VipsTableOCR/ColumnSettingsDialog.svelte';
 	const dispatch = new createEventDispatcher();
 	export let show_column_header = true;
 	export let show_row_header = true;
@@ -44,6 +45,8 @@
 	let cmX = 0;
 	let cmY = 0;
 	let cmShow = false;
+
+	let dialog;
 
 	function showContextMenuRows(event: PointerEvent, row: TableRowInterface) {
 		cmX = event.x;
@@ -74,6 +77,16 @@
 				data = data;
 			})
 		);
+		if (column.type) {
+			elContextMenu.entries.push(
+				new ContextMenuEntry('Postavke', () => {
+					setTimeout(() => {
+						showContextMenuColsPostavke(event, column);
+					}, 1);
+					data = data;
+				})
+			);
+		}
 		contextMenuDefinition.groups = [];
 		contextMenuDefinition.groups.push(elContextMenu);
 		cmShow = true;
@@ -134,6 +147,27 @@
 		contextMenuDefinition.groups = [];
 		contextMenuDefinition.groups.push(elContextMenu);
 		cmShow = true;
+	}
+
+	function showContextMenuColsPostavke(event: PointerEvent, column: TableColumnInterface) {
+		cmX = event.x;
+		cmY = event.y;
+		elContextMenu.entries = [];
+		elContextMenu.entries.push(
+			new ContextMenuEntry('regex ?<=', () => {
+				dialog.show(column.id);
+			})
+		);
+		contextMenuDefinition.groups = [];
+		contextMenuDefinition.groups.push(elContextMenu);
+		cmShow = true;
+	}
+
+	function setColumnRegexString(event) {
+		dispatch('setColumnRegexString', {
+			id: event.detail.id,
+			regexString: event.detail.regexString
+		});
 	}
 
 	function hideContextMenu() {
@@ -301,3 +335,8 @@
 </div>
 
 <ContextMenu definition={contextMenuDefinition} visible={cmShow} x={cmX} y={cmY} />
+<ColumnSettingsDialog
+	bind:this={dialog}
+	on:setColumnRegexString={setColumnRegexString}
+	column={data.columns}
+/>

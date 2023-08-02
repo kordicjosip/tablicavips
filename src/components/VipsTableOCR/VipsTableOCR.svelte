@@ -17,7 +17,7 @@
 
 	function sendAllData() {
 		const tablica: {
-			columns: { name: string; field: Field; parameter: string }[];
+			columns: { name: string; field: Field; parameter: string; regexString: string }[];
 			tablica: DokumentRed[];
 		} = {
 			columns: [],
@@ -137,6 +137,13 @@
 	function setColumnType(event) {
 		data.setColumnType(event.detail.id, event.detail.column);
 		data = data;
+		console.log(data);
+	}
+
+	function setColumnRegexString(event) {
+		data.setColumnRegexString(event.detail.id, event.detail.regexString);
+		data = data;
+		console.log(data);
 	}
 
 	function setOffsetColumnAllTables(event) {
@@ -314,6 +321,7 @@
 						on:addColumn={addColumn}
 						on:removeColumn={removeColumn}
 						on:setColumnType={setColumnType}
+						on:setColumnRegexString={setColumnRegexString}
 						on:setOffsetColumnAllTables={setOffsetColumnAllTables}
 						on:setOffsetColumnsAllTables={setOffsetColumnsAllTables}
 						on:dragX1AllTables={dragX1AllTables}

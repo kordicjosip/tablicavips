@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import Dialog from './Dialog.svelte';
+	import ColumnTemplatesDialog from './ColumnTemplatesDialog.svelte';
 	import { goto } from '$app/navigation';
 
 	let dialog;
@@ -165,7 +165,7 @@
 		</svg>
 	</div>
 </div>
-<Dialog
+<ColumnTemplatesDialog
 	bind:columnTemplatesData
 	bind:selectedColumnTemplate
 	bind:this={dialog}

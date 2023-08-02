@@ -7,7 +7,7 @@ export const COLUMN_HEADER_HEIGHT = 20;
 
 export interface TableColumnInterface {
 	id: number;
-	type: { name: string; field: Field; parameter: string } | null;
+	type: { name: string; field: Field; parameter: string; regexString: string } | null;
 	name: string | null;
 	x1: number;
 	x2: number;
@@ -41,7 +41,7 @@ export interface TableDataInterface {
 export class TableColumn {
 	id: number = -1;
 	name: string | null = null;
-	type: { name: string; field: Field; parameter: string } | undefined;
+	type: { name: string; field: Field; parameter: string; regexString: string } | undefined;
 
 	selected = false;
 
@@ -208,7 +208,10 @@ export class TableData {
 		this.columns = [];
 	}
 
-	setColumnType(id: number, type: { name: string; field: Field; parameter: string }) {
+	setColumnType(
+		id: number,
+		type: { name: string; field: Field; parameter: string; regexString: string }
+	) {
 		const col = this.columns.find((c) => c.id === id);
 		for (const existingCol of this.columns) {
 			if (existingCol.type === type) {
@@ -314,7 +317,10 @@ export class TablesData {
 		}
 	}
 
-	setColumnType(id: number, type: { name: string; field: Field; parameter: string }) {
+	setColumnType(
+		id: number,
+		type: { name: string; field: Field; parameter: string; regexString: string }
+	) {
 		this.tables.forEach((table) => {
 			if (this.currentPageTable?.isUnlinked) {
 				this.currentPageTable.setColumnType(id, type);
