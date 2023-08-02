@@ -154,7 +154,7 @@
 		cmY = event.y;
 		elContextMenu.entries = [];
 		elContextMenu.entries.push(
-			new ContextMenuEntry('regex ?<=', () => {
+			new ContextMenuEntry('RegExp', () => {
 				dialog.show(column.id);
 			})
 		);

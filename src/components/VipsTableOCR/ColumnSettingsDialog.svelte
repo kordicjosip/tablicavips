@@ -29,7 +29,7 @@
 
 <dialog bind:this={dialog} class="bg-neutral-700 text-center w-fit rounded">
 	<div id="dialogdiv" class="flex flex-col">
-		<label class="text-white" for="name">Izvuci sav tekst nakon:</label>
+		<label class="text-white" for="name">Upiši RegExp za ovaj stupac:</label>
 		<input
 			type="text"
 			id="name"

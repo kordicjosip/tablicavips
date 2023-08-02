@@ -6,11 +6,12 @@
 		getArtiklPoSifri,
 		getArtiklPoBarKodu
 	} from '$components/api';
-	import { validateInputNumeric } from '$components/validators';
+	import { validateColumnRegex, validateInputNumeric } from '$components/validators';
 	import { dokumenti } from '$components/VipsTableOCR/dokumenti';
 	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
 	import { goto, invalidateAll } from '$app/navigation';
 	import OCRPreview from '$components/VipsTableOCR/OCRPreview.svelte';
+	import { onMount } from 'svelte';
 
 	export let data;
 
@@ -31,6 +32,7 @@
 		stranica: 0
 	};
 	let OCRPreviewVisible = false;
+	let initial = true;
 
 	async function selectVipsDocument(event: InputEvent) {
 		vipsDocument = await fetch(
@@ -151,6 +153,10 @@
 		OCRPreviewData.height = cell.y2 - cell.y1;
 		OCRPreviewData.stranica = cell.stranica;
 	}
+
+	onMount(() => {
+		initial = false;
+	});
 </script>
 
 <div class="w-screen h-screen flex flex-col">
@@ -382,16 +388,36 @@
 											OCRPreviewVisible = true;
 										}}
 										on:focusout={() => (OCRPreviewVisible = false)}
-										><input
-											size="14"
-											class="bg-transparent"
-											class:bg-red-300={cell.text === ''}
-											type="text"
-											bind:value={cell.text}
-											on:input={async () => {
-												cell.data = await getArtiklPoBarKodu(cell.text, fetch);
-											}}
-										/>
+									>
+										{#if data.table.columns[i].regexString}
+											<input
+												size="14"
+												class="bg-transparent"
+												class:bg-red-300={cell.text === ''}
+												type="text"
+												value={validateColumnRegex(
+													cell.text,
+													data.table.columns[i].regexString,
+													cell.initial ? cell.initial : true
+												)}
+												on:input={async (event) => {
+													cell.initial = false;
+													cell.data = await getArtiklPoBarKodu(event.target.value, fetch);
+													cell.text = event.target.value;
+												}}
+											/>
+										{:else}
+											<input
+												size="14"
+												class="bg-transparent"
+												class:bg-red-300={cell.text === ''}
+												type="text"
+												bind:value={cell.text}
+												on:input={async () => {
+													cell.data = await getArtiklPoBarKodu(cell.text, fetch);
+												}}
+											/>
+										{/if}
 									</td>
 									<td class="text-gray-700 select-none" class:bg-red-300={!cell.data}
 										>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td

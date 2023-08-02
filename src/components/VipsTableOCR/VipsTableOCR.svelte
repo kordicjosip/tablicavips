@@ -238,6 +238,9 @@
 
 	onMount(async () => {
 		for (let i = 0; i < documentData['stranice'].length; i++) {
+			if (!documentData['stranice'][i]['tablica']) {
+				continue;
+			}
 			const columns = documentData['stranice'][0]['tablica']['definicija'].columns.map(
 				(column, index) => {
 					return {
