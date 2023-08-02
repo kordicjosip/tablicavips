@@ -346,16 +346,35 @@
 											OCRPreviewVisible = true;
 										}}
 										on:focusout={() => (OCRPreviewVisible = false)}
-										><input
-											size="14"
-											class="bg-transparent"
-											class:bg-red-300={cell.text === ''}
-											type="text"
-											bind:value={cell.text}
-											on:input={async () => {
-												cell.data = await getArtiklPoSifri(cell.text, fetch);
-											}}
-										/>
+										>{#if data.table.columns[i].regexString}
+											<input
+												size="14"
+												class="bg-transparent"
+												class:bg-red-300={cell.text === ''}
+												type="text"
+												value={validateColumnRegex(
+													cell.text,
+													data.table.columns[i].regexString,
+													cell.initial ? cell.initial : true
+												)}
+												on:input={async (event) => {
+													cell.initial = false;
+													cell.data = await getArtiklPoSifri(event.target.value, fetch);
+													cell.text = event.target.value;
+												}}
+											/>
+										{:else}
+											<input
+												size="14"
+												class="bg-transparent"
+												class:bg-red-300={cell.text === ''}
+												type="text"
+												bind:value={cell.text}
+												on:input={async () => {
+													cell.data = await getArtiklPoSifri(cell.text, fetch);
+												}}
+											/>
+										{/if}
 									</td>
 									<td class="text-gray-700 select-none" class:bg-red-300={!cell.data}
 										>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
@@ -367,16 +386,35 @@
 											OCRPreviewVisible = true;
 										}}
 										on:focusout={() => (OCRPreviewVisible = false)}
-										><input
-											size="14"
-											class="bg-transparent"
-											class:bg-red-300={cell.text === ''}
-											type="text"
-											bind:value={cell.text}
-											on:input={async () => {
-												cell.data = await getArtiklPoKataloskomBroju(cell.text, fetch);
-											}}
-										/>
+										>{#if data.table.columns[i].regexString}
+											<input
+												size="14"
+												class="bg-transparent"
+												class:bg-red-300={cell.text === ''}
+												type="text"
+												value={validateColumnRegex(
+													cell.text,
+													data.table.columns[i].regexString,
+													cell.initial ? cell.initial : true
+												)}
+												on:input={async (event) => {
+													cell.initial = false;
+													cell.data = await getArtiklPoKataloskomBroju(event.target.value, fetch);
+													cell.text = event.target.value;
+												}}
+											/>
+										{:else}
+											<input
+												size="14"
+												class="bg-transparent"
+												class:bg-red-300={cell.text === ''}
+												type="text"
+												bind:value={cell.text}
+												on:input={async () => {
+													cell.data = await getArtiklPoKataloskomBroju(cell.text, fetch);
+												}}
+											/>
+										{/if}
 									</td>
 									<td class="text-gray-700" class:bg-red-300={!cell.data}
 										>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td
