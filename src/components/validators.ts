@@ -5,3 +5,8 @@ export function validateInputNumeric(text: string) {
 	}
 	return Number.parseFloat(text);
 }
+
+export function validateColumnRegex(text: string, regexString: string) {
+	const pattern = new RegExp(`(?<=${regexString}).*`, 'g');
+	return String(text).match(pattern);
+}

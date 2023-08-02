@@ -537,7 +537,7 @@
 	th,
 	td {
 		border: 1px solid #d5d5d5;
-		padding: 6px;
+		padding: 3px;
 	}
 
 	th {

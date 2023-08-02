@@ -223,6 +223,18 @@ export class TableData {
 		}
 	}
 
+	setColumnRegexString(id: number, regexString: string) {
+		const col = this.columns.find((c) => c.id === id);
+		for (const existingCol of this.columns) {
+			if (existingCol.type?.regexString === regexString) {
+				return;
+			}
+		}
+		if (col) {
+			col.type!.regexString = regexString;
+		}
+	}
+
 	addRow(row: TableRowInterface) {
 		const new_row = new TableRow();
 
@@ -327,6 +339,18 @@ export class TablesData {
 			} else {
 				if (!table.isUnlinked) {
 					table.setColumnType(id, type);
+				}
+			}
+		});
+	}
+
+	setColumnRegexString(id: number, regexString: string) {
+		this.tables.forEach((table) => {
+			if (this.currentPageTable?.isUnlinked) {
+				this.currentPageTable.setColumnRegexString(id, regexString);
+			} else {
+				if (!table.isUnlinked) {
+					table.setColumnRegexString(id, regexString);
 				}
 			}
 		});

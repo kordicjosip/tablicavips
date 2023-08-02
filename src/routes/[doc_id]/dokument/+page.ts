@@ -7,6 +7,7 @@ import { validateInputNumeric } from '$components/validators';
 import type { PageLoad } from './$types';
 import { browser } from '$app/environment';
 import { get } from 'svelte/store';
+// @ts-ignore
 import { getPersisted } from '$components/store';
 
 export const load: PageLoad = async ({ params, fetch }) => {
