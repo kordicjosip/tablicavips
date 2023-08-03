@@ -55,7 +55,7 @@
 						y1: row.y1,
 						y2: row.y2,
 						text: [],
-						stranica: data.tables.indexOf(table)
+						stranica: table.page
 					});
 				}
 			}
@@ -287,7 +287,8 @@
 					resolution: documentData['stranice'][i]['tablica']['definicija'].resolution,
 					image: documentData['stranice'][i]['tablica']['definicija'].image,
 					ocr: ocr,
-					tableCrop: crop
+					tableCrop: crop,
+					page: i
 				})
 			);
 		}

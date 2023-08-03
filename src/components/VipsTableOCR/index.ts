@@ -36,6 +36,7 @@ export interface TableDataInterface {
 	image: string;
 	ocr: OCRInterface[];
 	tableCrop: { x1: number; x2: number; y1: number; y2: number };
+	page: number;
 }
 
 export class TableColumn {
@@ -154,6 +155,7 @@ export class TableData {
 	private _isUnlinked: boolean = false;
 	ocr: OCR[] = [];
 	tableCrop: { x1: number; x2: number; y1: number; y2: number };
+	page: number;
 
 	get isUnlinked(): boolean {
 		return this._isUnlinked;
@@ -170,6 +172,7 @@ export class TableData {
 		this.image = data.image;
 		this.resolution = data.resolution;
 		this.tableCrop = data.tableCrop;
+		this.page = data.page;
 		data.columns.forEach((column) => {
 			this.addColumn(column);
 		});

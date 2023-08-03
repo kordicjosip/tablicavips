@@ -147,6 +147,8 @@
 		});
 	}
 	function setOCRPreviewData(cell) {
+		//{data.documentData['stranice'][OCRPreviewData.stranica].tablica['definicija'].image}
+
 		OCRPreviewData.x = cell.x1;
 		OCRPreviewData.y = cell.y1;
 		OCRPreviewData.width = cell.x2 - cell.x1;
