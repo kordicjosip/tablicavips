@@ -73,7 +73,7 @@
 					cell.text.sort((a, b) => a.x1 - b.x1);
 					cell.text.sort((a, b) => {
 						if (a.y1 > b.y2) return 1;
-						if (a.y2 < b.y1) return -1;
+						if (a.y2 <= b.y1) return -1;
 						return 0;
 					});
 					let previousY2: number | null = null;
