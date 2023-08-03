@@ -8,7 +8,7 @@
 	} from '$components/api';
 	import { validateColumnRegex, validateInputNumeric } from '$components/validators';
 	import { dokumenti } from '$components/VipsTableOCR/dokumenti';
-	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
+	import { columnTypes, Parametar } from '$components/VipsTableOCR/columnTypes';
 	import { goto, invalidateAll } from '$app/navigation';
 	import OCRPreview from '$components/VipsTableOCR/OCRPreview.svelte';
 	import { onMount } from 'svelte';
@@ -479,6 +479,9 @@
 												cell.data = validateInputNumeric(cell.text);
 											}}
 										/>
+										{#if data.table.columns[i].parameter === Parametar.rabat1 || data.table.columns[i].parameter === Parametar.rabat2 || data.table.columns[i].parameter === Parametar.rabat3}
+											<span class="select-none">%</span>
+										{/if}
 									</td>
 								{:else}
 									<td
