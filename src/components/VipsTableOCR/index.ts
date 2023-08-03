@@ -217,7 +217,7 @@ export class TableData {
 	) {
 		const col = this.columns.find((c) => c.id === id);
 		for (const existingCol of this.columns) {
-			if (existingCol.type === type) {
+			if (existingCol.type?.parameter === type.parameter) {
 				return;
 			}
 		}
