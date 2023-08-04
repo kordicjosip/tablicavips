@@ -15,7 +15,12 @@
 
 	export let data;
 
-	let testData;
+	let statusSlanja;
+	let podaciZaPovezivanje = {
+		vipsID: '',
+		dokID: ''
+	};
+	let idPovezanogDokumenta;
 	let vipsDocument = null;
 	let datumDokumenta = null;
 	let OCRPreviewData: {
@@ -86,8 +91,28 @@
 			},
 			body: JSON.stringify(request)
 		});
-		testData = await res.json();
-		console.log(testData);
+		statusSlanja = await res;
+	}
+
+	async function poveziDokument() {
+		if (statusSlanja.ok) {
+			podaciZaPovezivanje.vipsID = vipsDocument['Dokument ID'];
+			podaciZaPovezivanje.dokID = data.documentData.id;
+			idPovezanogDokumenta = vipsDocument['JMB Dokumenta'];
+
+			const res = await fetch(`http://192.168.10.20:8000/api/doc/${data.documentData.id}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					vips_id: podaciZaPovezivanje.vipsID,
+					dokument_id: podaciZaPovezivanje.dokID
+				})
+			});
+			const json = await res.json();
+			console.log(JSON.stringify(json));
+		}
 	}
 
 	function sendRowData(row: DokumentRed) {
@@ -127,7 +152,9 @@
 				}
 			}
 
-			writeToVips(request);
+			writeToVips(request).then(() => {
+				poveziDokument();
+			});
 		}
 	}
 
@@ -197,6 +224,7 @@
 				<input
 					class="relative bg-transparent border-b-2 border-white text-white text-center focus:drop-shadow-none placeholder-white placeholder-opacity-50"
 					on:input={selectVipsDocument}
+					value={data.documentData.vips_id ? data.documentData.vips_id : ''}
 					placeholder="Unesi broj dokumenta:"
 					size="17"
 					type="text"
@@ -265,7 +293,7 @@
 		{/if}
 	</div>
 
-	<div class="overflow-x-scroll">
+	<div class="overflow-x-scroll h-full">
 		<table>
 			<thead class="select-none sticky -top-[1px]">
 				<tr>
