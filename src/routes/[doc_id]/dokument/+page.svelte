@@ -12,6 +12,7 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import OCRPreview from '$components/VipsTableOCR/OCRPreview.svelte';
 	import { onMount } from 'svelte';
+	import { povezaniDokumenti } from '$components/store';
 
 	export let data;
 
@@ -82,7 +83,7 @@
 		}
 		data.table = data.table;
 	}
-
+	console.log(data);
 	async function writeToVips(request: object) {
 		const res = await fetch(`/api/document/${encodeURIComponent(vipsDocument['JMB Dokumenta'])}`, {
 			method: 'POST',
@@ -112,6 +113,15 @@
 			});
 			const json = await res.json();
 			console.log(JSON.stringify(json));
+			//TODO dodati dodane stavke
+			$povezaniDokumenti = [
+				...$povezaniDokumenti,
+				{
+					naziv: data.documentData.naziv,
+					id: data.documentData.id,
+					datum: datumDokumenta
+				}
+			];
 		}
 	}
 

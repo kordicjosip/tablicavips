@@ -2,6 +2,7 @@
 	import { goto, invalidate } from '$app/navigation';
 	import FileInput from './FileInput.svelte';
 	import { onDestroy, onMount } from 'svelte';
+	import { povezaniDokumenti } from '../store.ts';
 
 	export let data;
 
@@ -15,8 +16,6 @@
 	const onDrop = (event) => {
 		form.requestSubmit();
 	};
-
-	function dragover() {}
 
 	async function drop(event: DragEvent) {
 		dragoverDropCount = 0;
@@ -201,6 +200,21 @@
 						Datum
 					</th>
 				</tr>
+				{#each $povezaniDokumenti || [] as dokument}
+					<tr
+						class="hover:cursor-pointer bg-blue-100 hover:bg-blue-200 rounded-xl"
+						on:click={goto(`/${dokument.id}/stupci`)}
+					>
+						<td class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5">
+							{dokument.naziv}
+						</td>
+						<td class="w-fit mb-2 border-y border-neutral-300 py-2 text-end pr-5">
+							{new Date(dokument.datum).getUTCDate()}.{new Date(
+								dokument.datum
+							).getUTCMonth()}.{new Date(dokument.datum).getUTCFullYear()}
+						</td>
+					</tr>
+				{/each}
 				{#each documentsData as document}
 					{#if document.obrada_u_toku}
 						<tr class="rounded-xl hover:cursor-wait">
@@ -236,7 +250,9 @@
 								{document.naziv}
 							</td>
 							<td class="w-fit mb-2 border-y border-neutral-300 py-2 text-end pr-5">
-								{document.datum}
+								{new Date(document.datum).getUTCDate()}.{new Date(
+									document.datum
+								).getUTCMonth()}.{new Date(document.datum).getUTCFullYear()}
 							</td>
 						</tr>
 					{/if}
