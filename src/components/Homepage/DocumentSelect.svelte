@@ -11,13 +11,6 @@
 
 	$: svgListColor = listView ? '#464feb' : '#424242';
 	$: svgGridColor = listView ? '#424242' : '#464feb';
-	let svgRemoveRowColor = '#000000';
-	function handleMouseOver(e) {
-		svgRemoveRowColor = '#4680eb';
-	}
-	function handleMouseOut(e) {
-		svgRemoveRowColor = '#000000';
-	}
 
 	function removeRow(id) {
 		let indexToRemove = $povezaniDokumenti?.findIndex((doc) => doc.id === id);
@@ -236,13 +229,12 @@
 						</td>
 						<td
 							title="Ukloni dokument"
-							class="bg-white h-full px-1"
-							on:mouseover={handleMouseOver}
-							on:mouseout={handleMouseOut}
+							class="bg-white h-full px-1 group"
 							on:click={() => removeRow(dokument.id)}
 						>
 							<svg
-								class=""
+								class="group-hover:stroke-blue-500"
+								stroke="black"
 								width="25px"
 								height="25px"
 								viewBox="0 0 24 24"
@@ -257,7 +249,6 @@
 										<path
 											id="Vector"
 											d="M7 12L11.9497 16.9497L22.5572 6.34326M2.0498 12.0503L6.99955 17M17.606 6.39355L12.3027 11.6969"
-											stroke={svgRemoveRowColor}
 											stroke-width="2"
 											stroke-linecap="round"
 											stroke-linejoin="round"
@@ -315,7 +306,7 @@
 			<div class="grid grid-cols-4 gap-2 max-w-5xl">
 				{#each $povezaniDokumenti || [] as dokument}
 					<div
-						class="flex flex-col justify-between w-52 h-52 hover:cursor-pointer bg-blue-100 hover:bg-blue-200 rounded-md shadow hover:shadow-md"
+						class="flex flex-col relative justify-between w-52 h-52 hover:cursor-pointer bg-blue-100 hover:bg-blue-200 rounded-md shadow hover:shadow-md"
 						on:click={goto(`/${dokument.id}/stupci`)}
 					>
 						<img
@@ -323,6 +314,35 @@
 							class="h-40 object-cover object-top"
 							alt="pregled dokumenta"
 						/>
+						<button
+							class="absolute top-2 right-2 backdrop-blur-md backdrop-brightness-110 rounded-md"
+							title="Ukloni dokument"
+							on:click={() => removeRow(dokument.id)}
+							><svg
+								class="hover:stroke-blue-500"
+								stroke="black"
+								width="35px"
+								height="35px"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+								><g id="SVGRepo_bgCarrier" stroke-width="0" /><g
+									id="SVGRepo_tracerCarrier"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/><g id="SVGRepo_iconCarrier">
+									<g id="Interface / Check_All_Big">
+										<path
+											id="Vector"
+											d="M7 12L11.9497 16.9497L22.5572 6.34326M2.0498 12.0503L6.99955 17M17.606 6.39355L12.3027 11.6969"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</g>
+								</g></svg
+							></button
+						>
 						<div class="">
 							<h1 class="truncate px-1" title={dokument.naziv}>
 								{dokument.naziv}
