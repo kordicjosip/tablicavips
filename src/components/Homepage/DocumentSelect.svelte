@@ -2,14 +2,32 @@
 	import { goto, invalidate } from '$app/navigation';
 	import FileInput from './FileInput.svelte';
 	import { onDestroy, onMount } from 'svelte';
-	import { povezaniDokumenti } from '../store.ts';
+	import { povezaniDokumenti } from '$components/store';
 
 	export let data;
 
 	let documentsData = [];
 	let listView = true;
+
 	$: svgListColor = listView ? '#464feb' : '#424242';
 	$: svgGridColor = listView ? '#424242' : '#464feb';
+	let svgRemoveRowColor = '#000000';
+	function handleMouseOver(e) {
+		svgRemoveRowColor = '#4680eb';
+	}
+	function handleMouseOut(e) {
+		svgRemoveRowColor = '#000000';
+	}
+
+	function removeRow(id) {
+		let indexToRemove = $povezaniDokumenti?.findIndex((doc) => doc.id === id);
+		if ($povezaniDokumenti) {
+			if (indexToRemove != null) {
+				$povezaniDokumenti.splice(indexToRemove, 1);
+				povezaniDokumenti.set($povezaniDokumenti);
+			}
+		}
+	}
 
 	let form: HTMLFormElement;
 	$: documentsData = data.documents;
@@ -201,17 +219,52 @@
 					</th>
 				</tr>
 				{#each $povezaniDokumenti || [] as dokument}
-					<tr
-						class="hover:cursor-pointer bg-blue-100 hover:bg-blue-200 rounded-xl"
-						on:click={goto(`/${dokument.id}/stupci`)}
-					>
-						<td class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5">
+					<tr class="hover:cursor-pointer bg-[#e6f1ff] hover:bg-blue-100 rounded-xl">
+						<td
+							class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5"
+							on:click={goto(`/${dokument.id}/stupci`)}
+						>
 							{dokument.naziv}
 						</td>
-						<td class="w-fit mb-2 border-y border-neutral-300 py-2 text-end pr-5">
+						<td
+							class="w-fit mb-2 border-y border-neutral-300 py-2 text-end pr-5"
+							on:click={goto(`/${dokument.id}/stupci`)}
+						>
 							{new Date(dokument.datum).getUTCDate()}.{new Date(
 								dokument.datum
 							).getUTCMonth()}.{new Date(dokument.datum).getUTCFullYear()}
+						</td>
+						<td
+							title="Ukloni dokument"
+							class="bg-white h-full px-1"
+							on:mouseover={handleMouseOver}
+							on:mouseout={handleMouseOut}
+							on:click={() => removeRow(dokument.id)}
+						>
+							<svg
+								class=""
+								width="25px"
+								height="25px"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+								><g id="SVGRepo_bgCarrier" stroke-width="0" /><g
+									id="SVGRepo_tracerCarrier"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/><g id="SVGRepo_iconCarrier">
+									<g id="Interface / Check_All_Big">
+										<path
+											id="Vector"
+											d="M7 12L11.9497 16.9497L22.5572 6.34326M2.0498 12.0503L6.99955 17M17.606 6.39355L12.3027 11.6969"
+											stroke={svgRemoveRowColor}
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</g>
+								</g></svg
+							>
 						</td>
 					</tr>
 				{/each}
@@ -260,6 +313,26 @@
 			</table>
 		{:else}
 			<div class="grid grid-cols-4 gap-2 max-w-5xl">
+				{#each $povezaniDokumenti || [] as dokument}
+					<div
+						class="flex flex-col justify-between w-52 h-52 hover:cursor-pointer bg-blue-100 hover:bg-blue-200 rounded-md shadow hover:shadow-md"
+						on:click={goto(`/${dokument.id}/stupci`)}
+					>
+						<img
+							src={dokument.thumbnail}
+							class="h-40 object-cover object-top"
+							alt="pregled dokumenta"
+						/>
+						<div class="">
+							<h1 class="truncate px-1" title={dokument.naziv}>
+								{dokument.naziv}
+							</h1>
+							<h2 class="">
+								{dokument.datum}
+							</h2>
+						</div>
+					</div>
+				{/each}
 				{#each documentsData as document}
 					{#if document.obrada_u_toku}
 						<div
@@ -309,16 +382,18 @@
 			</div>
 		{/if}
 	{:else}
-		<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-			<path
-				d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
-				opacity=".25"
-			/>
-			<path
-				d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"
-				class="loading"
-			/>
-		</svg>
+		<div class="flex justify-center mt-20">
+			<svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<path
+					d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+					opacity=".25"
+				/>
+				<path
+					d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"
+					class="loading"
+				/>
+			</svg>
+		</div>
 	{/if}
 </div>
 
