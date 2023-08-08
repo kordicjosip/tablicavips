@@ -109,13 +109,12 @@
 		});
 		const json = await res.json();
 		console.log(JSON.stringify(json));
-		//TODO dodati dodane stavke i staviti manji thumbnail
+		//TODO dodati dodane stavke
 		$povezaniDokumenti = [
 			...$povezaniDokumenti,
 			{
 				naziv: data.documentData.naziv,
 				id: data.documentData.id,
-				thumbnail: data.documentData['stranice'][0]['slika'],
 				datum: datumDokumenta,
 				vipsID: vipsDocument['JMB Dokumenta']
 			}

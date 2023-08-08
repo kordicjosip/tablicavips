@@ -310,7 +310,7 @@
 						on:click={goto(`/${dokument.id}/dokument`)}
 					>
 						<img
-							src={dokument.thumbnail}
+							src="http://192.168.10.20:8000/slike/{dokument.id}"
 							class="h-40 object-cover object-top rounded-t-md"
 							alt="pregled dokumenta"
 						/>
@@ -384,7 +384,7 @@
 							on:click={goto(`/${document.id}/stupci`)}
 						>
 							<img
-								src={document.thumbnail}
+								src="http://192.168.10.20:8000/slike/{document.id}"
 								class="h-40 object-cover object-top"
 								alt="pregled dokumenta"
 							/>
