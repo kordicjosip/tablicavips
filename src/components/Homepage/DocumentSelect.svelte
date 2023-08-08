@@ -311,19 +311,19 @@
 					>
 						<img
 							src={dokument.thumbnail}
-							class="h-40 object-cover object-top"
+							class="h-40 object-cover object-top rounded-t-md"
 							alt="pregled dokumenta"
 						/>
 						<button
-							class="absolute top-2 right-2 backdrop-blur-md backdrop-brightness-110 rounded-md"
+							class="group absolute top-2 right-2 outline-1 outline-black hover:outline-blue-500 outline backdrop-blur-md backdrop-brightness-110 rounded-md"
 							title="Ukloni dokument"
 							on:click={() => removeRow(dokument.id)}
 							><svg
-								class="hover:stroke-blue-500"
+								class="group-hover:stroke-blue-500 m-0.5"
 								stroke="black"
-								width="35px"
-								height="35px"
-								viewBox="0 0 24 24"
+								width="30px"
+								height="30px"
+								viewBox="0 -1 24 24"
 								fill="none"
 								xmlns="http://www.w3.org/2000/svg"
 								><g id="SVGRepo_bgCarrier" stroke-width="0" /><g
