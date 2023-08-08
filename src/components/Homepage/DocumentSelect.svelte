@@ -215,13 +215,13 @@
 					<tr class="hover:cursor-pointer bg-[#e6f1ff] hover:bg-blue-100 rounded-xl">
 						<td
 							class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5"
-							on:click={goto(`/${dokument.id}/stupci`)}
+							on:click={goto(`/${dokument.id}/dokument`)}
 						>
 							{dokument.naziv}
 						</td>
 						<td
 							class="w-fit mb-2 border-y border-neutral-300 py-2 text-end pr-5"
-							on:click={goto(`/${dokument.id}/stupci`)}
+							on:click={goto(`/${dokument.id}/dokument`)}
 						>
 							{new Date(dokument.datum).getUTCDate()}.{new Date(
 								dokument.datum
@@ -307,7 +307,7 @@
 				{#each $povezaniDokumenti || [] as dokument}
 					<div
 						class="flex flex-col relative justify-between w-52 h-52 hover:cursor-pointer bg-blue-100 hover:bg-blue-200 rounded-md shadow hover:shadow-md"
-						on:click={goto(`/${dokument.id}/stupci`)}
+						on:click={goto(`/${dokument.id}/dokument`)}
 					>
 						<img
 							src={dokument.thumbnail}

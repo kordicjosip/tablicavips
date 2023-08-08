@@ -16,13 +16,49 @@
 
 	export let data;
 
-	let statusSlanja;
 	let podaciZaPovezivanje = {
 		vipsID: '',
 		dokID: ''
 	};
-	let idPovezanogDokumenta;
 	let vipsDocument = null;
+	$: {
+		vipsDocument = data.vipsDocument;
+		if (vipsDocument) {
+			datumDokumenta = new Date(vipsDocument['Datum dokumenta']);
+			const potrebniParametri: string[] = dokumenti[vipsDocument['Tip ID']].potrebniParametri;
+			const columnsToRemove = data.table.columns.filter(
+				(column) => potrebniParametri.indexOf(column.parameter) === -1
+			);
+			for (const column of columnsToRemove) {
+				data.table.columns.splice(data.table.columns.indexOf(column), 1);
+				data.table.tablica.forEach((row) => {
+					row.cells.splice(
+						row.cells.indexOf(row.cells.find((cell) => cell.colParam === column.parameter)),
+						1
+					);
+				});
+			}
+			for (const potrebniParametar of potrebniParametri) {
+				const column = data.table.columns.find((column) => column.parameter === potrebniParametar);
+				if (column == undefined) {
+					data.table.columns.push(
+						columnTypes.find((column) => column.parameter === potrebniParametar)
+					);
+					data.table.tablica.forEach((row) => {
+						row.cells.push({
+							text: '',
+							data: null,
+							colParam: potrebniParametar,
+							rowNumber: row.rowNumber
+						});
+					});
+				}
+			}
+		}
+		console.log(vipsDocument);
+
+		data.table = data.table;
+	}
 	let datumDokumenta = null;
 	let OCRPreviewData: {
 		stranica: number;
@@ -40,90 +76,50 @@
 	let OCRPreviewVisible = false;
 	let initial = true;
 
-	async function selectVipsDocument(event: InputEvent) {
-		vipsDocument = await fetch(
-			`/api/document/${encodeURIComponent((event.target as HTMLInputElement).value)}`,
-			{
-				method: 'GET'
-			}
-		).then((res) => res.json());
-		console.log(vipsDocument);
-		if (vipsDocument) {
-			datumDokumenta = new Date(vipsDocument['Datum dokumenta']);
-		}
-		await invalidateAll();
-		const potrebniParametri: string[] = dokumenti[vipsDocument['Tip ID']].potrebniParametri;
-		const columnsToRemove = data.table.columns.filter(
-			(column) => potrebniParametri.indexOf(column.parameter) === -1
-		);
-		for (const column of columnsToRemove) {
-			data.table.columns.splice(data.table.columns.indexOf(column), 1);
-			data.table.tablica.forEach((row) => {
-				row.cells.splice(
-					row.cells.indexOf(row.cells.find((cell) => cell.colParam === column.parameter)),
-					1
-				);
-			});
-		}
-		for (const potrebniParametar of potrebniParametri) {
-			const column = data.table.columns.find((column) => column.parameter === potrebniParametar);
-			if (column == undefined) {
-				data.table.columns.push(
-					columnTypes.find((column) => column.parameter === potrebniParametar)
-				);
-				data.table.tablica.forEach((row) => {
-					row.cells.push({
-						text: '',
-						data: null,
-						colParam: potrebniParametar,
-						rowNumber: row.rowNumber
-					});
-				});
-			}
-		}
-		data.table = data.table;
+	async function selectVipsDocumentFromEvent(event: InputEvent) {
+		await selectVipsDocument((event.target as HTMLInputElement).value);
 	}
+
+	async function selectVipsDocument(docUID: string) {
+		$povezaniDokumenti = $povezaniDokumenti?.filter(
+			(dokument) => dokument.id !== data.documentData.id
+		);
+		await invalidateAll();
+		data.vipsDocument = await fetch(`/api/document/${encodeURIComponent(docUID)}`, {
+			method: 'GET'
+		}).then((res) => res.json());
+		await poveziDokument();
+		data.vipsDocument = data.vipsDocument;
+	}
+
 	console.log(data);
-	async function writeToVips(request: object) {
-		const res = await fetch(`/api/document/${encodeURIComponent(vipsDocument['JMB Dokumenta'])}`, {
+	async function poveziDokument() {
+		podaciZaPovezivanje.vipsID = data.vipsDocument['Dokument ID'];
+		podaciZaPovezivanje.dokID = data.documentData.id;
+
+		const res = await fetch(`http://192.168.10.20:8000/api/doc/${data.documentData.id}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(request)
+			body: JSON.stringify({
+				vips_id: podaciZaPovezivanje.vipsID,
+				dokument_id: podaciZaPovezivanje.dokID
+			})
 		});
-		statusSlanja = await res;
-	}
-
-	async function poveziDokument() {
-		if (statusSlanja.ok) {
-			podaciZaPovezivanje.vipsID = vipsDocument['Dokument ID'];
-			podaciZaPovezivanje.dokID = data.documentData.id;
-			idPovezanogDokumenta = vipsDocument['JMB Dokumenta'];
-
-			const res = await fetch(`http://192.168.10.20:8000/api/doc/${data.documentData.id}`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					vips_id: podaciZaPovezivanje.vipsID,
-					dokument_id: podaciZaPovezivanje.dokID
-				})
-			});
-			const json = await res.json();
-			console.log(JSON.stringify(json));
-			//TODO dodati dodane stavke i staviti manji thumbnail
-			$povezaniDokumenti = [
-				...$povezaniDokumenti,
-				{
-					naziv: data.documentData.naziv,
-					id: data.documentData.id,
-					thumbnail: data.documentData['stranice'][0]['slika'],
-					datum: datumDokumenta
-				}
-			];
-		}
+		const json = await res.json();
+		console.log(JSON.stringify(json));
+		//TODO dodati dodane stavke i staviti manji thumbnail
+		$povezaniDokumenti = [
+			...$povezaniDokumenti,
+			{
+				naziv: data.documentData.naziv,
+				id: data.documentData.id,
+				thumbnail: data.documentData['stranice'][0]['slika'],
+				datum: datumDokumenta,
+				vipsID: vipsDocument['JMB Dokumenta']
+			}
+		];
 	}
 
 	function sendRowData(row: DokumentRed) {
@@ -162,10 +158,6 @@
 						break;
 				}
 			}
-
-			writeToVips(request).then(() => {
-				poveziDokument();
-			});
 		}
 	}
 
@@ -234,8 +226,8 @@
 			<div class="items-center">
 				<input
 					class="relative bg-transparent border-b-2 border-white text-white text-center focus:drop-shadow-none placeholder-white placeholder-opacity-50"
-					on:input={selectVipsDocument}
-					value={data.documentData.vips_id ? data.documentData.vips_id : ''}
+					on:input={selectVipsDocumentFromEvent}
+					value={data.vipsDocument ? data.vipsDocument['JMB Dokumenta'] : ''}
 					placeholder="Unesi broj dokumenta:"
 					size="17"
 					type="text"

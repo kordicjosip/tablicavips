@@ -8,7 +8,7 @@ import type { PageLoad } from './$types';
 import { browser } from '$app/environment';
 import { get } from 'svelte/store';
 // @ts-ignore
-import { getPersisted } from '$components/store';
+import { getPersisted, povezaniDokumenti } from '$components/store';
 
 export const load: PageLoad = async ({ params, fetch }) => {
 	let table = {
@@ -71,7 +71,20 @@ export const load: PageLoad = async ({ params, fetch }) => {
 			}
 		}
 	}
+	let vipsDocument = null;
+	if (browser) {
+		if (get(povezaniDokumenti)?.find((doc) => doc.id === params.doc_id) !== undefined)
+			vipsDocument = await fetch(
+				`/api/document/${encodeURIComponent(
+					get(povezaniDokumenti)?.find((doc) => doc.id === params.doc_id).vipsID
+				)}`,
+				{
+					method: 'GET'
+				}
+			).then((res) => res.json());
+	}
 	return {
-		table
+		table,
+		vipsDocument
 	};
 };
