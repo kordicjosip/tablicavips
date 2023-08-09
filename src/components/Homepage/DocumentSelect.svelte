@@ -315,7 +315,7 @@
 							alt="pregled dokumenta"
 						/>
 						<button
-							class="group absolute top-2 right-2 outline-1 outline-black hover:outline-blue-500 outline backdrop-blur-md backdrop-brightness-110 rounded-md"
+							class="group absolute top-2 right-2 outline outline-1 outline-black hover:outline-blue-500 backdrop-blur-[2px] backdrop-brightness-110 rounded-md"
 							title="Ukloni dokument"
 							on:click={() => removeRow(dokument.id)}
 							><svg

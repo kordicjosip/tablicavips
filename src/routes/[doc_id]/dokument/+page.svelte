@@ -121,7 +121,7 @@
 		];
 	}
 
-	function sendRowData(row: DokumentRed) {
+	async function sendRowData(row: DokumentRed) {
 		if (vipsDocument['DokZakljucen']) {
 			alert('Dokument je zaključen!');
 			return;
@@ -157,6 +157,13 @@
 						break;
 				}
 			}
+			await fetch(`/api/document/${encodeURIComponent(vipsDocument['JMB Dokumenta'])}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(request)
+			});
 		}
 	}
 
@@ -295,7 +302,7 @@
 		{/if}
 	</div>
 
-	<div class="overflow-x-scroll h-full">
+	<div class="overflow-x-scroll h-full px-5">
 		<table>
 			<thead class="select-none sticky -top-[1px]">
 				<tr>
