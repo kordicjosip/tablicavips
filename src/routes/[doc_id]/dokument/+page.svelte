@@ -21,6 +21,9 @@
 		dokID: ''
 	};
 	let vipsDocument = null;
+	$: indexPovezanogDok = $povezaniDokumenti?.findIndex(
+		(dokument) => dokument.id === data.documentData.id
+	);
 	$: {
 		vipsDocument = data.vipsDocument;
 		if (vipsDocument) {
@@ -116,7 +119,8 @@
 				naziv: data.documentData.naziv,
 				id: data.documentData.id,
 				datum: datumDokumenta,
-				vipsID: vipsDocument['JMB Dokumenta']
+				vipsID: vipsDocument['JMB Dokumenta'],
+				upisaneStavke: []
 			}
 		];
 	}
@@ -165,6 +169,16 @@
 				body: JSON.stringify(request)
 			});
 		}
+
+		if ($povezaniDokumenti) {
+			$povezaniDokumenti[indexPovezanogDok].upisaneStavke = [
+				...$povezaniDokumenti[indexPovezanogDok].upisaneStavke,
+				{
+					artikl: row.cells[0].data.Naziv,
+					kolicina: row.cells[1].data
+				}
+			];
+		}
 	}
 
 	function sendAllRowsData() {
@@ -197,7 +211,7 @@
 
 <div class="w-screen h-screen flex flex-col">
 	<div
-		class="grid grid-cols-4 bg-emerald-700 h-20 items-center justify-items-center text-white flex-shrink-0"
+		class="grid grid-cols-4 bg-emerald-700 h-20 items-center justify-items-center text-white flex-shrink-0 text-sm lg:text-base"
 	>
 		<div class="flex justify-around w-full">
 			<div
@@ -303,6 +317,26 @@
 	</div>
 
 	<div class="overflow-x-scroll h-full px-5">
+		{#if $povezaniDokumenti[indexPovezanogDok] && $povezaniDokumenti[indexPovezanogDok].upisaneStavke.length > 0}
+			<table class="pb-5">
+				<thead>
+					<tr>Već upisane stavke:</tr>
+					<tr>
+						<th>Artikl</th>
+						<th>Količina</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each $povezaniDokumenti[indexPovezanogDok].upisaneStavke as stavka}
+						<tr>
+							<td class="bg-green-300">{stavka.artikl}</td>
+							<td class="bg-green-300">{stavka.kolicina}</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		{/if}
+
 		<table>
 			<thead class="select-none sticky -top-[1px]">
 				<tr>
