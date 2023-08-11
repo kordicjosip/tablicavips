@@ -318,9 +318,9 @@
 
 	<div class="overflow-x-scroll h-full px-5">
 		{#if $povezaniDokumenti[indexPovezanogDok] && $povezaniDokumenti[indexPovezanogDok].upisaneStavke.length > 0}
-			<table class="pb-5">
+			<table class="pb-5 pt-3">
 				<thead>
-					<tr>Već upisane stavke:</tr>
+					<tr style="background: white">Već upisane stavke:</tr>
 					<tr>
 						<th>Artikl</th>
 						<th>Količina</th>
@@ -542,7 +542,7 @@
 										class:bg-yellow-300={cell.text === '' &&
 											data.table.columns[i].defaultValue !== null}
 										><input
-											size="14"
+											size="10"
 											class="bg-transparent"
 											type="text"
 											bind:value={cell.text}

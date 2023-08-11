@@ -7,7 +7,7 @@
 </script>
 
 <svg
-	class="fixed bottom-5 right-5 max-h-14 float-right border-2 border-emerald-600"
+	class="fixed bottom-8 right-8 max-w-[12rem] max-h-20 float-right border-2 border-emerald-600"
 	viewBox="{x} {y} {width} {height}"
 >
 	<image href={image} />

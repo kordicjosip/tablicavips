@@ -44,7 +44,7 @@
 			<button class="h-8 text-white px-2 py-0.5 items-center" on:click={closeModal}>Odustani</button
 			>
 			<button
-				class="rounded-[0.2rem] h-8 font-medium text-white outline outline-1 px-2 py-0.5 items-center"
+				class="rounded-[0.2rem] h-8 font-medium text-white outline outline-1 px-2 py-0.5 items-center hover:bg-neutral-600"
 				on:click={save}>Spremi</button
 			>
 		</div>
