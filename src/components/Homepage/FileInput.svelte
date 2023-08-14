@@ -24,5 +24,4 @@
 	{multiple}
 	name="file"
 	on:change={handleDrop}
-	type="file"
-/>
+	type="file" />

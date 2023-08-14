@@ -309,8 +309,7 @@
 			on:getColumnTemplates={getColumnTemplates}
 			on:postColumnTemplate={postColumnTemplate}
 			on:sendAllData={sendAllData}
-			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)}
-		/>
+			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)} />
 	</div>
 	<div class="basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]">
 		{#if data.tables.length > 0}
@@ -331,8 +330,7 @@
 						on:dragX1AllTables={dragX1AllTables}
 						on:dragX2AllTables={dragX2AllTables}
 						data={data.currentPageTable}
-						bind:scale
-					/>
+						bind:scale />
 				{/key}
 			</div>
 		{/if}

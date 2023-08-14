@@ -16,8 +16,7 @@
 			font-size="10pt"
 			text-anchor="middle"
 			x={(ocr.x2 - ocr.x1) / 2}
-			y={(ocr.y2 - ocr.y1) / 2}>{ocr.text}</text
-		>
+			y={(ocr.y2 - ocr.y1) / 2}>{ocr.text}</text>
 	{:else}
 		<rect width={ocr.x2 - ocr.x1} height={ocr.y2 - ocr.y1 + 2} fill="rgba(255,0,0,85%)" />
 		<text
@@ -26,7 +25,6 @@
 			font-size="10pt"
 			text-anchor="middle"
 			x={(ocr.x2 - ocr.x1) / 2}
-			y={(ocr.y2 - ocr.y1) / 2}>{ocr.text}</text
-		>
+			y={(ocr.y2 - ocr.y1) / 2}>{ocr.text}</text>
 	{/if}
 </g>

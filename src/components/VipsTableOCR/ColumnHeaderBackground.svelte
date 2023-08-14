@@ -11,7 +11,6 @@
 	on:contextmenu={(event) => {
 		event.preventDefault();
 		onRightClick(event);
-	}}
->
+	}}>
 	<rect fill="lightgray" height={COLUMN_HEADER_HEIGHT} width={width * scale} />
 </g>

@@ -71,29 +71,25 @@
 		dragoverDropCount--;
 	}}
 	on:dragover|preventDefault
-	on:drop|preventDefault={drop}
->
+	on:drop|preventDefault={drop}>
 	<div
 		class="z-50 absolute top-0 left-0 h-full w-full bg-cyan-800/90 outline-white outline-dashed outline-8 -outline-offset-[20px] flex flex-col items-center justify-center"
 		class:hidden={dragoverDropCount === 0}
-		id="dropzone"
-	>
+		id="dropzone">
 		<svg
 			fill="#ffffff"
 			height="200px"
 			stroke="#ffffff"
 			viewBox="0 0 24 24"
 			width="200px"
-			xmlns="http://www.w3.org/2000/svg"
-		>
+			xmlns="http://www.w3.org/2000/svg">
 			<g id="SVGRepo_bgCarrier" stroke-width="0" />
 			<g
 				id="SVGRepo_tracerCarrier"
 				stroke="#CCCCCC"
 				stroke-linecap="round"
 				stroke-linejoin="round"
-				stroke-width="0.9600000000000002"
-			/>
+				stroke-width="0.9600000000000002" />
 			<g id="SVGRepo_iconCarrier">
 				<title />
 				<g id="Complete">
@@ -105,8 +101,7 @@
 								stroke="#ffffff"
 								stroke-linecap="round"
 								stroke-linejoin="round"
-								stroke-width="1.8"
-							/>
+								stroke-width="1.8" />
 							<g>
 								<polyline
 									data-name="Right"
@@ -116,8 +111,7 @@
 									stroke="#ffffff"
 									stroke-linecap="round"
 									stroke-linejoin="round"
-									stroke-width="1.8"
-								/>
+									stroke-width="1.8" />
 								<line
 									fill="none"
 									stroke="#ffffff"
@@ -127,8 +121,7 @@
 									x1="12"
 									x2="12"
 									y1="16.3"
-									y2="4.8"
-								/>
+									y2="4.8" />
 							</g>
 						</g>
 					</g>
@@ -146,8 +139,7 @@
 				transform="matrix(-1, 0, 0, 1, 0, 0)"
 				viewBox="0 -5.5 21 21"
 				width="25px"
-				xmlns="http://www.w3.org/2000/svg"
-			>
+				xmlns="http://www.w3.org/2000/svg">
 				<g id="SVGRepo_bgCarrier" stroke-width="0" />
 				<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
 				<g id="SVGRepo_iconCarrier">
@@ -158,12 +150,10 @@
 						<g
 							fill={svgListColor}
 							id="Dribbble-Light-Preview"
-							transform="translate(-59.000000, -285.000000)"
-						>
+							transform="translate(-59.000000, -285.000000)">
 							<g id="icons" transform="translate(56.000000, 160.000000)">
 								<path
-									d="M3,135 L5.1,135 L5.1,133 L3,133 L3,135 Z M3,127.006 L5.1,127.006 L5.1,125.006 L3,125.006 L3,127.006 Z M3,131 L5.1,131 L5.1,129 L3,129 L3,131 Z M7.2,135 L24,135 L24,133 L7.2,133 L7.2,135 Z M7.2,127 L24,127 L24,125 L7.2,125 L7.2,127 Z M7.2,131 L24,131 L24,129 L7.2,129 L7.2,131 Z"
-								/>
+									d="M3,135 L5.1,135 L5.1,133 L3,133 L3,135 Z M3,127.006 L5.1,127.006 L5.1,125.006 L3,125.006 L3,127.006 Z M3,131 L5.1,131 L5.1,129 L3,129 L3,131 Z M7.2,135 L24,135 L24,133 L7.2,133 L7.2,135 Z M7.2,127 L24,127 L24,125 L7.2,125 L7.2,127 Z M7.2,131 L24,131 L24,129 L7.2,129 L7.2,131 Z" />
 							</g>
 						</g>
 					</g>
@@ -177,8 +167,7 @@
 				stroke={svgGridColor}
 				viewBox="0 0 24 24"
 				width="25px"
-				xmlns="http://www.w3.org/2000/svg"
-			>
+				xmlns="http://www.w3.org/2000/svg">
 				<g id="SVGRepo_bgCarrier" stroke-width="0" />
 				<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
 				<g id="SVGRepo_iconCarrier">
@@ -196,8 +185,7 @@
 		class="absolute right-10 top-0"
 		enctype="multipart/form-data"
 		method="POST"
-		on:submit|preventDefault={uploadFile}
-	>
+		on:submit|preventDefault={uploadFile}>
 		<FileInput {onDrop} />
 	</form>
 	{#if documentsData.length > 0}
@@ -215,14 +203,12 @@
 					<tr class="hover:cursor-pointer bg-[#e6f1ff] hover:bg-blue-100 rounded-xl">
 						<td
 							class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5"
-							on:click={goto(`/${dokument.id}/dokument`)}
-						>
+							on:click={goto(`/${dokument.id}/dokument`)}>
 							{dokument.naziv}
 						</td>
 						<td
 							class="w-fit mb-2 border-y border-neutral-300 py-2 text-end pr-5"
-							on:click={goto(`/${dokument.id}/dokument`)}
-						>
+							on:click={goto(`/${dokument.id}/dokument`)}>
 							{new Date(dokument.datum).getUTCDate()}.{new Date(
 								dokument.datum
 							).getUTCMonth()}.{new Date(dokument.datum).getUTCFullYear()}
@@ -230,8 +216,7 @@
 						<td
 							title="Ukloni dokument"
 							class="bg-white h-full px-1 group"
-							on:click={() => removeRow(dokument.id)}
-						>
+							on:click={() => removeRow(dokument.id)}>
 							<svg
 								class="group-hover:stroke-blue-500"
 								stroke="black"
@@ -243,19 +228,16 @@
 								><g id="SVGRepo_bgCarrier" stroke-width="0" /><g
 									id="SVGRepo_tracerCarrier"
 									stroke-linecap="round"
-									stroke-linejoin="round"
-								/><g id="SVGRepo_iconCarrier">
+									stroke-linejoin="round" /><g id="SVGRepo_iconCarrier">
 									<g id="Interface / Check_All_Big">
 										<path
 											id="Vector"
 											d="M7 12L11.9497 16.9497L22.5572 6.34326M2.0498 12.0503L6.99955 17M17.606 6.39355L12.3027 11.6969"
 											stroke-width="2"
 											stroke-linecap="round"
-											stroke-linejoin="round"
-										/>
+											stroke-linejoin="round" />
 									</g>
-								</g></svg
-							>
+								</g></svg>
 						</td>
 					</tr>
 				{/each}
@@ -271,16 +253,13 @@
 										width="24"
 										height="24"
 										viewBox="0 0 24 24"
-										xmlns="http://www.w3.org/2000/svg"
-									>
+										xmlns="http://www.w3.org/2000/svg">
 										<path
 											d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
-											opacity=".25"
-										/>
+											opacity=".25" />
 										<path
 											d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"
-											class="loading"
-										/>
+											class="loading" />
 									</svg>
 								</span>
 							</td>
@@ -288,8 +267,7 @@
 					{:else}
 						<tr
 							class="hover:cursor-pointer hover:bg-neutral-100 rounded-xl"
-							on:click={goto(`/${document.id}/stupci`)}
-						>
+							on:click={goto(`/${document.id}/stupci`)}>
 							<td class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5">
 								{document.naziv}
 							</td>
@@ -307,13 +285,11 @@
 				{#each $povezaniDokumenti || [] as dokument}
 					<div
 						class="flex flex-col relative justify-between w-52 h-52 hover:cursor-pointer bg-blue-100 hover:bg-blue-200 rounded-md shadow hover:shadow-md"
-						on:click={goto(`/${dokument.id}/dokument`)}
-					>
+						on:click={goto(`/${dokument.id}/dokument`)}>
 						<img
 							src="http://192.168.10.20:8000/slike/{dokument.id}"
 							class="h-40 object-cover object-top rounded-t-md"
-							alt="pregled dokumenta"
-						/>
+							alt="pregled dokumenta" />
 						<button
 							class="group absolute top-2 right-2 outline outline-1 outline-black hover:outline-blue-500 backdrop-blur-[2px] backdrop-brightness-110 rounded-md"
 							title="Ukloni dokument"
@@ -329,20 +305,17 @@
 								><g id="SVGRepo_bgCarrier" stroke-width="0" /><g
 									id="SVGRepo_tracerCarrier"
 									stroke-linecap="round"
-									stroke-linejoin="round"
-								/><g id="SVGRepo_iconCarrier">
+									stroke-linejoin="round" /><g id="SVGRepo_iconCarrier">
 									<g id="Interface / Check_All_Big">
 										<path
 											id="Vector"
 											d="M7 12L11.9497 16.9497L22.5572 6.34326M2.0498 12.0503L6.99955 17M17.606 6.39355L12.3027 11.6969"
 											stroke-width="2"
 											stroke-linecap="round"
-											stroke-linejoin="round"
-										/>
+											stroke-linejoin="round" />
 									</g>
 								</g></svg
-							></button
-						>
+							></button>
 						<div class="">
 							<h1 class="truncate px-1" title={dokument.naziv}>
 								{dokument.naziv}
@@ -356,23 +329,19 @@
 				{#each documentsData as document}
 					{#if document.obrada_u_toku}
 						<div
-							class="hover:cursor-wait flex flex-col justify-between w-52 h-52 rounded-md shadow hover:shadow-md"
-						>
+							class="hover:cursor-wait flex flex-col justify-between w-52 h-52 rounded-md shadow hover:shadow-md">
 							<svg
 								class="mx-auto mt-[4.2rem]"
 								width="40"
 								height="40"
 								viewBox="0 0 24 24"
-								xmlns="http://www.w3.org/2000/svg"
-							>
+								xmlns="http://www.w3.org/2000/svg">
 								<path
 									d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
-									opacity=".25"
-								/>
+									opacity=".25" />
 								<path
 									d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"
-									class="loading"
-								/>
+									class="loading" />
 							</svg>
 							<div class="">
 								<h1 class="truncate p-3">Dokument se obrađuje...</h1>
@@ -381,13 +350,11 @@
 					{:else}
 						<div
 							class="flex flex-col justify-between w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-md shadow hover:shadow-md"
-							on:click={goto(`/${document.id}/stupci`)}
-						>
+							on:click={goto(`/${document.id}/stupci`)}>
 							<img
 								src="http://192.168.10.20:8000/slike/{document.id}"
 								class="h-40 object-cover object-top"
-								alt="pregled dokumenta"
-							/>
+								alt="pregled dokumenta" />
 							<div class="">
 								<h1 class="truncate px-1" title={document.naziv}>
 									{document.naziv}
@@ -406,12 +373,10 @@
 			<svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 				<path
 					d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
-					opacity=".25"
-				/>
+					opacity=".25" />
 				<path
 					d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"
-					class="loading"
-				/>
+					class="loading" />
 			</svg>
 		</div>
 	{/if}

@@ -37,16 +37,14 @@
 			required
 			class="px-1 mt-1 rounded"
 			minlength="1"
-			bind:value={regexString}
-		/>
+			bind:value={regexString} />
 		<br />
 		<div class="flex justify-between w-full">
-			<button class="h-8 text-white px-2 py-0.5 items-center" on:click={closeModal}>Odustani</button
-			>
+			<button class="h-8 text-white px-2 py-0.5 items-center" on:click={closeModal}
+				>Odustani</button>
 			<button
 				class="rounded-[0.2rem] h-8 font-medium text-white outline outline-1 px-2 py-0.5 items-center hover:bg-neutral-600"
-				on:click={save}>Spremi</button
-			>
+				on:click={save}>Spremi</button>
 		</div>
 	</div>
 </dialog>

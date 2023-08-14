@@ -34,13 +34,11 @@
 	on:contextmenu={(event) => {
 		event.preventDefault();
 		onRightClick(event, row);
-	}}
->
+	}}>
 	<svg
 		class="cursor-grab fill-emerald-400 hover:fill-emerald-500"
 		height={row.height * scale}
-		width={ROW_HEADER_WIDTH}
-	>
+		width={ROW_HEADER_WIDTH}>
 		<rect height={row.height * scale} stroke="black" width={ROW_HEADER_WIDTH} />
 		<text
 			class="fill-black"
@@ -48,7 +46,6 @@
 			font-size="10pt"
 			text-anchor="start"
 			x={2}
-			y={(row.height * scale) / 2}>{row.name === null ? row.id : row.name}</text
-		>
+			y={(row.height * scale) / 2}>{row.name === null ? row.id : row.name}</text>
 	</svg>
 </g>

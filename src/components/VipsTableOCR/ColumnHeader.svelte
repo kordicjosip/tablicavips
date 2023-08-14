@@ -45,8 +45,7 @@
 		onRightClick(event, column);
 	}}
 	on:dblclick={dblclick}
-	transform="translate({column.x1 * scale} 0)"
->
+	transform="translate({column.x1 * scale} 0)">
 	<svg
 		class="cursor-grab
 			{column.selected
@@ -55,8 +54,7 @@
 			? 'fill-emerald-400 hover:fill-emerald-500'
 			: 'fill-red-200 hover:fill-red-300'}"
 		height={COLUMN_HEADER_HEIGHT}
-		width={column.width * scale}
-	>
+		width={column.width * scale}>
 		<rect height={COLUMN_HEADER_HEIGHT} stroke="black" width={column.width * scale} />
 		<text
 			class="fill-black"
@@ -65,7 +63,6 @@
 			text-anchor="middle"
 			x={(column.width * scale) / 2}
 			y={COLUMN_HEADER_HEIGHT / 2}
-			>{column.type ? column.type.name : column.name ? column.name : 'column'}</text
-		>
+			>{column.type ? column.type.name : column.name ? column.name : 'column'}</text>
 	</svg>
 </g>

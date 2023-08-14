@@ -274,8 +274,7 @@
 						bind:ocr
 						offsetX={data.tableCrop.x1}
 						offsetY={data.tableCrop.y1}
-						selected={data.isOCRSelected(ocr)}
-					/>
+						selected={data.isOCRSelected(ocr)} />
 				{/if}
 			{/each}
 		</g>
@@ -284,15 +283,13 @@
 			<RowHeaderBackground
 				onRightClick={showContextMenuRowsBg}
 				bind:scale
-				height={data.resolution[1]}
-			/>
+				height={data.resolution[1]} />
 			{#each data.rows as row}
 				<RowHeader
 					bind:row
 					bind:scale
 					tableHeight={data.resolution[1]}
-					onRightClick={showContextMenuRows}
-				/>
+					onRightClick={showContextMenuRows} />
 			{/each}
 
 			{#each data.rows as row}
@@ -304,8 +301,7 @@
 			<ColumnHeaderBackground
 				onRightClick={showContextMenuColsBg}
 				width={data.resolution[0]}
-				bind:scale
-			/>
+				bind:scale />
 			{#each data.columns as column}
 				<ColumnHeader
 					bind:column
@@ -314,8 +310,7 @@
 					onRightClick={showContextMenuCols}
 					on:dblclick={toggleSelectAllColumnHeaders}
 					on:setOffset={setOffset}
-					on:setOffsetColumnAllTables={setOffsetColumnAllTables}
-				/>
+					on:setOffsetColumnAllTables={setOffsetColumnAllTables} />
 			{/each}
 
 			{#each data.columns as column}
@@ -325,8 +320,7 @@
 					isUnlinked={data.isUnlinked}
 					height={Y0}
 					on:dragX1AllTables={dragX1AllTables}
-					on:dragX2AllTables={dragX2AllTables}
-				/>
+					on:dragX2AllTables={dragX2AllTables} />
 			{/each}
 		</g>
 
@@ -338,5 +332,4 @@
 <ColumnSettingsDialog
 	bind:this={dialog}
 	on:setColumnRegexString={setColumnRegexString}
-	column={data.columns}
-/>
+	column={data.columns} />

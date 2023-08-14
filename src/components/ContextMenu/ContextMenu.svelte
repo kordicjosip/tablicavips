@@ -21,15 +21,13 @@
 	id="context-menu"
 	class="absolute bg-neutral-700 border border-gray-400 text-white h-auto w-auto"
 	class:invisible={visible === false}
-	style="left: {x + ScrollPositionHorizontal + 1}px; top: {y + ScrollPositionVertical}px;"
->
+	style="left: {x + ScrollPositionHorizontal + 1}px; top: {y + ScrollPositionVertical}px;">
 	{#each definition.groups as group}
 		<ul>
 			{#each group.entries as entry}
 				<li
 					on:click={entry.action}
-					class="text-white hover:bg-neutral-600 px-2.5 py-1 cursor-pointer"
-				>
+					class="text-white hover:bg-neutral-600 px-2.5 py-1 cursor-pointer">
 					{entry.title}
 				</li>
 			{/each}
