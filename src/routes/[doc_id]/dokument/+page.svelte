@@ -154,7 +154,9 @@
 		);
 		data = data;
 		if (row.cells.find((cell) => cell.text === '')) {
-			alert('Neka polja su prazna!');
+			setTimeout(() => {
+				alert('Neka polja su prazna!');
+			}, 0);
 			return;
 		}
 		row.disabled = true;
