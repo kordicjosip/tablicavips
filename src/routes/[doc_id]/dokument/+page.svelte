@@ -144,6 +144,14 @@
 							: String(columnTypes.find((type) => type.parameter === cell.colParam)?.emptyValue))
 				: ''
 		);
+		row.cells.forEach((cell) =>
+			cell.data === null
+				? (cell.data =
+						columnTypes.find((type) => type.parameter === cell.colParam)?.emptyValue === null
+							? null
+							: columnTypes.find((type) => type.parameter === cell.colParam)?.emptyValue)
+				: null
+		);
 		data = data;
 		if (row.cells.find((cell) => cell.text === '')) {
 			alert('Neka polja su prazna!');
