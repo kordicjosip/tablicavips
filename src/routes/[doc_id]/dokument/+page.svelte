@@ -58,7 +58,7 @@
 				}
 			}
 		}
-		console.log(vipsDocument);
+		console.log(vipsDocument, data);
 
 		data.table = data.table;
 	}
@@ -332,7 +332,7 @@
 		{/if}
 
 		<table>
-			<thead class="select-none sticky -top-[1px]">
+			<thead class="select-none sticky -top-[1px] whitespace-nowrap">
 				<tr>
 					{#each data.table.columns as header}
 						{#if header.field === Field.artiklPoSifri}
@@ -432,8 +432,9 @@
 												}} />
 										{/if}
 									</td>
-									<td class="text-gray-700 select-none" class:bg-red-300={!cell.data}
-										>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
+									<td
+										class="text-gray-700 select-none whitespace-nowrap"
+										class:bg-red-300={!cell.data}>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 								{:else if data.table.columns[i].field === Field.artiklPoKataloskomBroju}
 									<td
 										on:focusin={() => {
@@ -469,7 +470,7 @@
 												}} />
 										{/if}
 									</td>
-									<td class="text-gray-700" class:bg-red-300={!cell.data}
+									<td class="text-gray-700 whitespace-nowrap" class:bg-red-300={!cell.data}
 										>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 								{:else if data.table.columns[i].field === Field.artiklPoBarKodu}
 									<td
@@ -506,10 +507,12 @@
 												}} />
 										{/if}
 									</td>
-									<td class="text-gray-700 select-none" class:bg-red-300={!cell.data}
-										>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
+									<td
+										class="text-gray-700 select-none whitespace-nowrap"
+										class:bg-red-300={!cell.data}>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 								{:else if data.table.columns[i].field === Field.numeric}
 									<td
+										class="whitespace-nowrap"
 										on:focusin={() => {
 											setOCRPreviewData(cell);
 											OCRPreviewVisible = true;
@@ -546,20 +549,26 @@
 								{/if}
 							{:else if data.table.columns[i].field === Field.artiklPoSifri}
 								<td class:bg-green-300={row.disabled}>{cell.text}</td>
-								<td class="text-gray-700 select-none" class:bg-green-300={row.disabled}
+								<td
+									class="text-gray-700 select-none whitespace-nowrap"
+									class:bg-green-300={row.disabled}
 									>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 							{:else if data.table.columns[i].field === Field.artiklPoKataloskomBroju}
 								<td class:bg-green-300={row.disabled}>{cell.text}</td>
-								<td class="text-gray-700 select-none" class:bg-green-300={row.disabled}
+								<td
+									class="text-gray-700 select-none whitespace-nowrap"
+									class:bg-green-300={row.disabled}
 									>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 							{:else if data.table.columns[i].field === Field.artiklPoBarKodu}
 								<td class:bg-green-300={row.disabled}>{cell.text}</td>
-								<td class="text-gray-700 select-none" class:bg-green-300={row.disabled}
+								<td
+									class="text-gray-700 select-none whitespace-nowrap"
+									class:bg-green-300={row.disabled}
 									>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 							{:else if data.table.columns[i].field === Field.numeric}
 								<td class:bg-green-300={row.disabled}
 									>{cell.text}
-									{#if data.table.columns[i].parameter === Parametar.rabat1 || data.table.columns[i].parameter === Parametar.rabat2 || data.table.columns[i].parameter === Parametar.rabat3}
+									{#if (data.table.columns[i].parameter === Parametar.rabat1 || data.table.columns[i].parameter === Parametar.rabat2 || data.table.columns[i].parameter === Parametar.rabat3) && cell.data !== null}
 										<span>%</span>
 									{/if}</td>
 							{:else}
