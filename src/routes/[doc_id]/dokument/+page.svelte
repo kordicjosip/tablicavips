@@ -130,44 +130,53 @@
 			return;
 		}
 		for (const columnIndex in data.table.columns) {
-			if (row.cells[columnIndex].data == undefined || row.cells[columnIndex].data == null) {
-				alert('Neki podaci nisu ispravni!');
+			let artiklCell = row.cells.find((cell) => cell.colParam === Parametar.artikl);
+			if (artiklCell.data == undefined || artiklCell.data == null) {
+				alert('Artikl nije pronađen!');
 				return;
 			}
 		}
-		if (row.cells.includes((cell) => cell.text === '')) {
-			alert('Popunite sva polja!');
+		row.cells.forEach((cell) =>
+			cell.text === ''
+				? (cell.text =
+						columnTypes.find((type) => type.parameter === cell.colParam)?.emptyValue === null
+							? ''
+							: String(columnTypes.find((type) => type.parameter === cell.colParam)?.emptyValue))
+				: ''
+		);
+		data = data;
+		if (row.cells.find((cell) => cell.text === '')) {
+			alert('Neka polja su prazna!');
 			return;
-		} else {
-			row.disabled = true;
-			data = data;
-			console.log(row.cells);
-
-			const request = {};
-			for (const cellId in row.cells) {
-				switch (data.table.columns[cellId].field) {
-					case Field.artiklPoSifri:
-						request[row.cells[cellId].colParam] = row.cells[cellId].data.ID;
-						break;
-					case Field.artiklPoKataloskomBroju:
-						request[row.cells[cellId].colParam] = row.cells[cellId].data.ID;
-						break;
-					case Field.artiklPoBarKodu:
-						request[row.cells[cellId].colParam] = row.cells[cellId].data.ID;
-						break;
-					default:
-						request[row.cells[cellId].colParam] = row.cells[cellId].data;
-						break;
-				}
-			}
-			await fetch(`/api/document/${encodeURIComponent(vipsDocument['JMB Dokumenta'])}`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(request)
-			});
 		}
+		row.disabled = true;
+		data = data;
+		console.log(row.cells);
+
+		const request = {};
+		for (const cellId in row.cells) {
+			switch (data.table.columns[cellId].field) {
+				case Field.artiklPoSifri:
+					request[row.cells[cellId].colParam] = row.cells[cellId].data.ID;
+					break;
+				case Field.artiklPoKataloskomBroju:
+					request[row.cells[cellId].colParam] = row.cells[cellId].data.ID;
+					break;
+				case Field.artiklPoBarKodu:
+					request[row.cells[cellId].colParam] = row.cells[cellId].data.ID;
+					break;
+				default:
+					request[row.cells[cellId].colParam] = row.cells[cellId].data;
+					break;
+			}
+		}
+		await fetch(`/api/document/${encodeURIComponent(vipsDocument['JMB Dokumenta'])}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(request)
+		});
 
 		if ($povezaniDokumenti) {
 			$povezaniDokumenti[indexPovezanogDok].upisaneStavke = [
@@ -175,6 +184,8 @@
 				{
 					artikl: row.cells[0].data.Naziv,
 					kolicina: row.cells[1].data
+						? row.cells[1].data
+						: columnTypes.find((type) => type.parameter === row.cells[1].colParam)?.emptyValue
 				}
 			];
 		}
@@ -568,7 +579,7 @@
 							{:else if data.table.columns[i].field === Field.numeric}
 								<td class:bg-green-300={row.disabled}
 									>{cell.text}
-									{#if (data.table.columns[i].parameter === Parametar.rabat1 || data.table.columns[i].parameter === Parametar.rabat2 || data.table.columns[i].parameter === Parametar.rabat3) && cell.data !== null}
+									{#if data.table.columns[i].parameter === Parametar.rabat1 || data.table.columns[i].parameter === Parametar.rabat2 || data.table.columns[i].parameter === Parametar.rabat3}
 										<span>%</span>
 									{/if}</td>
 							{:else}
@@ -578,7 +589,7 @@
 						{#if vipsDocument}
 							<td class:bg-green-300={row.disabled}>
 								{#if row.disabled}
-									<button class="block m-auto" disabled>
+									<button title="Red spremljen" class="block m-auto" disabled>
 										<svg
 											class="sent"
 											width="24px"
