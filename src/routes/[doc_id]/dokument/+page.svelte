@@ -537,7 +537,7 @@
 											OCRPreviewVisible = true;
 										}}
 										on:focusout={() => (OCRPreviewVisible = false)}
-										class:bg-red-300={cell.text === ''}
+										class:bg-red-300={cell.text === '' || cell.data === null}
 										class:bg-yellow-300={cell.text === '' &&
 											data.table.columns[i].defaultValue !== null}
 										><input
