@@ -3,6 +3,7 @@
 	import FileInput from './FileInput.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { povezaniDokumenti } from '$components/store';
+	import { preloadData } from '$app/navigation';
 
 	export let data;
 
@@ -201,11 +202,13 @@
 					<tr class="hover:cursor-pointer bg-[#e6f1ff] hover:bg-blue-100 rounded-xl">
 						<td
 							class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5"
+							on:mouseover={preloadData(`/${dokument.id}/dokument`)}
 							on:click={goto(`/${dokument.id}/dokument`)}>
 							{dokument.naziv}
 						</td>
 						<td
 							class="w-fit mb-2 border-y border-neutral-300 py-2 text-end pr-5"
+							on:mouseover={preloadData(`/${dokument.id}/dokument`)}
 							on:click={goto(`/${dokument.id}/dokument`)}>
 							{new Date(dokument.datum).getUTCDate()}.{new Date(
 								dokument.datum
@@ -265,6 +268,7 @@
 					{:else}
 						<tr
 							class="hover:cursor-pointer hover:bg-neutral-100 rounded-xl"
+							on:mouseover={preloadData(`/${document.id}/stupci`)}
 							on:click={goto(`/${document.id}/stupci`)}>
 							<td class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5">
 								{document.naziv}
@@ -283,6 +287,7 @@
 				{#each $povezaniDokumenti || [] as dokument}
 					<div
 						class="flex flex-col relative justify-between w-52 h-52 hover:cursor-pointer bg-blue-100 hover:bg-blue-200 rounded-md shadow hover:shadow-md"
+						on:mouseover={preloadData(`/${dokument.id}/dokument`)}
 						on:click={goto(`/${dokument.id}/dokument`)}>
 						<img
 							src="http://192.168.10.20:8000/slike/{dokument.id}"
@@ -348,6 +353,7 @@
 					{:else}
 						<div
 							class="flex flex-col justify-between w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-md shadow hover:shadow-md"
+							on:mouseover={preloadData(`/${document.id}/stupci`)}
 							on:click={goto(`/${document.id}/stupci`)}>
 							<img
 								src="http://192.168.10.20:8000/slike/{document.id}"
