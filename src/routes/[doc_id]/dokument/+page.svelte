@@ -655,7 +655,7 @@
 </div>
 {#if data.table.tablica[0] && OCRPreviewData.stranica !== undefined && OCRPreviewVisible}
 	<OCRPreview
-		image={data.documentData['stranice'][OCRPreviewData.stranica].tablica['definicija'].image}
+		tablicaId={data.documentData['stranice'][OCRPreviewData.stranica].id}
 		x={OCRPreviewData.x}
 		y={OCRPreviewData.y}
 		width={OCRPreviewData.width}

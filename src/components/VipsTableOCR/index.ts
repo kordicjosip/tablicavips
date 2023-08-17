@@ -151,7 +151,6 @@ export class TableData {
 	columns: TableColumn[] = [];
 	rows: TableRow[] = [];
 	resolution: number[] = [];
-	image: string = '';
 	private _isUnlinked: boolean = false;
 	ocr: OCR[] = [];
 	tableCrop: { x1: number; x2: number; y1: number; y2: number };
@@ -169,7 +168,6 @@ export class TableData {
 
 	constructor(data: TableDataInterface) {
 		this.id = data.id;
-		this.image = data.image;
 		this.resolution = data.resolution;
 		this.tableCrop = data.tableCrop;
 		this.page = data.page;
