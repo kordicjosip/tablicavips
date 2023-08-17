@@ -6,6 +6,20 @@ export function validateInputNumeric(text: string) {
 	return Number.parseFloat(text);
 }
 
+export function validateThousands(text: string) {
+	// 1,123.00
+	if (!/^-?(\d+|\d{1,3}(\.\d{3})+)(,(\s)?\d*)?$/gm.test(text)) {
+		// 1.123,00
+		if (!/^-?(\d+|\d{1,3}(,\d{3})+)(\.(\s)?\d*)?$/gm.test(text)) {
+			return text;
+		} else {
+			return text.replaceAll(',', '');
+		}
+	} else {
+		return text.replaceAll('.', '');
+	}
+}
+
 export function validateColumnRegex(
 	text: string,
 	regexString: string = 'Barkod: (\\d+)',

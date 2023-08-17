@@ -6,7 +6,11 @@
 		getArtiklPoSifri,
 		getArtiklPoBarKodu
 	} from '$components/api';
-	import { validateColumnRegex, validateInputNumeric } from '$components/validators';
+	import {
+		validateColumnRegex,
+		validateInputNumeric,
+		validateThousands
+	} from '$components/validators';
 	import { dokumenti } from '$components/VipsTableOCR/dokumenti';
 	import { columnTypes, Parametar } from '$components/VipsTableOCR/columnTypes';
 	import { goto, invalidateAll } from '$app/navigation';
@@ -345,7 +349,7 @@
 					{#each $povezaniDokumenti[indexPovezanogDok].upisaneStavke as stavka}
 						<tr>
 							<td class="bg-green-300">{stavka.artikl}</td>
-							<td class="bg-green-300">{stavka.kolicina}</td>
+							<td class="bg-green-300 text-center">{stavka.kolicina}</td>
 						</tr>
 					{/each}
 				</tbody>

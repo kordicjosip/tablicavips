@@ -8,6 +8,7 @@
 	import { Field } from '$components/VipsTableOCR/field';
 	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
 	import { getPersisted } from '$components/store';
+	import { validateThousands } from '$components/validators';
 
 	export let documentData;
 	let data: TablesData = new TablesData();
@@ -100,7 +101,7 @@
 
 		for (const row of mergedRows) {
 			for (const cell of row.cells) {
-				cell.text = cell.text.map((text) => text.text).join(' ');
+				cell.text = validateThousands(cell.text.map((text) => text.text).join(' '));
 			}
 		}
 
