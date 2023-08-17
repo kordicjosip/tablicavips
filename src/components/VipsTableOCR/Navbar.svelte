@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import ColumnTemplatesDialog from './ColumnTemplatesDialog.svelte';
-	import { goto } from '$app/navigation';
+	import { goto, preloadData } from '$app/navigation';
 
 	let dialog;
 	const dispatch = createEventDispatcher();
@@ -10,6 +10,7 @@
 	export let currentPage: number | null;
 	export let isUnlinked: boolean;
 	export let columnTemplatesData: [];
+	export let documentID: string;
 	let selectedColumnTemplate;
 
 	function postColumnTemplate(event) {
@@ -128,6 +129,7 @@
 
 	<div
 		class="flex items-center justify-center w-7 h-7 rounded-full hover:bg-emerald-800 hover:cursor-pointer"
+		on:mouseover={preloadData(`/${documentID}/dokument`)}
 		on:click={() => {
 			dispatch('sendAllData');
 		}}

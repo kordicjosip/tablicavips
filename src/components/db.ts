@@ -1,6 +1,5 @@
 import { env } from '$env/dynamic/private';
 import sql from 'mssql';
-import { error } from '@sveltejs/kit';
 
 const sqlConfig = {
 	user: env.DB_USERNAME,

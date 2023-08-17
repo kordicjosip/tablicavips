@@ -305,6 +305,7 @@
 			bind:currentPage={data.currentPage}
 			bind:numberOfPages={data.tables.length}
 			bind:scale
+			bind:documentID={documentData.id}
 			isUnlinked={data.currentPageTable?.isUnlinked}
 			on:changeColumnTemplate={changeColumnTemplate}
 			on:getColumnTemplates={getColumnTemplates}
