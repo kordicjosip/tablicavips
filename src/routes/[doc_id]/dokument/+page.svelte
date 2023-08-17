@@ -6,11 +6,7 @@
 		getArtiklPoSifri,
 		getArtiklPoBarKodu
 	} from '$components/api';
-	import {
-		validateColumnRegex,
-		validateInputNumeric,
-		validateThousands
-	} from '$components/validators';
+	import { validateColumnRegex, validateInputNumeric } from '$components/validators';
 	import { dokumenti } from '$components/VipsTableOCR/dokumenti';
 	import { columnTypes, Parametar } from '$components/VipsTableOCR/columnTypes';
 	import { goto, invalidateAll } from '$app/navigation';
@@ -349,7 +345,7 @@
 					{#each $povezaniDokumenti[indexPovezanogDok].upisaneStavke as stavka}
 						<tr>
 							<td class="bg-green-300">{stavka.artikl}</td>
-							<td class="bg-green-300 text-center">{stavka.kolicina}</td>
+							<td class="bg-green-300 text-right">{stavka.kolicina}</td>
 						</tr>
 					{/each}
 				</tbody>
@@ -432,7 +428,7 @@
 										>{#if data.table.columns[i].regexString}
 											<input
 												size="14"
-												class="bg-transparent"
+												class="bg-transparent text-right"
 												class:bg-red-300={cell.text === ''}
 												type="text"
 												value={validateColumnRegex(
@@ -448,7 +444,7 @@
 										{:else}
 											<input
 												size="14"
-												class="bg-transparent"
+												class="bg-transparent text-right"
 												class:bg-red-300={cell.text === ''}
 												type="text"
 												bind:value={cell.text}
@@ -470,7 +466,7 @@
 										>{#if data.table.columns[i].regexString}
 											<input
 												size="14"
-												class="bg-transparent"
+												class="bg-transparent text-right"
 												class:bg-red-300={cell.text === ''}
 												type="text"
 												value={validateColumnRegex(
@@ -486,7 +482,7 @@
 										{:else}
 											<input
 												size="14"
-												class="bg-transparent"
+												class="bg-transparent text-right"
 												class:bg-red-300={cell.text === ''}
 												type="text"
 												bind:value={cell.text}
@@ -507,7 +503,7 @@
 										{#if data.table.columns[i].regexString}
 											<input
 												size="14"
-												class="bg-transparent"
+												class="bg-transparent text-right"
 												class:bg-red-300={cell.text === ''}
 												type="text"
 												value={validateColumnRegex(
@@ -523,7 +519,7 @@
 										{:else}
 											<input
 												size="14"
-												class="bg-transparent"
+												class="bg-transparent text-right"
 												class:bg-red-300={cell.text === ''}
 												type="text"
 												bind:value={cell.text}
@@ -548,7 +544,7 @@
 											data.table.columns[i].defaultValue !== null}
 										><input
 											size="10"
-											class="bg-transparent"
+											class="bg-transparent text-right"
 											type="text"
 											bind:value={cell.text}
 											on:input={async () => {
@@ -570,34 +566,35 @@
 											data.table.columns[i].defaultValue !== null}
 										class:bg-red-300={cell.text === ''}
 										contenteditable
-										bind:textContent={cell.text}>{cell.text}</td>
+										bind:textContent={cell.text}
+										class="text-right">{cell.text}</td>
 								{/if}
 							{:else if data.table.columns[i].field === Field.artiklPoSifri}
-								<td class:bg-green-300={row.disabled}>{cell.text}</td>
+								<td class:bg-green-300={row.disabled} class="text-right">{cell.text}</td>
 								<td
-									class="text-gray-700 select-none whitespace-nowrap"
+									class="text-gray-700 select-none whitespace-nowrap text-left"
 									class:bg-green-300={row.disabled}
 									>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 							{:else if data.table.columns[i].field === Field.artiklPoKataloskomBroju}
-								<td class:bg-green-300={row.disabled}>{cell.text}</td>
+								<td class:bg-green-300={row.disabled} class="text-right">{cell.text}</td>
 								<td
-									class="text-gray-700 select-none whitespace-nowrap"
+									class="text-gray-700 select-none whitespace-nowrap text-left"
 									class:bg-green-300={row.disabled}
 									>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 							{:else if data.table.columns[i].field === Field.artiklPoBarKodu}
-								<td class:bg-green-300={row.disabled}>{cell.text}</td>
+								<td class:bg-green-300={row.disabled} class="text-right">{cell.text}</td>
 								<td
-									class="text-gray-700 select-none whitespace-nowrap"
+									class="text-gray-700 select-none whitespace-nowrap text-left"
 									class:bg-green-300={row.disabled}
 									>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 							{:else if data.table.columns[i].field === Field.numeric}
-								<td class:bg-green-300={row.disabled}
+								<td class:bg-green-300={row.disabled} class="text-right"
 									>{cell.text}
 									{#if data.table.columns[i].parameter === Parametar.rabat1 || data.table.columns[i].parameter === Parametar.rabat2 || data.table.columns[i].parameter === Parametar.rabat3}
 										<span>%</span>
 									{/if}</td>
 							{:else}
-								<td class:bg-green-300={row.disabled}>{cell.text}</td>
+								<td class:bg-green-300={row.disabled} class="text-right">{cell.text}</td>
 							{/if}
 						{/each}
 						{#if vipsDocument}
