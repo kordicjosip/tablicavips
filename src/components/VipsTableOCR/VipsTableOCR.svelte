@@ -195,7 +195,7 @@
 			body: JSON.stringify({
 				naziv: event.detail,
 				stupci: data.currentPageTable
-					?.columns!.filter((column) => column.type !== null)
+					?.columns!.filter((column) => column.type)
 					.map((column) => {
 						return {
 							x1: column.x1,
