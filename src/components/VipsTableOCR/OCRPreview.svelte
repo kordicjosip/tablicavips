@@ -10,7 +10,7 @@
 <svg
 	class="fixed bottom-8 right-8 max-w-[12rem] max-h-20 float-right border-2 border-emerald-600"
 	viewBox="{x} {y} {width} {height}">
-	<image href="http://{PUBLIC_API_URL}/slika-tablice/{tablicaId}" />
+	<image href="{PUBLIC_API_URL}/slika-tablice/{tablicaId}" />
 </svg>
 
 <style>

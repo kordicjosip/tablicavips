@@ -165,7 +165,7 @@
 	}
 
 	async function getColumnTemplates() {
-		columnTemplatesData = await fetch(`http://${PUBLIC_API_URL}/api/column_templates`, {
+		columnTemplatesData = await fetch(`${PUBLIC_API_URL}/api/column_templates`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -187,7 +187,7 @@
 	}
 
 	async function postColumnTemplate(event) {
-		const res = await fetch(`http://${PUBLIC_API_URL}/api/column_templates`, {
+		const res = await fetch(`${PUBLIC_API_URL}/api/column_templates`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

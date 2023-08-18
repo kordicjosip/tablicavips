@@ -101,7 +101,7 @@
 		podaciZaPovezivanje.vipsID = data.vipsDocument['Dokument ID'];
 		podaciZaPovezivanje.dokID = data.documentData.id;
 
-		const res = await fetch(`http://${PUBLIC_API_URL}/api/doc/${data.documentData.id}`, {
+		const res = await fetch(`${PUBLIC_API_URL}/api/doc/${data.documentData.id}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

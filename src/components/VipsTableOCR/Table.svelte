@@ -259,7 +259,7 @@
 <div class="w-full h-full" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
 	<svg width="100%" height="100%" on:mousewheel={mousewheel}>
 		<image
-			href="http://{PUBLIC_API_URL}/slika-tablice/{data.id}"
+			href="{PUBLIC_API_URL}/slika-tablice/{data.id}"
 			transform="translate({X} {Y}) scale({scale})" />
 		<g transform="translate({X} {Y})">
 			{#each data.rows as row}
