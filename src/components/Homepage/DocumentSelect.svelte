@@ -188,7 +188,7 @@
 		on:submit|preventDefault={uploadFile}>
 		<FileInput {onDrop} />
 	</form>
-	{#if documentsData.length > 0}
+	{#if documentsData.length > 0 || $povezaniDokumenti.length > 0}
 		{#if listView}
 			<table class="w-fit">
 				<tr>
