@@ -4,6 +4,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { povezaniDokumenti } from '$components/store';
 	import { preloadData } from '$app/navigation';
+	import { PUBLIC_API_URL } from '$env/static/public';
 
 	export let data;
 
@@ -44,17 +45,17 @@
 	}
 
 	async function submitUploadFileFormData(formData: FormData) {
-		const res = await fetch('http://192.168.10.20:8000/api/doc', {
+		const res = await fetch(`http://${PUBLIC_API_URL}/api/doc`, {
 			body: formData,
 			method: 'POST'
 		}).then((res) => res.json());
-		await invalidate('http://192.168.10.20:8000/api/doc');
+		await invalidate(`http://${PUBLIC_API_URL}/api/doc`);
 	}
 
 	let interval;
 	onMount(async () => {
 		interval = setInterval(async () => {
-			await invalidate('http://192.168.10.20:8000/api/doc');
+			await invalidate(`http://${PUBLIC_API_URL}/api/doc`);
 		}, 5000);
 	});
 	onDestroy(async () => {
@@ -179,7 +180,7 @@
 		</button>
 	</div>
 	<form
-		action="http://192.168.10.20:8000/api/doc"
+		action="http://{PUBLIC_API_URL}/api/doc"
 		bind:this={form}
 		class="absolute right-10 top-0"
 		enctype="multipart/form-data"
@@ -290,7 +291,7 @@
 						on:mouseover={preloadData(`/${dokument.id}/dokument`)}
 						on:click={goto(`/${dokument.id}/dokument`)}>
 						<img
-							src="http://192.168.10.20:8000/slike/{dokument.id}"
+							src="http://{PUBLIC_API_URL}/slike/{dokument.id}"
 							class="h-40 object-cover object-top rounded-t-md"
 							alt="pregled dokumenta" />
 						<button
@@ -356,7 +357,7 @@
 							on:mouseover={preloadData(`/${document.id}/stupci`)}
 							on:click={goto(`/${document.id}/stupci`)}>
 							<img
-								src="http://192.168.10.20:8000/slike/{document.id}"
+								src="http://{PUBLIC_API_URL}/slike/{document.id}"
 								class="h-40 object-cover object-top"
 								alt="pregled dokumenta" />
 							<div class="">

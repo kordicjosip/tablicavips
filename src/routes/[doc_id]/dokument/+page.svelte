@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { DokumentRed } from '$components/VipsTableOCR';
 	import { Field } from '$components/VipsTableOCR/field';
+	import { PUBLIC_API_URL } from '$env/static/public';
 	import {
 		getArtiklPoKataloskomBroju,
 		getArtiklPoSifri,
@@ -100,7 +101,7 @@
 		podaciZaPovezivanje.vipsID = data.vipsDocument['Dokument ID'];
 		podaciZaPovezivanje.dokID = data.documentData.id;
 
-		const res = await fetch(`http://192.168.10.20:8000/api/doc/${data.documentData.id}`, {
+		const res = await fetch(`http://${PUBLIC_API_URL}/api/doc/${data.documentData.id}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

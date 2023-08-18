@@ -9,6 +9,7 @@
 	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
 	import { getPersisted } from '$components/store';
 	import { validateThousands } from '$components/validators';
+	import { PUBLIC_API_URL } from '$env/static/public';
 
 	export let documentData;
 	let data: TablesData = new TablesData();
@@ -164,7 +165,7 @@
 	}
 
 	async function getColumnTemplates() {
-		columnTemplatesData = await fetch('http://192.168.10.20:8000/api/column_templates', {
+		columnTemplatesData = await fetch(`http://${PUBLIC_API_URL}/api/column_templates`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -186,7 +187,7 @@
 	}
 
 	async function postColumnTemplate(event) {
-		const res = await fetch('http://192.168.10.20:8000/api/column_templates', {
+		const res = await fetch(`http://${PUBLIC_API_URL}/api/column_templates`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
