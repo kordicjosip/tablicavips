@@ -15,13 +15,29 @@
 			ScrollPositionVertical = window.scrollY;
 		});
 	});
+
+	let windowWidth: number;
+	let windowHeight: number;
+
+	let ContextMenuWidth: number;
+	let ContextMenuHeight: number;
 </script>
 
+<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
+
 <div
+	bind:clientWidth={ContextMenuWidth}
+	bind:clientHeight={ContextMenuHeight}
 	id="context-menu"
 	class="absolute bg-neutral-700 border border-gray-400 text-white h-auto w-auto"
 	class:invisible={visible === false}
-	style="left: {x + ScrollPositionHorizontal + 1}px; top: {y + ScrollPositionVertical}px;">
+	style="
+		left: {x + ScrollPositionHorizontal + ContextMenuWidth + 1 > windowWidth
+		? windowWidth - ContextMenuWidth - 5
+		: x + ScrollPositionHorizontal + 1}px;
+		top: {y + ScrollPositionVertical + ContextMenuHeight > windowHeight
+		? windowHeight - ContextMenuHeight - 3
+		: y + ScrollPositionVertical}px;">
 	{#each definition.groups as group}
 		<ul>
 			{#each group.entries as entry}
