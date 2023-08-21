@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { type TableColumnInterface } from './index';
 
-	const dispatch = new createEventDispatcher();
-	let dialog;
+	const dispatch = createEventDispatcher();
+	let dialog: HTMLDialogElement;
 	let regexString: string;
-	export let column: TableColumnInterface;
 	let columnID: number;
 
 	export function show(columnId: number) {
@@ -18,7 +16,6 @@
 			id: columnID,
 			regexString: regexString
 		});
-		console.log(column);
 		closeModal();
 	}
 

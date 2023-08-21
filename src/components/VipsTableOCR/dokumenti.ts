@@ -1,4 +1,3 @@
-// @ts-ignore
 import { Parametar } from '$components/VipsTableOCR/columnTypes';
 
 export const dokumenti = {

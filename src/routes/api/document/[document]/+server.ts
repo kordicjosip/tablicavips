@@ -1,12 +1,10 @@
-// @ts-ignore
 import { getArtiklPoId, getVipsDocument, pool } from '$components/db';
 import type { RequestHandler } from '@sveltejs/kit';
-// @ts-ignore
 import { Parametar } from '$components/VipsTableOCR/columnTypes';
 import sql from 'mssql';
 
 export const GET: RequestHandler = async ({ params }) => {
-	const dokument = await getVipsDocument(params.document);
+	const dokument = await getVipsDocument(params.document!);
 	return new Response(dokument ? JSON.stringify(dokument) : 'null', {
 		headers: {
 			'content-type': 'text/json'
@@ -16,14 +14,17 @@ export const GET: RequestHandler = async ({ params }) => {
 
 export const POST: RequestHandler = async ({ params, request }) => {
 	const body = await request.json();
-	const dokument = await getVipsDocument(params.document);
+	const dokument = await getVipsDocument(params.document!);
 	if (dokument['DokZakljucen']) {
 		return new Response(JSON.stringify({ message: 'Dokument je već zaključen' }), {
 			status: 400
 		});
 	}
 
-	const parametarArtikl = Object.entries(body).find(([k, v]) => k === Parametar.artikl);
+	const parametarArtikl = Object.entries(body).find(([k, _]) => k === Parametar.artikl)! as [
+		string,
+		number
+	];
 	if (parametarArtikl) {
 		const artikl = await getArtiklPoId(parametarArtikl[1], dokument['PJ Firme ID']);
 		if (!artikl) {
@@ -58,7 +59,7 @@ export const POST: RequestHandler = async ({ params, request }) => {
 	}
 	query.output('pmErr', sql.Int);
 	query.output('pmErrMsg', sql.VarChar(255));
-	const response = await query.execute('spRbnStvMod');
+	await query.execute('spRbnStvMod');
 	return new Response(JSON.stringify({ status: 'OK' }), {
 		headers: {
 			'content-type': 'text/json'

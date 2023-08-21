@@ -1,13 +1,25 @@
 import type { Field } from './field';
+import type { ColumnType } from '$components/VipsTableOCR/columnTypes';
 
 export { default as VipsTableOCR } from './VipsTableOCR.svelte';
+
+export type ColumnTemplate = {
+	naziv: string;
+	definicija: {
+		stupci: {
+			x1: number;
+			x2: number;
+			type: string | ColumnType;
+		}[];
+	};
+};
 
 export const ROW_HEADER_WIDTH = 25;
 export const COLUMN_HEADER_HEIGHT = 20;
 
 export interface TableColumnInterface {
 	id: number;
-	type: { name: string; field: Field; parameter: string; regexString: string } | null;
+	type: { name: string; field: Field; parameter: string; regexString: string } | undefined;
 	name: string | null;
 	x1: number;
 	x2: number;
@@ -32,8 +44,7 @@ export interface TableDataInterface {
 	id: string;
 	columns: TableColumnInterface[];
 	rows: TableRowInterface[];
-	resolution: number[];
-	image: string;
+	resolution: [number, number];
 	ocr: OCRInterface[];
 	tableCrop: { x1: number; x2: number; y1: number; y2: number };
 	page: number;
@@ -115,7 +126,16 @@ export class TableColumn {
 }
 
 export interface DokumentRed {
-	cells: any[];
+	cells: {
+		rowNumber: number;
+		colParam: string | undefined;
+		x1: number;
+		x2: number;
+		y1: number;
+		y2: number;
+		text: OCR[] | string;
+		stranica: number;
+	}[];
 	disabled: boolean;
 }
 
@@ -150,7 +170,7 @@ export class TableData {
 	id: string;
 	columns: TableColumn[] = [];
 	rows: TableRow[] = [];
-	resolution: number[] = [];
+	resolution: [number, number] = [0, 0];
 	private _isUnlinked: boolean = false;
 	ocr: OCR[] = [];
 	tableCrop: { x1: number; x2: number; y1: number; y2: number };

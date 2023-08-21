@@ -1,11 +1,12 @@
 <script lang="ts" xmlns="http://www.w3.org/1999/html">
 	import { createEventDispatcher } from 'svelte';
+	import type { ColumnTemplate } from '$components/VipsTableOCR/index';
 
 	const dispatch = createEventDispatcher();
-	let dialog;
-	let columnTemplateName;
-	export let columnTemplatesData: [];
-	export let selectedColumnTemplate;
+	let dialog: HTMLDialogElement;
+	let columnTemplateName: string = '';
+	export let columnTemplatesData: ColumnTemplate[];
+	export let selectedColumnTemplate: ColumnTemplate;
 
 	export function show() {
 		dialog.showModal();

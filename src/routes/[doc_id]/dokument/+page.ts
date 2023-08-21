@@ -1,17 +1,13 @@
-// @ts-ignore
 import { getArtiklPoBarKodu, getArtiklPoKataloskomBroju, getArtiklPoSifri } from '$components/api';
-// @ts-ignore
 import { Field } from '$components/VipsTableOCR/field';
-// @ts-ignore
 import { validateInputNumeric } from '$components/validators';
 import type { PageLoad } from './$types';
 import { browser } from '$app/environment';
 import { get } from 'svelte/store';
-// @ts-ignore
 import { getPersisted, povezaniDokumenti } from '$components/store';
 
 export const load: PageLoad = async ({ params, fetch }) => {
-	let table = {
+	let table: { columns: any[]; tablica: any[] } = {
 		columns: [],
 		tablica: []
 	};
@@ -73,10 +69,10 @@ export const load: PageLoad = async ({ params, fetch }) => {
 	}
 	let vipsDocument = null;
 	if (browser) {
-		if (get(povezaniDokumenti)?.find((doc) => doc.id === params.doc_id) !== undefined)
+		if ((get(povezaniDokumenti)! as any[]).find((doc) => doc.id === params.doc_id) !== undefined)
 			vipsDocument = await fetch(
 				`/api/document/${encodeURIComponent(
-					get(povezaniDokumenti)?.find((doc) => doc.id === params.doc_id).vipsID
+					(get(povezaniDokumenti)! as any[]).find((doc) => doc.id === params.doc_id).vipsID
 				)}`,
 				{
 					method: 'GET'

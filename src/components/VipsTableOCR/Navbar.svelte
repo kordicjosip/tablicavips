@@ -2,18 +2,19 @@
 	import { createEventDispatcher } from 'svelte';
 	import ColumnTemplatesDialog from './ColumnTemplatesDialog.svelte';
 	import { goto, preloadData } from '$app/navigation';
+	import type { ColumnTemplate } from '$components/VipsTableOCR/index';
 
-	let dialog;
+	let dialog: ColumnTemplatesDialog;
 	const dispatch = createEventDispatcher();
 	export let scale: number;
-	export let numberOfPages: number | null;
-	export let currentPage: number | null;
+	export let numberOfPages: number;
+	export let currentPage: number;
 	export let isUnlinked: boolean;
-	export let columnTemplatesData: [];
+	export let columnTemplatesData: ColumnTemplate[];
 	export let documentID: string;
-	let selectedColumnTemplate;
+	let selectedColumnTemplate: ColumnTemplate;
 
-	function postColumnTemplate(event) {
+	function postColumnTemplate(event: CustomEvent) {
 		dispatch('postColumnTemplate', event.detail);
 	}
 
@@ -129,7 +130,7 @@
 
 	<div
 		class="flex items-center justify-center w-7 h-7 rounded-full hover:bg-emerald-800 hover:cursor-pointer"
-		on:mouseover={preloadData(`/${documentID}/dokument`)}
+		on:mouseover={async () => await preloadData(`/${documentID}/dokument`)}
 		on:click={() => {
 			dispatch('sendAllData');
 		}}

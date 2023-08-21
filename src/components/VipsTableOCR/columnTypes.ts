@@ -1,5 +1,14 @@
 import { Field } from './field';
 
+export type ColumnType = {
+	name: string;
+	field: Field;
+	parameter: string;
+	regexString: string | null;
+	defaultValue: string | number | null;
+	emptyValue: number | null
+};
+
 export enum Parametar {
 	artikl = 'pmArtiklID',
 	kolicina = 'pmKolicina',
@@ -34,14 +43,7 @@ export const columnOrder = [
 	'pmPDV'
 ];
 
-export const columnTypes: {
-	name: string;
-	field: Field;
-	parameter: string;
-	regexString: string | null;
-	defaultValue: string | number | null;
-	emptyValue: number | null
-}[] = [
+export const columnTypes: ColumnType[] = [
 	{ name: 'Šifra artikla', field: Field.artiklPoSifri, parameter: Parametar.artikl, regexString:null, defaultValue: null, emptyValue: null },
 	{ name: 'Kataloški broj', field: Field.artiklPoKataloskomBroju, parameter: Parametar.artikl, regexString:null, defaultValue: null, emptyValue: null },
 	{ name: 'Barkod', field: Field.artiklPoBarKodu, parameter: Parametar.artikl, regexString:null, defaultValue: null, emptyValue: null },

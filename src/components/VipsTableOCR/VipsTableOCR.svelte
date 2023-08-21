@@ -1,21 +1,49 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { type DokumentRed, OCR, type OCRInterface, TableData, TablesData } from './index';
+	import {
+		type ColumnTemplate,
+		type DokumentRed,
+		OCR,
+		type OCRInterface,
+		type TableColumnInterface,
+		TableData,
+		TablesData
+	} from './index';
 	import Table from './Table.svelte';
 	import Sidebar from './Sidebar.svelte';
 	import Navbar from './Navbar.svelte';
 	import { goto } from '$app/navigation';
-	import { Field } from '$components/VipsTableOCR/field';
-	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
+	import type { Field } from '$components/VipsTableOCR/field';
+	import { type ColumnType, columnTypes } from '$components/VipsTableOCR/columnTypes';
 	import { getPersisted } from '$components/store';
 	import { validateThousands } from '$components/validators';
-	import { PUBLIC_API_URL } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 
-	export let documentData;
+	export let documentData: {
+		id: string;
+		vips_id: number;
+		naziv: string;
+		datum: string;
+		stranice: {
+			id: string;
+			broj: number;
+			tablica: {
+				definicija: {
+					columns: TableColumnInterface[] | [number, number][];
+					rows: any[];
+					crop: [number, number, number, number];
+					resolution: [number, number];
+				};
+			};
+			ocr: {
+				id: number;
+				ocr: OCRInterface;
+			}[];
+		}[];
+	};
 	let data: TablesData = new TablesData();
 	let scale = 1;
-	let columnTemplateData = null;
-	let columnTemplatesData = [];
+	let columnTemplatesData: ColumnTemplate[] = [];
 
 	function sendAllData() {
 		const tablica: {
@@ -102,7 +130,7 @@
 
 		for (const row of mergedRows) {
 			for (const cell of row.cells) {
-				cell.text = validateThousands(cell.text.map((text) => text.text).join(' '));
+				cell.text = validateThousands((cell.text as OCR[]).map((text) => text.text).join(' '));
 			}
 		}
 
@@ -116,78 +144,91 @@
 		}
 	}
 
-	function addRow(event) {
+	function addRow(event: CustomEvent) {
 		data.addRow(event.detail);
 		data = data;
 	}
 
-	function removeRow(event) {
+	function removeRow(event: CustomEvent) {
 		data.removeRow(event.detail);
 		data = data;
 	}
 
-	function addColumn(event) {
+	function addColumn(event: CustomEvent) {
 		data.addColumn(event.detail);
 		data = data;
 	}
 
-	function removeColumn(event) {
+	function removeColumn(event: CustomEvent) {
 		data.removeColumn(event.detail);
 		data = data;
 	}
 
-	function setColumnType(event) {
+	function setColumnType(event: CustomEvent) {
 		data.setColumnType(event.detail.id, event.detail.column);
 		data = data;
 		console.log(data);
 	}
 
-	function setColumnRegexString(event) {
+	function setColumnRegexString(event: CustomEvent) {
 		data.setColumnRegexString(event.detail.id, event.detail.regexString);
 		data = data;
 		console.log(data);
 	}
 
-	function setOffsetColumnAllTables(event) {
+	function setOffsetColumnAllTables(event: CustomEvent) {
 		data.setOffsetColumnAllTables(event.detail.id, event.detail.offset);
 	}
 
-	function setOffsetColumnsAllTables(event) {
+	function setOffsetColumnsAllTables(event: CustomEvent) {
 		data.setOffsetColumnsAllTables(event.detail);
 	}
 
-	function dragX1AllTables(event) {
+	function dragX1AllTables(event: CustomEvent) {
 		data.dragX1AllTables(event.detail.id, event.detail.offset);
 	}
 
-	function dragX2AllTables(event) {
+	function dragX2AllTables(event: CustomEvent) {
 		data.dragX2AllTables(event.detail.id, event.detail.offset);
 	}
 
 	async function getColumnTemplates() {
-		columnTemplatesData = await fetch(`${PUBLIC_API_URL}/api/column_templates`, {
+		columnTemplatesData = await fetch(`${env.PUBLIC_API_URL}/api/column_templates`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		})
 			.then((res) => res.json())
-			.then((data) => {
-				data.forEach((predlozak) => {
-					predlozak.definicija.stupci = predlozak.definicija.stupci.map((stupac) => {
-						return {
-							x1: stupac.x1,
-							x2: stupac.x2,
-							type: columnTypes.find((columnType) => columnType.name === stupac.type)!
+			.then(
+				(
+					data: {
+						naziv: string;
+						definicija: {
+							stupci: {
+								x1: number;
+								x2: number;
+								type: string | ColumnType;
+							}[];
 						};
+					}[]
+				) => {
+					data.forEach((predlozak) => {
+						predlozak.definicija.stupci = predlozak.definicija.stupci.map((stupac) => {
+							return {
+								x1: stupac.x1,
+								x2: stupac.x2,
+								type: columnTypes.find((columnType) => columnType.name === stupac.type)!
+							};
+						});
 					});
-				});
-				return data;
-			});
+					return data;
+				}
+			);
 	}
 
-	async function postColumnTemplate(event) {
-		const res = await fetch(`${PUBLIC_API_URL}/api/column_templates`, {
+	async function postColumnTemplate(event: CustomEvent) {
+		columnTemplatesData = await fetch(`${env.PUBLIC_API_URL}/api/column_templates`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -204,13 +245,38 @@
 						};
 					})
 			})
-		});
-
-		const json = await res.json();
-		columnTemplateData = JSON.stringify(json);
+		})
+			.then((res) => res.json())
+			.then(
+				(
+					data: {
+						naziv: string;
+						definicija: {
+							stupci: {
+								x1: number;
+								x2: number;
+								type: string | ColumnType;
+							}[];
+						};
+					}[]
+				) => {
+					console.log(data);
+					data.forEach((predlozak) => {
+						predlozak.definicija.stupci = predlozak.definicija.stupci.map((stupac) => {
+							return {
+								x1: stupac.x1,
+								x2: stupac.x2,
+								type: columnTypes.find((columnType) => columnType.name === stupac.type)!
+							};
+						});
+					});
+					return data;
+				}
+			);
+		console.log(columnTemplatesData);
 	}
 
-	function changeColumnTemplate(event) {
+	function changeColumnTemplate(event: CustomEvent) {
 		if (!data.currentPageTable?.isUnlinked) {
 			data.deleteColumnsAllTables();
 			for (let i = 0; i < event.detail.length; i++) {
@@ -239,25 +305,25 @@
 	}
 
 	onMount(async () => {
-		for (let i = 0; i < documentData['stranice'].length; i++) {
-			if (!documentData['stranice'][i]['tablica']) {
+		for (let i = 0; i < documentData.stranice.length; i++) {
+			if (!documentData.stranice[i].tablica) {
 				continue;
 			}
-			const columns = documentData['stranice'][0]['tablica']['definicija'].columns.map(
-				(column, index) => {
-					return {
-						id: index,
-						name: null,
-						type: undefined,
-						x1: column[0],
-						x2: column[1],
-						get width() {
-							return this.x2 - this.x1;
-						}
-					};
-				}
-			);
-			const rows = documentData['stranice'][i]['tablica']['definicija'].rows.map((row, index) => {
+			const columns = (
+				documentData.stranice[0].tablica.definicija.columns as [number, number][]
+			).map((column, index) => {
+				return {
+					id: index,
+					name: null,
+					type: undefined,
+					x1: column[0],
+					x2: column[1],
+					get width() {
+						return this.x2 - this.x1;
+					}
+				};
+			});
+			const rows = documentData.stranice[i].tablica.definicija.rows.map((row, index) => {
 				return {
 					id: index,
 					name: 'row',
@@ -265,7 +331,7 @@
 					y2: row[1]
 				};
 			});
-			const ocr: OCRInterface[] = documentData['stranice'][i]['ocr'].map((row) => {
+			const ocr: OCRInterface[] = documentData.stranice[i].ocr.map((row) => {
 				return {
 					text: row.ocr.text,
 					x1: row.ocr.x1,
@@ -275,19 +341,18 @@
 				};
 			});
 			const crop = {
-				x1: Number(documentData['stranice'][i]['tablica']['definicija'].crop[0]),
-				x2: Number(documentData['stranice'][i]['tablica']['definicija'].crop[2]),
-				y1: Number(documentData['stranice'][i]['tablica']['definicija'].crop[1]),
-				y2: Number(documentData['stranice'][i]['tablica']['definicija'].crop[3])
+				x1: Number(documentData.stranice[i].tablica.definicija.crop[0]),
+				x2: Number(documentData.stranice[i].tablica.definicija.crop[2]),
+				y1: Number(documentData.stranice[i].tablica.definicija.crop[1]),
+				y2: Number(documentData.stranice[i].tablica.definicija.crop[3])
 			};
 
 			data.addTable(
 				new TableData({
-					id: documentData['stranice'][i].id,
+					id: documentData.stranice[i].id,
 					columns: columns,
 					rows: rows,
-					resolution: documentData['stranice'][i]['tablica']['definicija'].resolution,
-					image: documentData['stranice'][i]['tablica']['definicija'].image,
+					resolution: documentData.stranice[i].tablica.definicija.resolution,
 					ocr: ocr,
 					tableCrop: crop,
 					page: i
@@ -307,12 +372,13 @@
 			bind:numberOfPages={data.tables.length}
 			bind:scale
 			bind:documentID={documentData.id}
-			isUnlinked={data.currentPageTable?.isUnlinked}
+			isUnlinked={data.currentPageTable?.isUnlinked ?? false}
 			on:changeColumnTemplate={changeColumnTemplate}
 			on:getColumnTemplates={getColumnTemplates}
 			on:postColumnTemplate={postColumnTemplate}
 			on:sendAllData={sendAllData}
-			on:toggleUnlink={(event) => (data.currentPageTable.isUnlinked = event.detail)} />
+			on:toggleUnlink={(event) =>
+				data.currentPageTable ? (data.currentPageTable.isUnlinked = event.detail) : false} />
 	</div>
 	<div class="basis-auto flex-grow flex-shrink flex flex-row h-[calc(100%-2.5rem)]">
 		{#if data.tables.length > 0}
