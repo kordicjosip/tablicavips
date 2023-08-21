@@ -233,6 +233,40 @@
 		OCRPreviewData.stranica = cell.stranica;
 	}
 
+	function enterKeyArtikl(event: KeyboardEvent) {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			event.target.parentNode.nextElementSibling.nextElementSibling.firstChild.focus();
+			event.target.parentNode.nextElementSibling.nextElementSibling.firstChild.select();
+		}
+	}
+
+	function enterKeyNumeric(event: KeyboardEvent) {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			event.target.parentNode.nextElementSibling.firstChild.focus();
+			if (event.target.parentNode.nextElementSibling.firstChild.type === 'text') {
+				event.target.parentNode.nextElementSibling.firstChild.select();
+			}
+		}
+	}
+
+	function enterKeySendRow(event: KeyboardEvent) {
+		if (event.key === 'Enter') {
+			console.log(event);
+			let nextRow = event.target.parentNode.parentNode.nextElementSibling;
+			while (nextRow) {
+				let firstInputElement = nextRow.querySelector('input[type="text"]');
+				if (firstInputElement) {
+					firstInputElement.focus();
+					firstInputElement.select();
+					break;
+				}
+				nextRow = nextRow.nextElementSibling;
+			}
+		}
+	}
+
 	onMount(() => {
 		initial = false;
 	});
@@ -429,13 +463,7 @@
 							{#if !row.disabled}
 								{#if data.table.columns[i].field === Field.artiklPoSifri}
 									<td
-										on:keydown={async (event) => {
-											if (event.key === 'Enter') {
-												event.preventDefault();
-												event.target.parentNode.nextElementSibling.nextElementSibling.firstChild.focus();
-												event.target.parentNode.nextElementSibling.nextElementSibling.firstChild.select();
-											}
-										}}
+										on:keydown={() => enterKeyArtikl(event)}
 										on:focusin={() => {
 											setOCRPreviewData(cell);
 											OCRPreviewVisible = true;
@@ -474,13 +502,7 @@
 										class:bg-red-300={!cell.data}>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 								{:else if data.table.columns[i].field === Field.artiklPoKataloskomBroju}
 									<td
-										on:keydown={async (event) => {
-											if (event.key === 'Enter') {
-												event.preventDefault();
-												event.target.parentNode.nextElementSibling.nextElementSibling.firstChild.focus();
-												event.target.parentNode.nextElementSibling.nextElementSibling.firstChild.select();
-											}
-										}}
+										on:keydown={() => enterKeyArtikl(event)}
 										on:focusin={() => {
 											setOCRPreviewData(cell);
 											OCRPreviewVisible = true;
@@ -518,13 +540,7 @@
 										>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 								{:else if data.table.columns[i].field === Field.artiklPoBarKodu}
 									<td
-										on:keydown={async (event) => {
-											if (event.key === 'Enter') {
-												event.preventDefault();
-												event.target.parentNode.nextElementSibling.nextElementSibling.firstChild.focus();
-												event.target.parentNode.nextElementSibling.nextElementSibling.firstChild.select();
-											}
-										}}
+										on:keydown={() => enterKeyArtikl(event)}
 										on:focusin={() => {
 											setOCRPreviewData(cell);
 											OCRPreviewVisible = true;
@@ -564,15 +580,7 @@
 								{:else if data.table.columns[i].field === Field.numeric}
 									<td
 										class="whitespace-nowrap"
-										on:keydown={async (event) => {
-											if (event.key === 'Enter') {
-												event.preventDefault();
-												event.target.parentNode.nextElementSibling.firstChild.focus();
-												if (event.target.parentNode.nextElementSibling.firstChild.type === 'text') {
-													event.target.parentNode.nextElementSibling.firstChild.select();
-												}
-											}
-										}}
+										on:keydown={() => enterKeyNumeric(event)}
 										on:focusin={() => {
 											setOCRPreviewData(cell);
 											OCRPreviewVisible = true;
@@ -595,13 +603,7 @@
 									</td>
 								{:else}
 									<td
-										on:keydown={async (event) => {
-											if (event.key === 'Enter') {
-												event.preventDefault();
-												event.target.parentNode.nextElementSibling.firstChild.focus();
-												event.target.parentNode.nextElementSibling.firstChild.select();
-											}
-										}}
+										on:keydown={() => enterKeyNumeric(event)}
 										on:focusin={() => {
 											setOCRPreviewData(cell);
 											OCRPreviewVisible = true;
@@ -673,21 +675,9 @@
 										title="Spremi red"
 										class="block m-auto"
 										on:click={() => sendRowData(row)}
-										on:keydown={async (event) => {
-											if (event.key === 'Enter') {
-												console.log(event);
-												let nextRow = event.target.parentNode.parentNode.nextElementSibling;
-												while (nextRow) {
-													let firstInputElement = nextRow.querySelector('input[type="text"]');
-													if (firstInputElement) {
-														firstInputElement.focus();
-														firstInputElement.select();
-														break;
-													}
-													nextRow = nextRow.nextElementSibling;
-												}
-												await sendRowData(row);
-											}
+										on:keydown={() => {
+											enterKeySendRow(event);
+											sendRowData(row);
 										}}>
 										<svg
 											class="send"
