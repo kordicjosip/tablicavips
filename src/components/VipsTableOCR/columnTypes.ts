@@ -17,6 +17,23 @@ export enum Parametar {
 	pdv = 'pmPDV'
 }
 
+export const columnOrder = [
+	'pmArtiklID',
+	'pmKolicina',
+	'pmUC',
+	'pmFC',
+	'pmRabat1',
+	'pmRabat2',
+	'pmRabat3',
+	'pmPrelevman',
+	'pmTrosarina',
+	'pmCarina',
+	'pmNC',
+	'pmVPC',
+	'pmMPC',
+	'pmPDV'
+];
+
 export const columnTypes: {
 	name: string;
 	field: Field;

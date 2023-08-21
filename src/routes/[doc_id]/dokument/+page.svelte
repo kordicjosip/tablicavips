@@ -9,7 +9,7 @@
 	} from '$components/api';
 	import { validateColumnRegex, validateInputNumeric } from '$components/validators';
 	import { dokumenti } from '$components/VipsTableOCR/dokumenti';
-	import { columnTypes, Parametar } from '$components/VipsTableOCR/columnTypes';
+	import { columnTypes, columnOrder, Parametar } from '$components/VipsTableOCR/columnTypes';
 	import { goto, invalidateAll } from '$app/navigation';
 	import OCRPreview from '$components/VipsTableOCR/OCRPreview.svelte';
 	import { onMount } from 'svelte';
@@ -61,6 +61,15 @@
 		}
 		console.log(vipsDocument, data);
 
+		data.table.columns.sort((a, b) => {
+			return columnOrder.indexOf(a.parameter) - columnOrder.indexOf(b.parameter);
+		});
+		data.table.tablica.forEach((row) => {
+			row.cells.sort((a, b) => {
+				return columnOrder.indexOf(a.colParam) - columnOrder.indexOf(b.colParam);
+			});
+		});
+
 		data.table = data.table;
 	}
 	let datumDokumenta = null;
@@ -96,7 +105,6 @@
 		data.vipsDocument = data.vipsDocument;
 	}
 
-	console.log(data);
 	async function poveziDokument() {
 		podaciZaPovezivanje.vipsID = data.vipsDocument['Dokument ID'];
 		podaciZaPovezivanje.dokID = data.documentData.id;
