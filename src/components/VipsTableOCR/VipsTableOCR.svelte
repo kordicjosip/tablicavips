@@ -6,7 +6,7 @@
 	import Navbar from './Navbar.svelte';
 	import { goto } from '$app/navigation';
 	import { Field } from '$components/VipsTableOCR/field';
-	import { columnTypes, columnOrder } from '$components/VipsTableOCR/columnTypes';
+	import { columnTypes } from '$components/VipsTableOCR/columnTypes';
 	import { getPersisted } from '$components/store';
 	import { validateThousands } from '$components/validators';
 	import { PUBLIC_API_URL } from '$env/static/public';
