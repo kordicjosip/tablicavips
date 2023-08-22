@@ -36,7 +36,7 @@
 			minlength="1"
 			bind:value={regexString} />
 		<br />
-		<div class="flex justify-between w-full">
+		<div class="flex justify-between w-full p-4">
 			<button class="h-8 text-white px-2 py-0.5 items-center" on:click={closeModal}
 				>Odustani</button>
 			<button

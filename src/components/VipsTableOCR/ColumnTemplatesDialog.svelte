@@ -27,7 +27,7 @@
 	};
 </script>
 
-<dialog bind:this={dialog} class="bg-neutral-700 w-fit rounded">
+<dialog bind:this={dialog} class="bg-neutral-700 w-fit rounded p-4">
 	<div id="dialogdiv" class="flex flex-col">
 		<label class="text-white" for="predlozak">Izaberi predložak stupaca:</label>
 		<select
