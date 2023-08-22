@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_API_URL } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	export let tablicaId: string;
 	export let x: number;
 	export let y: number;
@@ -10,7 +10,7 @@
 <svg
 	class="fixed bottom-8 right-8 max-w-[12rem] max-h-20 float-right border-2 border-emerald-600"
 	viewBox="{x} {y} {width} {height}">
-	<image href="{PUBLIC_API_URL}/slika-tablice/{tablicaId}" />
+	<image href="{env.PUBLIC_API_URL}/slika-tablice/{tablicaId}" />
 </svg>
 
 <style>

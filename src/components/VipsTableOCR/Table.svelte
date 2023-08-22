@@ -6,7 +6,7 @@
 		type TableRowInterface,
 		type TableColumnInterface
 	} from './index';
-	import { PUBLIC_API_URL } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import '../../app.css';
 	import RowHeader from './/RowHeader.svelte';
 	import ColumnHeader from './/ColumnHeader.svelte';
@@ -261,7 +261,7 @@
 	{#if data}
 		<svg width="100%" height="100%" on:mousewheel={mousewheel}>
 			<image
-				href="{PUBLIC_API_URL}/slika-tablice/{data.id}"
+				href="{env.PUBLIC_API_URL}/slika-tablice/{data.id}"
 				transform="translate({X} {Y}) scale({scale})" />
 			<g transform="translate({X} {Y})">
 				{#each data.rows as row}
