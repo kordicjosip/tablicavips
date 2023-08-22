@@ -140,7 +140,7 @@
 		}
 		for (const columnIndex in data.table.columns) {
 			let artiklCell = row.cells.find((cell) => cell.colParam === Parametar.artikl);
-			if (artiklCell.data == undefined || artiklCell.data == null) {
+			if (artiklCell == undefined || artiklCell.data == null) {
 				alert('Artikl nije pronađen!');
 				return;
 			}

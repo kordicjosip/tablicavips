@@ -85,7 +85,8 @@
 						y1: row.y1,
 						y2: row.y2,
 						text: [],
-						stranica: table.page
+						stranica: table.page,
+						data: null
 					});
 				}
 			}

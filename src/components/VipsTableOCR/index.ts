@@ -135,6 +135,7 @@ export interface DokumentRed {
 		y2: number;
 		text: OCR[] | string;
 		stranica: number;
+		data: any | null;
 	}[];
 	disabled: boolean;
 }
