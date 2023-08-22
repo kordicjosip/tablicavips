@@ -162,9 +162,9 @@
 				: null
 		);
 		data = data;
-		if (row.cells.find((cell) => cell.text === '')) {
+		if (row.cells.find((cell) => (cell.text === '') | (cell.data === null))) {
 			setTimeout(() => {
-				alert('Neka polja su prazna!');
+				alert('Provjerite sva polja!');
 			}, 0);
 			return;
 		}
@@ -233,20 +233,41 @@
 		OCRPreviewData.stranica = cell.stranica;
 	}
 
-	function enterKeyArtikl(event: KeyboardEvent) {
+	function focusNextElement(event: KeyboardEvent) {
+		const nextElement = event.target.parentNode.nextElementSibling;
 		if (event.key === 'Enter') {
 			event.preventDefault();
-			event.target.parentNode.nextElementSibling.nextElementSibling.firstChild.focus();
-			event.target.parentNode.nextElementSibling.nextElementSibling.firstChild.select();
+			if (nextElement.firstChild.nodeName === 'INPUT') {
+				nextElement.firstChild.focus();
+				nextElement.firstChild.select();
+			} else if (nextElement.nextElementSibling) {
+				const siblingInput = nextElement.nextElementSibling.querySelector('input[type="text"]');
+				if (siblingInput) {
+					siblingInput.focus();
+					siblingInput.select();
+				} else {
+					nextElement.focus();
+				}
+			} else {
+				nextElement.firstChild.focus();
+			}
 		}
-	}
 
-	function enterKeyNumeric(event: KeyboardEvent) {
-		if (event.key === 'Enter') {
-			event.preventDefault();
-			event.target.parentNode.nextElementSibling.firstChild.focus();
-			if (event.target.parentNode.nextElementSibling.firstChild.type === 'text') {
-				event.target.parentNode.nextElementSibling.firstChild.select();
+		const currentCell = event.target.parentNode;
+		const currentRow = currentCell.parentNode;
+		const currentCellIndex = Array.from(currentRow.children).indexOf(currentCell);
+		let targetRow, targetCell;
+		if (event.key === 'ArrowDown') {
+			targetRow = currentRow.nextElementSibling;
+		} else if (event.key === 'ArrowUp') {
+			targetRow = currentRow.previousElementSibling;
+		}
+		if (targetRow) {
+			targetCell = targetRow.children[currentCellIndex].children[0];
+			if (targetCell) {
+				event.preventDefault();
+				targetCell.focus();
+				targetCell.select();
 			}
 		}
 	}
@@ -463,7 +484,7 @@
 							{#if !row.disabled}
 								{#if data.table.columns[i].field === Field.artiklPoSifri}
 									<td
-										on:keydown={() => enterKeyArtikl(event)}
+										on:keydown={focusNextElement}
 										on:focusin={() => {
 											setOCRPreviewData(cell);
 											OCRPreviewVisible = true;
@@ -502,7 +523,7 @@
 										class:bg-red-300={!cell.data}>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 								{:else if data.table.columns[i].field === Field.artiklPoKataloskomBroju}
 									<td
-										on:keydown={() => enterKeyArtikl(event)}
+										on:keydown={focusNextElement}
 										on:focusin={() => {
 											setOCRPreviewData(cell);
 											OCRPreviewVisible = true;
@@ -540,7 +561,7 @@
 										>{cell.data ? cell.data.Naziv : 'Ne postoji'}</td>
 								{:else if data.table.columns[i].field === Field.artiklPoBarKodu}
 									<td
-										on:keydown={() => enterKeyArtikl(event)}
+										on:keydown={focusNextElement}
 										on:focusin={() => {
 											setOCRPreviewData(cell);
 											OCRPreviewVisible = true;
@@ -580,7 +601,7 @@
 								{:else if data.table.columns[i].field === Field.numeric}
 									<td
 										class="whitespace-nowrap"
-										on:keydown={() => enterKeyNumeric(event)}
+										on:keydown={focusNextElement}
 										on:focusin={() => {
 											setOCRPreviewData(cell);
 											OCRPreviewVisible = true;
@@ -603,7 +624,7 @@
 									</td>
 								{:else}
 									<td
-										on:keydown={() => enterKeyNumeric(event)}
+										on:keydown={focusNextElement}
 										on:focusin={() => {
 											setOCRPreviewData(cell);
 											OCRPreviewVisible = true;
