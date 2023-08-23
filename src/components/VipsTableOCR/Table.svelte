@@ -259,7 +259,7 @@
 
 <div class="w-full h-full" bind:clientWidth={scaleW} bind:clientHeight={scaleH}>
 	{#if data}
-		<svg width="100%" height="100%" on:mousewheel={mousewheel}>
+		<svg width="100%" height="100%" on:wheel={mousewheel}>
 			<image
 				href="{env.PUBLIC_API_URL}/slika-tablice/{data.id}"
 				transform="translate({X} {Y}) scale({scale})" />

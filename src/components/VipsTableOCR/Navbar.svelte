@@ -30,7 +30,7 @@
 </script>
 
 <div class="flex justify-between items-center px-10 h-10 bg-emerald-700 w-full">
-	<div
+	<button
 		class="flex items-center justify-center w-8 h-8 p-0.5 rounded-full hover:bg-emerald-800 hover:cursor-pointer"
 		on:click={() => {
 			goto('/');
@@ -55,7 +55,7 @@
 				</g>
 			</g>
 		</svg>
-	</div>
+	</button>
 
 	<div class="flex justify-center items-center text-white text-lg font-semibold gap-20">
 		{#if numberOfPages > 0}
@@ -101,7 +101,7 @@
 				</button>
 			</div>
 
-			<div
+			<button
 				title="Predlošci stupaca"
 				class="flex items-center justify-center w-7 h-7 rounded-full hover:bg-emerald-800 hover:cursor-pointer"
 				on:click={dialog.show}>
@@ -124,13 +124,14 @@
 						<path d="M12 21V3" stroke="#ffffff" stroke-width="1.7759999999999998" />
 					</g>
 				</svg>
-			</div>
+			</button>
 		{/if}
 	</div>
 
-	<div
+	<button
 		class="flex items-center justify-center w-7 h-7 rounded-full hover:bg-emerald-800 hover:cursor-pointer"
 		on:mouseover={async () => await preloadData(`/${documentID}/dokument`)}
+		on:focus={async () => await preloadData(`/${documentID}/dokument`)}
 		on:click={() => {
 			dispatch('sendAllData');
 		}}
@@ -156,7 +157,7 @@
 				</g>
 			</g>
 		</svg>
-	</div>
+	</button>
 </div>
 <ColumnTemplatesDialog
 	bind:columnTemplatesData

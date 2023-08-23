@@ -50,6 +50,15 @@ export interface TableDataInterface {
 	page: number;
 }
 
+export interface DokumentMinResponse {
+	id: string;
+	naziv: string;
+	datum: string;
+	vips_id: number | null;
+	obrada_u_toku: boolean;
+}
+export interface DokumentiMinResponse extends Array<DokumentMinResponse> {}
+
 export class TableColumn {
 	id: number = -1;
 	name: string | null = null;

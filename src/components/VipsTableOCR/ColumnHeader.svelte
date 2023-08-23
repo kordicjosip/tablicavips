@@ -39,6 +39,7 @@
 </script>
 
 <g
+	role="group"
 	id="column-header-{column.id}"
 	on:contextmenu={(event) => {
 		event.preventDefault();

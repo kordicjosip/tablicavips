@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TableColumn } from './index';
+	import type { TableColumn } from './index';
 
 	export let column: TableColumn;
 	export let scale: number;

@@ -387,7 +387,7 @@
 				<Sidebar bind:currentPage={data.currentPage} data={data.tables} />
 			</div>
 			<div class="basis-auto w-full flex-grow flex-shrink overflow-clip">
-				{#key data.currentPageTable.id}
+				{#key data.currentPageTable?.id}
 					<Table
 						on:addRow={addRow}
 						on:removeRow={removeRow}

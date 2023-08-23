@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TableRow } from './index';
+	import type { TableRow } from './index';
 
 	export let row: TableRow;
 	export let scale: number;

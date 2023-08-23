@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TableRow } from './index';
+	import type { TableRow } from './index';
 	import { onMount } from 'svelte';
 	import { drag, select } from 'd3';
 

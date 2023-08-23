@@ -29,6 +29,7 @@
 </script>
 
 <g
+	role="group"
 	id="row-header-{row.id}"
 	transform="translate(0 {row.y1 * scale})"
 	on:contextmenu={(event) => {

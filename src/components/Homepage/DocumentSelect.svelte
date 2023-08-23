@@ -5,16 +5,16 @@
 	import { povezaniDokumenti } from '$components/store';
 	import { preloadData } from '$app/navigation';
 	import { env } from '$env/dynamic/public';
+	import type { DokumentiMinResponse } from '$components/VipsTableOCR';
 
-	export let data;
+	export let data: any;
 
-	let documentsData = [];
+	let documentsData: DokumentiMinResponse = [];
 	let listView = true;
-
 	$: svgListColor = listView ? '#464feb' : '#424242';
 	$: svgGridColor = listView ? '#424242' : '#464feb';
 
-	function removeRow(id) {
+	function removeRow(id: string) {
 		let indexToRemove = $povezaniDokumenti?.findIndex((doc) => doc.id === id);
 		if ($povezaniDokumenti) {
 			if (indexToRemove != null) {
@@ -26,13 +26,13 @@
 
 	let form: HTMLFormElement;
 	$: documentsData = data.documents;
-	const onDrop = (event) => {
+	const onDrop = (event: Event) => {
 		form.requestSubmit();
 	};
 
 	async function drop(event: DragEvent) {
 		dragoverDropCount = 0;
-		for (const file of event.dataTransfer.files) {
+		for (const file of event.dataTransfer!.files) {
 			const formData = new FormData();
 			formData.append('file', file);
 			await submitUploadFileFormData(formData);
@@ -51,8 +51,7 @@
 		}).then((res) => res.json());
 		await invalidate(`${env.PUBLIC_API_URL}/api/doc`);
 	}
-
-	let interval;
+	let interval: NodeJS.Timeout;
 	onMount(async () => {
 		interval = setInterval(async () => {
 			await invalidate(`${env.PUBLIC_API_URL}/api/doc`);
@@ -66,6 +65,7 @@
 </script>
 
 <div
+	role="document"
 	on:dragenter={() => {
 		dragoverDropCount++;
 	}}
@@ -203,14 +203,16 @@
 					<tr class="hover:cursor-pointer bg-[#e6f1ff] hover:bg-blue-100 rounded-xl">
 						<td
 							class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5"
-							on:mouseover={preloadData(`/${dokument.id}/dokument`)}
-							on:click={goto(`/${dokument.id}/dokument`)}>
+							on:mouseover={() => preloadData(`/${dokument.id}/dokument`)}
+							on:focus={() => preloadData(`/${dokument.id}/dokument`)}
+							on:click={() => goto(`/${dokument.id}/dokument`)}>
 							{dokument.naziv}
 						</td>
 						<td
 							class="w-fit mb-2 border-y border-neutral-300 py-2 text-end pr-5"
-							on:mouseover={preloadData(`/${dokument.id}/dokument`)}
-							on:click={goto(`/${dokument.id}/dokument`)}>
+							on:mouseover={() => preloadData(`/${dokument.id}/dokument`)}
+							on:focus={() => preloadData(`/${dokument.id}/dokument`)}
+							on:click={() => goto(`/${dokument.id}/dokument`)}>
 							{new Date(dokument.datum).getUTCDate()}.{new Date(
 								dokument.datum
 							).getUTCMonth()}.{new Date(dokument.datum).getUTCFullYear()}
@@ -269,8 +271,9 @@
 					{:else}
 						<tr
 							class="hover:cursor-pointer hover:bg-neutral-100 rounded-xl"
-							on:mouseover={preloadData(`/${document.id}/stupci`)}
-							on:click={goto(`/${document.id}/stupci`)}>
+							on:mouseover={() => preloadData(`/${document.id}/stupci`)}
+							on:focus={() => preloadData(`/${document.id}/stupci`)}
+							on:click={() => goto(`/${document.id}/stupci`)}>
 							<td class="w-[50rem] mb-2 border-y border-neutral-300 py-2 text-start pl-5">
 								{document.naziv}
 							</td>
@@ -286,13 +289,14 @@
 		{:else}
 			<div class="grid grid-cols-4 gap-2 max-w-5xl">
 				{#each $povezaniDokumenti || [] as dokument}
-					<div
+					<button
 						class="flex flex-col relative justify-between w-52 h-52 hover:cursor-pointer bg-blue-100 hover:bg-blue-200 rounded-md shadow hover:shadow-md"
-						on:mouseover={preloadData(`/${dokument.id}/dokument`)}
-						on:click={goto(`/${dokument.id}/dokument`)}>
+						on:mouseover={() => preloadData(`/${dokument.id}/dokument`)}
+						on:focus={() => preloadData(`/${dokument.id}/dokument`)}
+						on:click={() => goto(`/${dokument.id}/dokument`)}>
 						<img
 							src="{env.PUBLIC_API_URL}/slike/{dokument.id}"
-							class="h-40 object-cover object-top rounded-t-md"
+							class="h-40 w-full object-cover object-top rounded-t-md"
 							alt="pregled dokumenta" />
 						<button
 							class="group absolute top-2 right-2 outline outline-1 outline-black hover:outline-blue-500 backdrop-blur-[2px] backdrop-brightness-110 rounded-md"
@@ -320,15 +324,13 @@
 									</g>
 								</g></svg
 							></button>
-						<div class="">
-							<h1 class="truncate px-1" title={dokument.naziv}>
-								{dokument.naziv}
-							</h1>
-							<h2 class="">
-								{dokument.datum}
-							</h2>
-						</div>
-					</div>
+						<span class="w-full truncate px-1" title={dokument.naziv}>
+							{dokument.naziv}
+						</span>
+						<span class="w-full">
+							{dokument.datum}
+						</span>
+					</button>
 				{/each}
 				{#each documentsData as document}
 					{#if document.obrada_u_toku}
@@ -352,23 +354,22 @@
 							</div>
 						</div>
 					{:else}
-						<div
+						<button
 							class="flex flex-col justify-between w-52 h-52 hover:cursor-pointer hover:bg-neutral-100 rounded-md shadow hover:shadow-md"
-							on:mouseover={preloadData(`/${document.id}/stupci`)}
-							on:click={goto(`/${document.id}/stupci`)}>
+							on:mouseover={() => preloadData(`/${document.id}/stupci`)}
+							on:focus={() => preloadData(`/${document.id}/stupci`)}
+							on:click={() => goto(`/${document.id}/stupci`)}>
 							<img
 								src="{env.PUBLIC_API_URL}/slike/{document.id}"
-								class="h-40 object-cover object-top"
+								class="h-40 w-full object-cover object-top"
 								alt="pregled dokumenta" />
-							<div class="">
-								<h1 class="truncate px-1" title={document.naziv}>
-									{document.naziv}
-								</h1>
-								<h2 class="">
-									{document.datum}
-								</h2>
-							</div>
-						</div>
+							<span class="truncate px-1 w-full" title={document.naziv}>
+								{document.naziv}
+							</span>
+							<span class="w-full">
+								{document.datum}
+							</span>
+						</button>
 					{/if}
 				{/each}
 			</div>

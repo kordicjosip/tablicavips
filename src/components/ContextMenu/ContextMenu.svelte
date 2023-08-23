@@ -41,10 +41,12 @@
 	{#each definition.groups as group}
 		<ul>
 			{#each group.entries as entry}
-				<li
-					on:click={entry.action}
-					class="text-white hover:bg-neutral-600 px-2.5 py-1 cursor-pointer">
-					{entry.title}
+				<li>
+					<button
+						on:click={entry.action}
+						class="text-white text-left hover:bg-neutral-600 px-3 py-1 cursor-pointer w-full h-full">
+						{entry.title}
+					</button>
 				</li>
 			{/each}
 		</ul>

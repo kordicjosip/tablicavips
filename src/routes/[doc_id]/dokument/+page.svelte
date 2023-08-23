@@ -21,7 +21,8 @@
 		vipsID: '',
 		dokID: ''
 	};
-	let vipsDocument = null;
+	let vipsDocument: any = null;
+	let indexPovezanogDok: any;
 	$: indexPovezanogDok = $povezaniDokumenti?.findIndex(
 		(dokument) => dokument.id === data.documentData.id
 	);
@@ -37,7 +38,7 @@
 				data.table.columns.splice(data.table.columns.indexOf(column), 1);
 				data.table.tablica.forEach((row) => {
 					row.cells.splice(
-						row.cells.indexOf(row.cells.find((cell) => cell.colParam === column.parameter)),
+						row.cells.indexOf(row.cells.find((cell: any) => cell.colParam === column.parameter)),
 						1
 					);
 				});
@@ -65,14 +66,14 @@
 			return columnOrder.indexOf(a.parameter) - columnOrder.indexOf(b.parameter);
 		});
 		data.table.tablica.forEach((row) => {
-			row.cells.sort((a, b) => {
+			row.cells.sort((a: any, b: any) => {
 				return columnOrder.indexOf(a.colParam) - columnOrder.indexOf(b.colParam);
 			});
 		});
 
 		data.table = data.table;
 	}
-	let datumDokumenta = null;
+	let datumDokumenta: any = null;
 	let OCRPreviewData: {
 		stranica: number;
 		x: number;
@@ -138,13 +139,12 @@
 			alert('Dokument je zaključen!');
 			return;
 		}
-		for (const columnIndex in data.table.columns) {
-			let artiklCell = row.cells.find((cell) => cell.colParam === Parametar.artikl);
-			if (artiklCell == undefined || artiklCell.data == null) {
-				alert('Artikl nije pronađen!');
-				return;
-			}
+		let artiklCell = row.cells.find((cell) => cell.colParam === Parametar.artikl);
+		if (artiklCell == undefined || artiklCell.data == null) {
+			alert('Artikl nije pronađen!');
+			return;
 		}
+
 		row.cells.forEach((cell) =>
 			cell.text === ''
 				? (cell.text =
@@ -162,7 +162,7 @@
 				: null
 		);
 		data = data;
-		if (row.cells.find((cell) => (cell.text === '') | (cell.data === null))) {
+		if (row.cells.find((cell) => cell.text === '' || cell.data === null)) {
 			setTimeout(() => {
 				alert('Provjerite sva polja!');
 			}, 0);
@@ -225,7 +225,7 @@
 			}
 		});
 	}
-	function setOCRPreviewData(cell) {
+	function setOCRPreviewData(cell: any) {
 		OCRPreviewData.x = cell.x1;
 		OCRPreviewData.y = cell.y1;
 		OCRPreviewData.width = cell.x2 - cell.x1;
@@ -234,40 +234,42 @@
 	}
 
 	function focusNextElement(event: KeyboardEvent) {
-		const nextElement = event.target.parentNode.nextElementSibling;
+		const nextElement = (<HTMLElement>(<HTMLElement>event.target).parentNode).nextElementSibling;
 		if (event.key === 'Enter') {
 			event.preventDefault();
-			if (nextElement.firstChild.nodeName === 'INPUT') {
-				nextElement.firstChild.focus();
-				nextElement.firstChild.select();
-			} else if (nextElement.nextElementSibling) {
+			if (nextElement?.firstChild?.nodeName === 'INPUT') {
+				(nextElement.firstChild as HTMLElement).focus();
+				(nextElement.firstChild as HTMLInputElement).select();
+			} else if (nextElement?.nextElementSibling) {
 				const siblingInput = nextElement.nextElementSibling.querySelector('input[type="text"]');
 				if (siblingInput) {
-					siblingInput.focus();
-					siblingInput.select();
+					(siblingInput as HTMLElement).focus();
+					(siblingInput as HTMLInputElement).select();
 				} else {
-					nextElement.focus();
+					(nextElement as HTMLElement).focus();
 				}
 			} else {
-				nextElement.firstChild.focus();
+				(nextElement?.firstChild as HTMLElement).focus();
 			}
 		}
 
-		const currentCell = event.target.parentNode;
-		const currentRow = currentCell.parentNode;
-		const currentCellIndex = Array.from(currentRow.children).indexOf(currentCell);
+		const currentCell = (event.target as HTMLElement)?.parentNode;
+		const currentRow = currentCell?.parentNode;
+		const currentCellIndex = Array.from((currentRow as HTMLElement).children).indexOf(
+			currentCell as HTMLElement
+		);
 		let targetRow, targetCell;
 		if (event.key === 'ArrowDown') {
-			targetRow = currentRow.nextElementSibling;
+			targetRow = (currentRow as HTMLElement).nextElementSibling;
 		} else if (event.key === 'ArrowUp') {
-			targetRow = currentRow.previousElementSibling;
+			targetRow = (currentRow as HTMLElement).previousElementSibling;
 		}
 		if (targetRow) {
 			targetCell = targetRow.children[currentCellIndex].children[0];
 			if (targetCell) {
 				event.preventDefault();
-				targetCell.focus();
-				targetCell.select();
+				(targetCell as HTMLElement).focus();
+				(targetCell as HTMLInputElement).select();
 			}
 		}
 	}
@@ -275,12 +277,13 @@
 	function enterKeySendRow(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
 			console.log(event);
-			let nextRow = event.target.parentNode.parentNode.nextElementSibling;
+			let nextRow = ((event.target as HTMLElement).parentNode?.parentNode as HTMLElement)
+				.nextElementSibling;
 			while (nextRow) {
 				let firstInputElement = nextRow.querySelector('input[type="text"]');
 				if (firstInputElement) {
-					firstInputElement.focus();
-					firstInputElement.select();
+					(firstInputElement as HTMLElement).focus();
+					(firstInputElement as HTMLInputElement).select();
 					break;
 				}
 				nextRow = nextRow.nextElementSibling;
@@ -297,7 +300,7 @@
 	<div
 		class="grid grid-cols-4 bg-emerald-700 h-20 items-center justify-items-center text-white flex-shrink-0 text-sm lg:text-base">
 		<div class="flex justify-around w-full">
-			<div
+			<button
 				class="w-8 h-8 p-0.5 rounded-full hover:bg-emerald-800 hover:cursor-pointer"
 				on:click={() => {
 					goto('/');
@@ -322,7 +325,7 @@
 						</g>
 					</g>
 				</svg>
-			</div>
+			</button>
 			<div class="items-center">
 				<input
 					class="relative bg-transparent border-b-2 border-white text-white text-center focus:drop-shadow-none placeholder-white placeholder-opacity-50"
@@ -437,6 +440,7 @@
 								title="Upiši sve moguće redove"
 								on:click={sendAllRowsData}>
 								<svg
+									style="display: none"
 									class="send"
 									height="22px"
 									viewBox="0 0 24 24"
@@ -503,8 +507,8 @@
 												)}
 												on:input={async (event) => {
 													cell.initial = false;
-													cell.data = await getArtiklPoSifri(event.target.value, fetch);
-													cell.text = event.target.value;
+													cell.data = await getArtiklPoSifri(event.target?.value, fetch);
+													cell.text = event.target?.value;
 												}} />
 										{:else}
 											<input
@@ -542,8 +546,8 @@
 												)}
 												on:input={async (event) => {
 													cell.initial = false;
-													cell.data = await getArtiklPoKataloskomBroju(event.target.value, fetch);
-													cell.text = event.target.value;
+													cell.data = await getArtiklPoKataloskomBroju(event.target?.value, fetch);
+													cell.text = event.target?.value;
 												}} />
 										{:else}
 											<input
@@ -580,8 +584,8 @@
 												)}
 												on:input={async (event) => {
 													cell.initial = false;
-													cell.data = await getArtiklPoBarKodu(event.target.value, fetch);
-													cell.text = event.target.value;
+													cell.data = await getArtiklPoBarKodu(event.target?.value, fetch);
+													cell.text = event.target?.value;
 												}} />
 										{:else}
 											<input
@@ -671,6 +675,7 @@
 								{#if row.disabled}
 									<button title="Red spremljen" class="block m-auto" disabled>
 										<svg
+											style="display: none"
 											class="sent"
 											width="24px"
 											height="24px"
@@ -696,7 +701,7 @@
 										title="Spremi red"
 										class="block m-auto"
 										on:click={() => sendRowData(row)}
-										on:keydown={() => {
+										on:keydown={(event) => {
 											enterKeySendRow(event);
 											sendRowData(row);
 										}}>
@@ -757,10 +762,6 @@
 	th {
 		background-color: #ffffff;
 		border-bottom: 2px solid #d5d5d5;
-	}
-
-	button > svg {
-		display: none;
 	}
 
 	button:is([disabled]) > svg.sent {

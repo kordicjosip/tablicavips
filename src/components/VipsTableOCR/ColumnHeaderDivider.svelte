@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TableColumn, TableData } from './index';
+	import type { TableColumn } from './index';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { drag, select } from 'd3';
 

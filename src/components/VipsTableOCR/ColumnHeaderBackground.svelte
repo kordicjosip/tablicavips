@@ -7,6 +7,7 @@
 </script>
 
 <g
+	role="group"
 	id="column-header"
 	on:contextmenu={(event) => {
 		event.preventDefault();
